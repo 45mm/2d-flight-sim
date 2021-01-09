@@ -12,8 +12,8 @@ def exec_wrapper(bg):
 
     screen.blit(bg, (bgx, 0))
     screen.blit(bg, (bgx2, 0))
-    bgx -= 1.4
-    bgx2 -= 1.4
+    bgx -= vel1
+    bgx2 -= vel1
     if bgx < bg.get_width() * -1:  
         bgx = bg.get_width()
     if bgx2 < bg.get_width() * -1:
