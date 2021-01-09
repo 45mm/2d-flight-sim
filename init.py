@@ -6,13 +6,10 @@ SCREEN_HEIGHT = 500
 GRAVITY=0.24
 
 pygame.init()
-screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT], pygame.RESIZABLE | pygame.DOUBLEBUF)
+screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT], pygame.RESIZABLE)
 pygame.display.set_caption("Figuring out Rotation")
 clock = pygame.time.Clock()
 #bg = pygame.image.load(os.path.join('images','bg.png')).convert()
-bg = pygame.image.load("images/bg.png")
-
-imageSprite = pygame.image.load("images/sprite.png")
 
 keymap = {
 'tiltup': pygame.K_UP, 
@@ -21,9 +18,13 @@ keymap = {
 'accel': None
 }
 
+bg = pygame.image.load("images/bg.png")
+sidescroll_exec = sidescroll.exec_wrapper(bg)
+
+imageSprite = pygame.image.load("images/sprite.png")
+
 player_args = {'imageSprite':imageSprite, 'x':200, 'y':200, 'w':80, 'h':40, 
                             'rot_angle':3, 'vel':pygame.math.Vector2(3,0)}
-
 g = pygame.sprite.Group()
 # player = game_sprites.Sprite(imageSprite = imageSprite, 
 #                             x=200, y=200, w=80, h=40, 
@@ -36,23 +37,27 @@ def restart():
   z = 1000
   pygame.time.wait(z)
 
+bgx = 0
+bgx2 = bg.get_width()
+
 while True:
+  screen.fill((0,0,0)) #TODO: Move this?
+  sidescroll_exec(player.vel[0], screen, bg)
   # mainloop.mainloop(player, screen, keymap, SCREEN_WIDTH, SCREEN_HEIGHT)
   keys = pygame.key.get_pressed()
   player.update(keys, keymap, SCREEN_WIDTH, SCREEN_HEIGHT)
   player.render(screen)
 
-  # print(player.vel.magnitude())
+  # print(bgx, bgx2)
 
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
         pygame.quit()
   
-  sidescroll.exec(player.vel[0], screen, bg)
+  
   if player.RESTART_NEEDED:
     restart()
     player.RESTART_NEEDED = False
 
   pygame.display.update()
-  screen.fill((0,0,0)) #TODO: Move this?
   clock.tick(60)
