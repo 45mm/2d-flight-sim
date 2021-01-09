@@ -1,4 +1,5 @@
-import pygame, math, pygame.camera, os
+import pygame, math #, os
+import sidescroll, game_sprites #, phy #, mainloop
 
 SCREEN_WIDTH = 500
 SCREEN_HEIGHT = 500
@@ -8,10 +9,10 @@ pygame.init()
 screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT], pygame.RESIZABLE | pygame.DOUBLEBUF)
 pygame.display.set_caption("Figuring out Rotation")
 clock = pygame.time.Clock()
-bg = pygame.image.load(os.path.join('images','bg.png')).convert()
-bgx = 0
-bgx2 = bg.get_width()
-imageSprite = pygame.image.load("sprite.png")
+#bg = pygame.image.load(os.path.join('images','bg.png')).convert()
+bg = pygame.image.load("images/bg.png")
+
+imageSprite = pygame.image.load("images/sprite.png")
 
 keymap = {
 'tiltup': pygame.K_UP, 
@@ -20,22 +21,38 @@ keymap = {
 'accel': None
 }
 
+player_args = {'imageSprite':imageSprite, 'x':200, 'y':200, 'w':80, 'h':40, 
+                            'rot_angle':3, 'vel':pygame.math.Vector2(3,0)}
+
 g = pygame.sprite.Group()
-player = Sprite(200, 200, 80, 40, 3, pygame.math.Vector2(3,0))
+# player = game_sprites.Sprite(imageSprite = imageSprite, 
+#                             x=200, y=200, w=80, h=40, 
+#                             rot_angle=3, vel=pygame.math.Vector2(3,0))
+player = game_sprites.Sprite(**player_args)                            
 g.add(player)
 
+def restart():
+  player = game_sprites.Sprite(**player_args) 
+  z = 1000
+  pygame.time.wait(z)
+
 while True:
-  backscroll()
-  mainloop()
-  bgx -= player.vel[0]
-  bgx2 -= player.vel[0]
-  if bgx < bg.get_width() * -1:  
-      bgx = bg.get_width()
-  if bgx2 < bg.get_width() * -1:
-      bgx2 = bg.get_width()
-  # if cam is not None:
-  #   image = cam.get_image()
-    #screen.blit(image, (0, 0))
+  # mainloop.mainloop(player, screen, keymap, SCREEN_WIDTH, SCREEN_HEIGHT)
+  keys = pygame.key.get_pressed()
+  player.update(keys, keymap, SCREEN_WIDTH, SCREEN_HEIGHT)
+  player.render(screen)
+
+  # print(player.vel.magnitude())
+
+  for event in pygame.event.get():
+    if event.type == pygame.QUIT:
+        pygame.quit()
+  
+  sidescroll.exec(player.vel[0], screen, bg)
   if player.RESTART_NEEDED:
-    player.restart()
+    restart()
     player.RESTART_NEEDED = False
+
+  pygame.display.update()
+  screen.fill((0,0,0)) #TODO: Move this?
+  clock.tick(60)

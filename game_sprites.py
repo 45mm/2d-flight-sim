@@ -1,9 +1,10 @@
 import pygame
-SCREEN_WIDTH = 500
-SCREEN_HEIGHT = 500
+# SCREEN_WIDTH = 500
+# SCREEN_HEIGHT = 500
+
 class Sprite(pygame.sprite.Sprite):
 
-  def __init__(self,imageSprite x, y, w, h, rot_angle, vel):
+  def __init__(self,imageSprite, x, y, w, h, rot_angle, vel):
     super().__init__()
     self.x = x
     self.y = y
@@ -23,11 +24,6 @@ class Sprite(pygame.sprite.Sprite):
     self.IMAGE = self.image
     self.RECT = self.rect
     self.ANGLE = self.angle
-    
-  def restart(self):
-    self.__init__(200, 200, 80, 40, 3, pygame.math.Vector2(3,0))
-    z = 1000
-    pygame.time.wait(z)
 
   def rot_center(self, n): #n is either 1 or -1; for direction of rotation
 
@@ -46,7 +42,7 @@ class Sprite(pygame.sprite.Sprite):
     self.image = rot_image
 
 
-  def handle_terrain_collision(self):
+  def handle_terrain_collision(self, SCREEN_WIDTH, SCREEN_HEIGHT):
 
     
     if self.rect.left < 0 and self.vel.x < 0:
@@ -62,7 +58,7 @@ class Sprite(pygame.sprite.Sprite):
       self.RESTART_NEEDED = True
   
 
-  def update(self, keys, keymap):
+  def update(self, keys, keymap, SCREEN_WIDTH, SCREEN_HEIGHT):
 
     # if self.rect.y < SCREEN_HEIGHT-self.rect.height:
     #   self.vel.y+=GRAVITY
@@ -80,10 +76,10 @@ class Sprite(pygame.sprite.Sprite):
       self.vel = self.vel.rotate(self.rot_angle)
       self.rot_center(-1)
 
-    self.handle_terrain_collision()
+    self.handle_terrain_collision(SCREEN_WIDTH, SCREEN_HEIGHT)
 
 
-  def render(self):
+  def render(self, surface):
 
     pygame.draw.rect(surface, (100,100,100), self.rect) #draw bounding rect for debugging
     # pygame.draw.rect(surface, (0,255,255), self.hitbox)
@@ -93,4 +89,4 @@ class Sprite(pygame.sprite.Sprite):
     surface.blit(self.image, (self.rect.x, self.rect.y))
     pygame.display.flip()
 
-    screen.blit(self.image, (self.rect.x, self.rect.y))
+    

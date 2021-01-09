@@ -1,14 +1,5 @@
-def mainloop(): 
-  keys = pygame.key.get_pressed()
-  player.update(keys)
-  player.render()
+# import pygame
 
-  # print(player.vel.magnitude())
+# def mainloop(player, screen, keymap, SCREEN_WIDTH, SCREEN_HEIGHT): 
 
-  for event in pygame.event.get():
-    if event.type == pygame.QUIT:
-        pygame.quit()
-
-  pygame.display.update()
-  screen.fill((0,0,0))
-  clock.tick(60)
+  
