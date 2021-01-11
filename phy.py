@@ -1,4 +1,5 @@
 import math
+import pygame
 
 def PlanePhy(self, liftc, dragc, gravity, HEIGHT):
   
@@ -8,10 +9,8 @@ def PlanePhy(self, liftc, dragc, gravity, HEIGHT):
   wingarea=(math.cos(self.angle))
   dragarea=(math.sin(self.angle))
 
-  drag = pygame.Vector2(x,y)
-
   lift = liftc*(self.vel.y**2)*wingarea
-  d=dragc*(self.vel.magnitude_squared())
+  d=dragc*(self.vel.magnitude_squared())*dragarea
   drag = pygame.math.Vector2(d*self.vel.x,d*self.vel.y)
   # drag = self.vel.normalize()*self.vel.magnitude_squared()*dragc
   if self.vel.magnitude()>0:
