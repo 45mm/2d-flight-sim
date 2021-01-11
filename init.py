@@ -43,7 +43,7 @@ bgx2 = bg.get_width()
 while True:
   screen.fill((0,0,0)) #TODO: Move this?
   sidescroll_exec(player, screen, bg)
-  phy.PlanePhy(player, 0.01, 0.01, GRAVITY, SCREEN_HEIGHT)
+  phy.PlanePhy(player, 0.00000000001, 0.00000000001, GRAVITY, SCREEN_HEIGHT)
   # mainloop.mainloop(player, screen, keymap, SCREEN_WIDTH, SCREEN_HEIGHT)
   keys = pygame.key.get_pressed()
   player.update(keys, keymap, SCREEN_WIDTH, SCREEN_HEIGHT)
