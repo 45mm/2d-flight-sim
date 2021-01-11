@@ -1,9 +1,14 @@
 import math
 
-def PlanePhy(self, liftc, dragc):
-  wingarea=(self.rect.w)*(math.cos(self.angle))+(self.rect.h)*(math.sin(self.angle))
-  dragarea=(self.rect.h)*(math.cos(self.angle))+(self.rect.w)*(math.sin(self.angle))
-  drag = (dragc*(self.vel.x**2)*dragarea)/2
-  lift =  (liftc*(self.vel.y**2)*wingarea)/2
+def PlanePhy(self, liftc, dragc, gravity, SCREEN_HEIGHT):
+  
+  if self.rect.y < SCREEN_HEIGHT-self.rect.height:
+      self.vel.y+=gravity
+
+  wingarea=math.abs(math.cos(self.angle))
+  dragarea=math.abs(math.sin(self.angle))
+  drag = dragc*(self.vel.x**2)*dragarea
+  lift =  liftc*(self.vel.y**2)*wingarea
   self.vel.x=(self.vel.x)-drag
-  self.vel.y=(self.vel.y)+lift
+  if self.rect.y>self.rect.height:
+    self.vel.y=(self.vel.y)-lift
