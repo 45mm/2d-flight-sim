@@ -9,6 +9,7 @@ def exec_wrapper(bg):
 
     nonlocal bgx
     nonlocal bgx2
+    
     if player.vel.x > 0:
         screen.blit(bg, (bgx, 0))
         screen.blit(bg, (bgx2, 0))

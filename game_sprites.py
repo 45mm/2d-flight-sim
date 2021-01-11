@@ -1,6 +1,4 @@
 import pygame
-# SCREEN_WIDTH = 500
-# SCREEN_HEIGHT = 500
 
 class Sprite(pygame.sprite.Sprite):
 
@@ -59,9 +57,6 @@ class Sprite(pygame.sprite.Sprite):
   
 
   def update(self, keys, keymap, SCREEN_WIDTH, SCREEN_HEIGHT):
-
-    # if self.rect.y < SCREEN_HEIGHT-self.rect.height:
-    #   self.vel.y+=GRAVITY
 
     self.x += self.vel.x
     self.y += self.vel.y
