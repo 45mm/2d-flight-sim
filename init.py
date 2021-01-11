@@ -1,5 +1,5 @@
 import pygame, math #, os
-import sidescroll, game_sprites #, phy #, mainloop
+import sidescroll, game_sprites, phy #, mainloop
 
 SCREEN_WIDTH = 500
 SCREEN_HEIGHT = 500
@@ -43,6 +43,7 @@ bgx2 = bg.get_width()
 while True:
   screen.fill((0,0,0)) #TODO: Move this?
   sidescroll_exec(player, screen, bg)
+  phy.PlanePhy(player, 0.01, 0.01)
   # mainloop.mainloop(player, screen, keymap, SCREEN_WIDTH, SCREEN_HEIGHT)
   keys = pygame.key.get_pressed()
   player.update(keys, keymap, SCREEN_WIDTH, SCREEN_HEIGHT)
@@ -53,7 +54,6 @@ while True:
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
         pygame.quit()
-  
   
   if player.RESTART_NEEDED:
     restart()
