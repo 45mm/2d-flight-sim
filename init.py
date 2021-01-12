@@ -14,8 +14,8 @@ clock = pygame.time.Clock()
 keymap = {
 'tiltup': pygame.K_UP, 
 'tiltdown': pygame.K_DOWN, 
-'decel': None, # implement
-'accel': None
+'decel': pygame.K_a,
+'accel': pygame.K_d
 }
 
 bg = pygame.image.load("images/bg.png")

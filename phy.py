@@ -6,8 +6,8 @@ def PlanePhy(self, liftc, dragc, gravity, HEIGHT):
   if self.rect.y < HEIGHT-self.rect.height:
       self.vel += pygame.math.Vector2(0, gravity)
       
-  wingarea=abs(math.cos(self.angle))
-  dragarea=abs(math.sin(self.angle))
+  wingarea = 0.1 + abs(math.cos(self.angle))
+  dragarea = 0.1 + abs(math.sin(self.angle))
 
   # lift = liftc*(self.vel.y**2)*wingarea
   # lift = (self.vel.normalize().rotate(90)) *self.vel.magnitude_squared()*liftc*wingarea
