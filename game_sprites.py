@@ -24,7 +24,7 @@ class Sprite(pygame.sprite.Sprite):
     self.origin = (self.rect.x, self.rect.y) #point at which to draw the image
     self.vel = vel
     self.thrust = Thrust(0, 0)
-    self.thrustc = 0.1
+    self.thrustc = 0.01
     self.rot_angle = rot_angle # angle by which to rotate per frame
     self.angle = 0 # angle wrt x axis, counterclockwise
     self.RESTART_NEEDED = False
