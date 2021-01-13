@@ -50,21 +50,6 @@ class Sprite(pygame.sprite.Sprite):
 
     self.rect = rot_rect
     self.image = rot_image
-
-
-  def handle_terrain_collision(self, SCREEN_WIDTH, SCREEN_HEIGHT):
-    
-    if self.rect.left <= 0:# and self.vel.x < 0:
-      self.RESTART_NEEDED = True
-      
-    if self.rect.right >= SCREEN_HEIGHT:# and self.vel.x > 0:
-      self.RESTART_NEEDED = True
-      
-    if self.rect.top <= 0:# and self.vel.y < 0:
-      self.RESTART_NEEDED = True
-      
-    if self.rect.bottom >= SCREEN_WIDTH:# and self.vel.y > 0:
-      self.RESTART_NEEDED = True
       
   def collisionWindow(self, SCREEN_WIDTH, SCREEN_HEIGHT):
     
@@ -100,7 +85,6 @@ class Sprite(pygame.sprite.Sprite):
       self.thrust.magnitude -= self.thrustc
 
     self.collisionWindow(SCREEN_WIDTH, SCREEN_HEIGHT)
-    #self.collisionWindow(SCREEN_WIDTH, SCREEN_HEIGHT)
     #self.rect.clamp_ip(surface.get_rect())
 
 
