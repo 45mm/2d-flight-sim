@@ -24,7 +24,7 @@ class Sprite(pygame.sprite.Sprite):
     self.origin = (self.rect.x, self.rect.y) #point at which to draw the image
     self.vel = vel
     self.thrust = Thrust(0, 0)
-    self.thrustc = 0.1
+    self.thrustc = 0.001
     self.rot_angle = rot_angle # angle by which to rotate per frame
     self.angle = 0 # angle wrt x axis, counterclockwise
     self.RESTART_NEEDED = False
@@ -68,14 +68,13 @@ class Sprite(pygame.sprite.Sprite):
       
   def collisionWindow(self, SCREEN_WIDTH, SCREEN_HEIGHT):
     
-    if (self.x >= SCREEN_WIDTH - self.w) or (self.x <= self.w):
+    if self.rect.x >= (SCREEN_WIDTH - self.rect.w) or self.rect.x <= self.rect.w:
       self.RESTART_NEEDED = True
       
-    elif (self.y >= SCREEN_HEIGHT - self.h) or (self.y <= self.h):
+    elif self.rect.y >= (SCREEN_HEIGHT - self.rect.h) or self.rect.y <= self.rect.h:
       self.RESTART_NEEDED = True
     
 
-  # def update(self, surface, keys, keymap, SCREEN_WIDTH, SCREEN_HEIGHT):
   def update(self, keys, keymap, SCREEN_WIDTH, SCREEN_HEIGHT):
     
     self.vel += self.thrust.get_vec()
@@ -100,7 +99,8 @@ class Sprite(pygame.sprite.Sprite):
     if keys[keymap['decel']]:
       self.thrust.magnitude -= self.thrustc
 
-    # self.handle_terrain_collision(SCREEN_WIDTH, SCREEN_HEIGHT)
+    self.collisionWindow(SCREEN_WIDTH, SCREEN_HEIGHT)
+    #self.collisionWindow(SCREEN_WIDTH, SCREEN_HEIGHT)
     #self.rect.clamp_ip(surface.get_rect())
 
 

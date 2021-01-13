@@ -4,7 +4,7 @@ import pygame
 def PlanePhy(self, liftc, dragc, gravity, HEIGHT):
   
   if self.rect.y < HEIGHT-self.rect.height:
-      self.vel += pygame.math.Vector2(0, gravity)
+    self.vel += pygame.math.Vector2(0, gravity)
       
   wingarea = 0.1 + abs(math.cos(self.angle))
   dragarea = 0.1 + abs(math.sin(self.angle))
@@ -44,3 +44,4 @@ def PlanePhy(self, liftc, dragc, gravity, HEIGHT):
   if self.rect.y>self.rect.height:
     # self.vel.y=(self.vel.y)-lift
     self.vel = self.vel - lift
+    

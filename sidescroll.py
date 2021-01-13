@@ -14,8 +14,8 @@ def exec_wrapper(bg):
         screen.blit(bg, (bgx, 0))
         screen.blit(bg, (bgx2, 0))
     elif player.vel.x < 0:
-        screen.blit(bg, (bgx, 0))
         screen.blit(bg, (bgx2, 0))
+        screen.blit(bg, (bgx, 0))
         
     if (player.vel.x > 0 and player.x > screen.get_width()/2) or (player.x < (screen.get_height()*3/2) and player.vel.x < 0):
         bgx -= player.vel[0]

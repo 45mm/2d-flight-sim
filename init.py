@@ -1,5 +1,6 @@
-import pygame, math #, os
-import sidescroll, game_sprites, phy #, mainloop
+import pygame, math
+import sidescroll, game_sprites, phy#, gamemenu
+import os, sys, psutil, logging #os, sys and logging are inbuilt
 
 SCREEN_WIDTH = 500
 SCREEN_HEIGHT = 500
@@ -13,7 +14,7 @@ clock = pygame.time.Clock()
 
 keymap = {
 'tiltup': pygame.K_UP, 
-'tiltdown': pygame.K_DOWN, 
+'tiltdown': pygame.K_DOWN,
 'decel': pygame.K_a,
 'accel': pygame.K_d
 }
@@ -23,7 +24,7 @@ sidescroll_exec = sidescroll.exec_wrapper(bg)
 
 imageSprite = pygame.image.load("images/sprite.png")
 
-player_args = {'imageSprite':imageSprite, 'x':200, 'y':200, 'w':80, 'h':40, 
+player_args = {'imageSprite':imageSprite, 'x':SCREEN_WIDTH, 'y':SCRE200, 'w':80, 'h':40, 
                             'rot_angle':3, 'vel':pygame.math.Vector2(3,0)}
 g = pygame.sprite.Group()
 # player = game_sprites.Sprite(imageSprite = imageSprite, 
@@ -31,14 +32,21 @@ g = pygame.sprite.Group()
 #                             rot_angle=3, vel=pygame.math.Vector2(3,0))
 player = game_sprites.Sprite(**player_args)                            
 g.add(player)
-
-def restart():
-  player = game_sprites.Sprite(**player_args) 
-  z = 1000
-  pygame.time.wait(z)
+  
+  
+def restart_program():
+    try:
+        psy = psutil.Process(os.getpid())
+        for handler in psy.open_files() + psy.connections():
+            os.close(handler.fd)
+    except Exception as exc:
+        logging.error(exc)
+    python = sys.executable
+    os.execl(python, python, *sys.argv)
 
 bgx = 0
 bgx2 = bg.get_width()
+
 
 while True:
   screen.fill((0,0,0)) #TODO: Move this?
@@ -51,13 +59,15 @@ while True:
 
   # print(bgx, bgx2)
 
-  for event in pygame.event.get():
+  for event in pygame.event.get():      
     if event.type == pygame.QUIT:
         quit()
-  
+    
   if player.RESTART_NEEDED:
-    restart()
+    #gamemenu.play_again(screen, SCREEN_HEIGHT, SCREEN_WIDTH)
+    restart_program()
     player.RESTART_NEEDED = False
 
-  pygame.display.update()
+  pygame.display.flip()
   clock.tick(60)
+
