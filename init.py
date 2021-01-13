@@ -8,7 +8,7 @@ GRAVITY=0.01
 
 pygame.init()
 screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT], pygame.RESIZABLE)
-pygame.display.set_caption("Figuring out Rotation")
+pygame.display.set_caption("Game Testing")
 clock = pygame.time.Clock()
 #bg = pygame.image.load(os.path.join('images','bg.png')).convert()
 
