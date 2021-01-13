@@ -4,7 +4,7 @@ import os, sys, psutil, logging #os, sys and logging are inbuilt
 
 SCREEN_WIDTH = 500
 SCREEN_HEIGHT = 500
-GRAVITY=0.02
+GRAVITY=0.01
 
 pygame.init()
 screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT], pygame.RESIZABLE)
@@ -24,8 +24,9 @@ sidescroll_exec = sidescroll.exec_wrapper(bg)
 
 imageSprite = pygame.image.load("images/sprite.png")
 
-player_args = {'imageSprite':imageSprite, 'x':SCREEN_WIDTH, 'y':SCRE200, 'w':80, 'h':40, 
-                            'rot_angle':3, 'vel':pygame.math.Vector2(3,0)}
+player_args = {'imageSprite':imageSprite, 'x':200, 'y':200, 'w':80, 'h':40, 
+                            'rot_angle':1.5, 'vel':pygame.math.Vector2(3,0)}
+
 g = pygame.sprite.Group()
 # player = game_sprites.Sprite(imageSprite = imageSprite, 
 #                             x=200, y=200, w=80, h=40, 
