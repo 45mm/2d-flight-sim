@@ -41,28 +41,42 @@ bgx2 = bg.get_width()
 
 RunPlanePhy = RunPlayerUpdate = RunSidescroll = True
 
+GameMode = 'Running'
+
 while True:
-  screen.fill((0,0,0)) #TODO: Move this?
-  sidescroll_exec(player, screen, bg, RunSidescroll)
-  phy.PlanePhy(player, 0.01, 0.01, GRAVITY, SCREEN_HEIGHT, RunPlanePhy)
-  # mainloop.mainloop(player, screen, keymap, SCREEN_WIDTH, SCREEN_HEIGHT)
-  keys = pygame.key.get_pressed()
-  player.update(keys, keymap, SCREEN_WIDTH, SCREEN_HEIGHT, RunPlayerUpdate)
-  player.render(screen)
-
-  # print(bgx, bgx2)
-
-  for event in pygame.event.get():      
+  
+  for event in pygame.event.get():
     if event.type == pygame.QUIT:
-        quit()
+          quit()
+    if GameMode == 'Running':
+      if event.type == pygame.K_d and player.vel.x <= 0:
+        player.vel.x = 0 
+    elif GameMode == 'Menu':
+      if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+        gamemenu.restart_program()
+        player.RESTART_NEEDED = False
     
-  if player.RESTART_NEEDED:
-    RunPlanePhy = RunSideScroll = False
-    gamemenu.play_game(screen, SCREEN_HEIGHT, SCREEN_WIDTH)
-    if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                gamemenu.restart_program()
-    player.RESTART_NEEDED = False
+    
+  if GameMode == 'Running':
+  
+    screen.fill((0,0,0)) #TODO: Move this?
+    sidescroll_exec(player, screen, bg, RunSidescroll)
+    phy.PlanePhy(player, 0.01, 0.01, GRAVITY, SCREEN_HEIGHT, RunPlanePhy)
+    # mainloop.mainloop(player, screen, keymap, SCREEN_WIDTH, SCREEN_HEIGHT)
+    keys = pygame.key.get_pressed()
+    player.update(keys, keymap, SCREEN_WIDTH, SCREEN_HEIGHT, RunPlayerUpdate)
+    player.render(screen)
 
+    if player.RESTART_NEEDED:
+      GameMode = 'Menu'
+      
+  elif GameMode == 'Menu':
+      
+      if player.RESTART_NEEDED:
+        #RunPlanePhy = RunSideScroll = False
+        gamemenu.play_game(screen, SCREEN_HEIGHT, SCREEN_WIDTH)
+        player.RESTART_NEEDED = False
+      
   pygame.display.flip()
   clock.tick(60)
 
