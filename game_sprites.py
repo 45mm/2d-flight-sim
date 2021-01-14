@@ -1,5 +1,36 @@
 import pygame
 
+class Cloud(pygame.sprite.Sprite):
+    
+  def __init__(self, cloudSprite, x, y, w, h, vel):
+    super().__init__()
+    self.x = x
+    self.y = y
+    self.image = pygame.transform.scale(cloudSprite, (w, h))
+    self.rect = pygame.Rect(0, 0, w, h)
+
+  #def update(self):
+
+  def render(self, surface):
+    surface.blit(self.image, (self.rect.x, self.rect.y))
+    pygame.display.flip()
+    
+    
+class Birds(pygame.sprite.Sprite):
+    
+  def __init__(self, birdSprite, x, y, w, h, vel):
+    super().__init__()
+    self.x = x
+    self.y = y
+    self.image = pygame.transform.scale(x, y, w, h, vel)
+    self.rect = pygame.Rect(0, 0, w, h)
+
+  #def update(self):
+
+  def render(self, surface):
+    surface.blit(self.image, (self.rect.x, self.rect.y))
+    pygame.display.flip()
+      
 class Thrust():
 
   def __init__(self, angle, magnitude):
