@@ -19,6 +19,8 @@ keymap = {
 }
 
 bg = pygame.image.load("images/bg.png")
+#cloud = pygameimage.load("")
+#bird = pygame.image.load("")
 sidescroll_exec = sidescroll.exec_wrapper(bg)
 
 imageSprite = pygame.image.load("images/sprite.png")
