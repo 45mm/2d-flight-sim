@@ -1,15 +1,26 @@
 import pygame
 import pygame.freetype
+import os, sys, psutil, logging #os, sys and logging are inbuilt
 
-
+pygame.init()
 #font colors (rgb)
 BLUE = (106, 159, 181)
 WHITE = (255, 255, 255)
 
-bigfont = pygame.font.Font(None, 80)
-smallfont = pygame.font.Font(None, 45)
+bigfont = pygame.font.SysFont("Consolas", 80)
+smallfont = pygame.font.SysFont("Consolas", 45)
 
-def play_again(self, screen, ht, wt):
+def restart_program():
+    try:
+        psy = psutil.Process(os.getpid())  #gives id of memory process
+        for handler in psy.open_files() + psy.connections():    #sees files open using memory id
+            os.close(handler.fd)     #closes the files given by loop
+    except Exception as exc:  #wildcard* exception
+        logging.error(exc)    #should give a summary of what made program crash ig
+    python = sys.executable   #path for executable binary python (bytecode for specific processor)
+    os.execl(python, python, *sys.argv)  #execl causes running process 'python' to be replaced by program passed as arguments
+
+def play_game(screen, ht, wt):
     text = bigfont.render('Play again?', 12, (0, 0, 0))
     textx = wt / 2 - text.get_width() / 2
     texty = ht / 2 - text.get_height() / 2
@@ -21,18 +32,7 @@ def play_again(self, screen, ht, wt):
 
     screen.blit(text, (wt / 2 - text.get_width() / 2,
                        ht / 2 - text.get_height() / 2))
-
-    pygame.display.flip()
-    in_main_menu = True
-    while in_main_menu:
-        for event in pygame.event.get():
-            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                x, y = event.pos
-                if x >= textx - 5 and x <= textx + textx_size + 5:
-                    if y >= texty - 5 and y <= texty + texty_size + 5:
-                        in_main_menu = False
-                        #player.RESTART_NEEDED = True
-                        break
+    
 
 '''def newgame(text, fontsize, text_rgb, bg_rgb):
     font = pygame.freetype.SysFont("Consolas", font_size, bold=True)

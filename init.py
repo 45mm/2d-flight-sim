@@ -1,6 +1,5 @@
 import pygame, math
-import sidescroll, game_sprites, phy#, gamemenu
-import os, sys, psutil, logging #os, sys and logging are inbuilt
+import sidescroll, game_sprites, phy, gamemenu
 
 SCREEN_WIDTH = 500
 SCREEN_HEIGHT = 500
@@ -33,29 +32,20 @@ g = pygame.sprite.Group()
 #                             rot_angle=3, vel=pygame.math.Vector2(3,0))
 player = game_sprites.Sprite(**player_args)                            
 g.add(player)
-  
-  
-def restart_program():
-    try:
-        psy = psutil.Process(os.getpid())
-        for handler in psy.open_files() + psy.connections():
-            os.close(handler.fd)
-    except Exception as exc:
-        logging.error(exc)
-    python = sys.executable
-    os.execl(python, python, *sys.argv)
+    
 
 bgx = 0
 bgx2 = bg.get_width()
 
+RunPlanePhy = RunPlayerUpdate = RunSidescroll = True
 
 while True:
   screen.fill((0,0,0)) #TODO: Move this?
-  sidescroll_exec(player, screen, bg)
-  phy.PlanePhy(player, 0.01, 0.01, GRAVITY, SCREEN_HEIGHT)
+  sidescroll_exec(player, screen, bg, RunSidescroll)
+  phy.PlanePhy(player, 0.01, 0.01, GRAVITY, SCREEN_HEIGHT, RunPlanePhy)
   # mainloop.mainloop(player, screen, keymap, SCREEN_WIDTH, SCREEN_HEIGHT)
   keys = pygame.key.get_pressed()
-  player.update(keys, keymap, SCREEN_WIDTH, SCREEN_HEIGHT)
+  player.update(keys, keymap, SCREEN_WIDTH, SCREEN_HEIGHT, RunPlayerUpdate)
   player.render(screen)
 
   # print(bgx, bgx2)
@@ -65,8 +55,10 @@ while True:
         quit()
     
   if player.RESTART_NEEDED:
-    #gamemenu.play_again(screen, SCREEN_HEIGHT, SCREEN_WIDTH)
-    restart_program()
+    RunPlanePhy = RunSideScroll = False
+    gamemenu.play_game(screen, SCREEN_HEIGHT, SCREEN_WIDTH)
+    if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                gamemenu.restart_program()
     player.RESTART_NEEDED = False
 
   pygame.display.flip()

@@ -55,39 +55,52 @@ class Sprite(pygame.sprite.Sprite):
       
   def collisionWindow(self, SCREEN_WIDTH, SCREEN_HEIGHT):
     
-    if self.rect.x >= (SCREEN_WIDTH - self.rect.w) or self.rect.x <= self.rect.w:
+    if self.rect.x >= (SCREEN_WIDTH - self.rect.w) or self.rect.x <= 0:#self.rect.w:
       self.RESTART_NEEDED = True
       
-    elif self.rect.y >= (SCREEN_HEIGHT - self.rect.h) or self.rect.y <= self.rect.h:
+    elif self.rect.y >= (SCREEN_HEIGHT - self.rect.h) or self.rect.y <= 0:#self.rect.h:
       self.RESTART_NEEDED = True
     
-
-  def update(self, keys, keymap, SCREEN_WIDTH, SCREEN_HEIGHT):
+    if self.rect.x >= SCREEN_WIDTH-self.rect.w:
+      self.rect.x = SCREEN_WIDTH - self.rect.w
     
-    self.vel += self.thrust.get_vec()
+    elif self.rect.y >= SCREEN_HEIGHT - self.rect.h:
+      self.rect.y = SCREEN_HEIGHT - self.rect.h
+    
+    elif self.rect.x <= 0:
+      self.rect.x = 0
+      
+    elif self.rect.y <= 0:
+      self.rect.y = 0
+    
 
-    self.x += self.vel.x
-    self.y += self.vel.y
+  def update(self, keys, keymap, SCREEN_WIDTH, SCREEN_HEIGHT, toRun):
+    
+    if toRun:
+      self.vel += self.thrust.get_vec()
 
-    self.rect.center = (self.x, self.y)
+      self.x += self.vel.x
+      self.y += self.vel.y
 
-    if keys[keymap['tiltup']]:
-      # self.vel = self.vel.rotate(-self.rot_angle)
-      self.thrust.dir = self.thrust.dir.rotate(-self.rot_angle)
-      self.rot_center(1)
+      self.rect.center = (self.x, self.y)
 
-    if keys[keymap['tiltdown']]:
-      # self.vel = self.vel.rotate(self.rot_angle)
-      self.thrust.dir = self.thrust.dir.rotate(self.rot_angle)
-      self.rot_center(-1)
+      if keys[keymap['tiltup']]:
+        # self.vel = self.vel.rotate(-self.rot_angle)
+        self.thrust.dir = self.thrust.dir.rotate(-self.rot_angle)
+        self.rot_center(1)
 
-    if keys[keymap['accel']]:
-      self.thrust.magnitude += self.thrustc
-    if keys[keymap['decel']]:
-      self.thrust.magnitude -= self.thrustc
+      if keys[keymap['tiltdown']]:
+        # self.vel = self.vel.rotate(self.rot_angle)
+        self.thrust.dir = self.thrust.dir.rotate(self.rot_angle)
+        self.rot_center(-1)
 
-    self.collisionWindow(SCREEN_WIDTH, SCREEN_HEIGHT)
-    #self.rect.clamp_ip(surface.get_rect())
+      if keys[keymap['accel']]:
+        self.thrust.magnitude += self.thrustc
+      if keys[keymap['decel']]:
+        self.thrust.magnitude -= self.thrustc
+
+      self.collisionWindow(SCREEN_WIDTH, SCREEN_HEIGHT)
+      #self.rect.clamp_ip(surface.get_rect())
 
 
   def render(self, surface):
