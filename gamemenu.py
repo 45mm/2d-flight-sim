@@ -3,9 +3,15 @@ import pygame.freetype
 import os, sys, psutil, logging #os, sys and logging are inbuilt
 
 pygame.init()
+pygame.font.init()
 #font colors (rgb)
-BLUE = (106, 159, 181)
+BLUE = (0, 0, 255)
 WHITE = (255, 255, 255)
+RED = (255, 0, 0)
+GREEN = (0, 0, 255)
+YELLOW = (255, 255, 0)
+ORANGE = (255, 165, 0)
+BLACK = (0,0,0)
 
 bigfont = pygame.font.SysFont("Consolas", 80)
 smallfont = pygame.font.SysFont("Consolas", 45)
@@ -29,12 +35,25 @@ def play_game(screen, ht, wt):
     pygame.draw.rect(screen, (255, 255, 255), ((textx - 5, texty - 5),
                                                (textx_size + 10, texty_size +
                                                 10)))
-
     screen.blit(text, (wt / 2 - text.get_width() / 2,
                        ht / 2 - text.get_height() / 2))
     
 
-'''def newgame(text, fontsize, text_rgb, bg_rgb):
-    font = pygame.freetype.SysFont("Consolas", font_size, bold=True)
-    surface, _ = font.render(text=text, fgcolor=text_rgb, bgcolor=bg_rgb)
-    return surface.convert_alpha()'''
+def quit_program():
+    pygame.time.wait(1000)
+    pygame.quit()
+    sys.exit()
+
+def print_text(text, fontsize, textcolor, bgcolor, isbold):
+    font = pygame.freetype.SysFont("Consolas", fontsize, bold=isbold)
+    surface, _ = font.render(text=text, fgcolor=textcolor, bgcolor=bgcolor)
+    return surface.convert_alpha()
+
+def newgame(screen, ht, wt):
+    newgame_box = print_text('FLIGHT SIMULATOR', 46, WHITE , BLACK, True)
+    presskeymsg = print_text('PRESS ANY KEY TO START', 9, RED, BLACK, True)
+    keymsg_rect = presskeymsg.get_rect(center = (wt/2, ht*2/3))
+    newgame_rect = newgame_box.get_rect(center=(wt/2, ht/2))
+    screen.blit(newgame_box, newgame_rect)
+    screen.blit(presskeymsg, keymsg_rect)
+    

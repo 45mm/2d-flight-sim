@@ -128,8 +128,10 @@ class Sprite(pygame.sprite.Sprite):
       if keys[keymap['accel']]:
         self.thrust.magnitude += self.thrustc
       if keys[keymap['decel']]:
-        if self.vel.x <= 0:
+        if self.vel.x >= 0:
           self.thrust.magnitude -= self.thrustc
+      
+      print('Thrust: ', self.thrust.get_vec())
 
       self.collisionWindow(SCREEN_WIDTH, SCREEN_HEIGHT)
       #self.rect.clamp_ip(surface.get_rect())
