@@ -64,7 +64,7 @@ while True:
   
     screen.fill((0,0,0)) #TODO: Move this?
     sidescroll_exec(player, screen, bg, RunSidescroll)
-    phy.PlanePhy(self=player, liftc=0.01, dragc=0.05, gravity=0.01, HEIGHT=SCREEN_HEIGHT, toRun=RunPlanePhy)
+    phy.PlanePhy(self=player, liftc=0.01, dragc=0.01, gravity=0.01, HEIGHT=SCREEN_HEIGHT, toRun=RunPlanePhy)
     # mainloop.mainloop(player, screen, keymap, SCREEN_WIDTH, SCREEN_HEIGHT)
     keys = pygame.key.get_pressed()
     player.update(keys, keymap, SCREEN_WIDTH, SCREEN_HEIGHT, RunPlayerUpdate)

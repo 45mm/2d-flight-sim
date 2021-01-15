@@ -12,7 +12,7 @@ def PlanePhy(self, liftc, dragc, gravity, HEIGHT, toRun):
   # elif self.vel.y < -5:
   #   self.vel.y = -5
 
-  angle = math.radians(self.angle)-math.pi
+  angle = math.radians(self.angle)
     
   if self.rect.y < HEIGHT-self.rect.height:
     self.vel += pygame.math.Vector2(0, gravity)
@@ -21,10 +21,15 @@ def PlanePhy(self, liftc, dragc, gravity, HEIGHT, toRun):
   # dragarea = 0.1 + abs(math.sin(self.angle))
   wingarea = 0.1 + abs(math.cos(angle))
   # dragarea = 1.1
-  p = math.atan2(-self.vel.y,self.vel.x)
+  vel_angle = math.atan2(-self.vel.y,self.vel.x) #Angle of velocity
+                                                 #vector
+  
+  p = vel_angle if vel_angle >= 0 else vel_angle + math.pi*2
+
   dragarea=0.1+abs(math.sin(p-angle))
   print('Angles: ', p, '-', angle)
   print("sine: ", math.sin(p-angle))
+  print('Diff: ', p-angle)
 
   lift = liftc*(abs(self.vel.x**2))*wingarea
   if lift > gravity:
