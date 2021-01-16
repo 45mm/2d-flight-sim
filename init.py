@@ -6,10 +6,10 @@ SCREEN_HEIGHT = 500
 #GRAVITY=0.01
 
 pygame.init()
-screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT], pygame.RESIZABLE)
+surface = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT], pygame.RESIZABLE)
+screen = surface.copy()
 pygame.display.set_caption("Game Testing")
 clock = pygame.time.Clock()
-#bg = pygame.image.load(os.path.join('images','bg.png')).convert()
 
 keymap = {
 'tiltup': pygame.K_UP, 
@@ -18,13 +18,14 @@ keymap = {
 'accel': pygame.K_d
 }
 
-bg = pygame.image.load("images/bg.png")
+background = pygame.image.load("images/bg.png").convert()
+bg = pygame.transform.scale(background, (700,700)).convert()
 #cloud = pygameimage.load("")
 #bird = pygame.image.load("")
 sidescroll_exec = sidescroll.exec_wrapper(bg)
 
-imageSprite = pygame.image.load("images/sprite.png")
-
+# imageSprite = pygame.image.load("images/sprite.png")
+imageSprite = pygame.image.load("images/plane_padded_left.png")
 player_args = {'imageSprite':imageSprite, 'x':40, 'y':300, 'w':80, 'h':40, 
                             'rot_angle':3, 'vel':pygame.math.Vector2(2,0)}
 
@@ -58,6 +59,9 @@ while True:
     elif GameMode == 'Starting':
       if event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN:
         GameMode = 'Running'
+    if event.type == pygame.VIDEORESIZE:
+      surface = pygame.display.set_mode(event.size, pygame.RESIZABLE)
+      SCREEN_HEIGHT, SCREEN_WIDTH = event.h, event.w
     
     
   if GameMode == 'Running':
@@ -67,24 +71,23 @@ while True:
     phy.PlanePhy(self=player, liftc=0.01, dragc=0.02, gravity=0.01, HEIGHT=SCREEN_HEIGHT, toRun=RunPlanePhy)
     # mainloop.mainloop(player, screen, keymap, SCREEN_WIDTH, SCREEN_HEIGHT)
     keys = pygame.key.get_pressed()
-    player.update(keys, keymap, SCREEN_WIDTH, SCREEN_HEIGHT, RunPlayerUpdate)
+    player.update(keys, keymap, screen, RunPlayerUpdate)
     player.render(screen)
 
     if player.RESTART_NEEDED:
       GameMode = 'Menu'
       
   elif GameMode == 'Menu':
-      
       if player.RESTART_NEEDED:
         #RunPlanePhy = RunSideScroll = False
-        gamemenu.play_game(screen, SCREEN_HEIGHT, SCREEN_WIDTH)
+        gamemenu.play_game(screen)
         player.RESTART_NEEDED = False
   
   elif GameMode == 'Starting':
     
-    gamemenu.newgame(screen, SCREEN_HEIGHT, SCREEN_WIDTH)
+    gamemenu.newgame(screen)
     
-      
+  surface.blit(pygame.transform.scale(screen, surface.get_rect().size), (0, 0))
   pygame.display.flip()
   clock.tick(60)
 

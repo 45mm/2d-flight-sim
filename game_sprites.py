@@ -74,8 +74,9 @@ class Sprite(pygame.sprite.Sprite):
     self.angle = (self.angle + rot) % 360
 
     rot_image = pygame.transform.rotate(self.IMAGE, self.angle)
-    self.mask = pygame.mask.from_surface(rot_image)
+    self.mask = pygame.mask.from_surface(rot_image, 0)
     rot_rect = rot_image.get_rect()
+
     # self.hitbox = self.mask.get_rect()
     # self.hitbox.center = self.rect.center
 
@@ -84,19 +85,19 @@ class Sprite(pygame.sprite.Sprite):
     self.rect = rot_rect
     self.image = rot_image
       
-  def collisionWindow(self, SCREEN_WIDTH, SCREEN_HEIGHT):
+  def collisionWindow(self, screen):
     
-    if self.rect.x >= (SCREEN_WIDTH - self.rect.w) or self.rect.x <= 0:#self.rect.w:
+    if self.rect.x >= (screen.get_width() - self.rect.w) or self.rect.x <= 0:#self.rect.w:
       self.RESTART_NEEDED = True
       
-    elif self.rect.y >= (SCREEN_HEIGHT - self.rect.h) or self.rect.y <= 0:#self.rect.h:
+    elif self.rect.y >= (screen.get_height() - self.rect.h) or self.rect.y <= 0:#self.rect.h:
       self.RESTART_NEEDED = True
     
-    if self.rect.x >= SCREEN_WIDTH-self.rect.w:
-      self.rect.x = SCREEN_WIDTH - self.rect.w
+    if self.rect.x >= screen.get_width()-self.rect.w:
+      self.rect.x = screen.get_width() - self.rect.w
     
-    elif self.rect.y >= SCREEN_HEIGHT - self.rect.h:
-      self.rect.y = SCREEN_HEIGHT - self.rect.h
+    elif self.rect.y >= screen.get_height() - self.rect.h:
+      self.rect.y = screen.get_height() - self.rect.h
     
     elif self.rect.x <= 0:
       self.rect.x = 0
@@ -105,7 +106,7 @@ class Sprite(pygame.sprite.Sprite):
       self.rect.y = 0
     
 
-  def update(self, keys, keymap, SCREEN_WIDTH, SCREEN_HEIGHT, toRun):
+  def update(self, keys, keymap, screen, toRun):
     
     if toRun:
       self.vel += self.thrust.get_vec()
@@ -114,6 +115,7 @@ class Sprite(pygame.sprite.Sprite):
       self.y += self.vel.y
 
       self.rect.center = (self.x, self.y)
+      # self.hitbox.center = self.rect.center
 
       if keys[keymap['tiltup']]:
         # self.vel = self.vel.rotate(-self.rot_angle)
@@ -130,10 +132,8 @@ class Sprite(pygame.sprite.Sprite):
       if keys[keymap['decel']]:
         if self.vel.x >= 0:
           self.thrust.magnitude -= self.thrustc
-      
-      print('Thrust: ', self.thrust.get_vec())
 
-      self.collisionWindow(SCREEN_WIDTH, SCREEN_HEIGHT)
+      self.collisionWindow(screen)
       #self.rect.clamp_ip(surface.get_rect())
 
   def render(self, surface):

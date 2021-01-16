@@ -7,7 +7,6 @@ def exec_wrapper(bg):
 
   def exec(player, screen, bg, toScroll):
       
-    
 
     nonlocal bgx
     nonlocal bgx2
