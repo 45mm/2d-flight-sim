@@ -1,0 +1,24 @@
+Everything to work on (in near future)
+
+. Window
+. Sprite rotate around end, not centre?
+. Resolution
+. Image masks
+. Finalise physics (max, min values for thrust, gravity value,..?)
+. Scrolling
+  .Vertical scrolling
+  .Make map bigger (so only a portion is displayed at a time)
+. Clouds, birds (sprites cloud engine stalling, bird collisions)
+. Change the map
+. Plane sprite
+. Window resizing
+  . maintain aspect ratio
+  . increase native resolution
+  . text background transparency
+
+Work distribution:
+
+Yash - imagemasks
+Granth - resizing
+AK - scrolling
+Mathew -terrain
