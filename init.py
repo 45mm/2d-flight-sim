@@ -1,5 +1,5 @@
 import pygame, math
-import sidescroll, game_sprites, phy, gamemenu
+import sidescroll, game_sprites, phy, gamemenu, verticalscroll
 
 SCREEN_WIDTH = 500
 SCREEN_HEIGHT = 500
@@ -21,9 +21,10 @@ keymap = {
 bg = pygame.image.load("images/bg.png")
 
 sidescroll_exec = sidescroll.exec_wrapper(bg)
+verticalscroll_exec = verticalscroll.exec_wrapper(bg)
 
 imageSprite = pygame.image.load("images/sprite.png")
-cloudSprite = pygame.image.load("images/sprite1.png")
+cloudSprite = pygame.image.load("images/clouds.png")
 #birdSprite = pygame.image.load("")
 
 player_args = {'imageSprite':imageSprite, 'x':40, 'y':300, 'w':80, 'h':40, 
@@ -46,6 +47,7 @@ bgx = 0
 bgx2 = bg.get_width()
 
 RunPlanePhy = RunPlayerUpdate = RunSidescroll = True
+RunVerticalscroll = True
 
 GameMode = 'Starting'
 
@@ -70,6 +72,7 @@ while True:
   
     screen.fill((0,0,0)) #TODO: Move this?
     sidescroll_exec(player, screen, bg, RunSidescroll)
+    verticalscroll_exec(player, screen, bg, RunVerticalscroll)
     phy.PlanePhy(self=player, liftc=0.01, dragc=0.02, gravity=0.01, HEIGHT=SCREEN_HEIGHT, toRun=RunPlanePhy)
     # mainloop.mainloop(player, screen, keymap, SCREEN_WIDTH, SCREEN_HEIGHT)
     keys = pygame.key.get_pressed()
@@ -85,12 +88,12 @@ while True:
       
       if player.RESTART_NEEDED:
         #RunPlanePhy = RunSideScroll = False
-        gamemenu.play_game(screen, SCREEN_HEIGHT, SCREEN_WIDTH)
+        gamemenu.play_game(screen)
         player.RESTART_NEEDED = False
   
   elif GameMode == 'Starting':
     
-    gamemenu.newgame(screen, SCREEN_HEIGHT, SCREEN_WIDTH)
+    gamemenu.newgame(screen)
     
       
   pygame.display.flip()
