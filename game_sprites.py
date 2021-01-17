@@ -2,20 +2,25 @@ import pygame
 
 class Cloud(pygame.sprite.Sprite):
     
-  def __init__(self, cloudSprite, x, y, w, h, vel):
+  def __init__(self,imageSprite, x, y, w, h, vel):
     super().__init__()
     self.x = x
     self.y = y
     self.image = pygame.transform.scale(cloudSprite, (w, h))
     self.rect = pygame.Rect(0, 0, w, h)
 
-  #def update(self):
+  
 
   def render(self, surface):
     surface.blit(self.image, (self.rect.x, self.rect.y))
     pygame.display.flip()
-    
-    
+
+  def update(self, keys, keymap, SCREEN_WIDTH, SCREEN_HEIGHT, toRun):
+    vel = pygame.math.Vector2(-(get_(player.vel.x)), 0)
+    #if
+
+  #def 
+'''    
 class Birds(pygame.sprite.Sprite):
     
   def __init__(self, birdSprite, x, y, w, h, vel):
@@ -25,12 +30,13 @@ class Birds(pygame.sprite.Sprite):
     self.image = pygame.transform.scale(x, y, w, h, vel)
     self.rect = pygame.Rect(0, 0, w, h)
 
+
   #def update(self):
 
   def render(self, surface):
     surface.blit(self.image, (self.rect.x, self.rect.y))
     pygame.display.flip()
-      
+'''   
 class Thrust():
 
   def __init__(self, angle, magnitude):
@@ -74,9 +80,8 @@ class Sprite(pygame.sprite.Sprite):
     self.angle = (self.angle + rot) % 360
 
     rot_image = pygame.transform.rotate(self.IMAGE, self.angle)
-    self.mask = pygame.mask.from_surface(rot_image, 0)
+    self.mask = pygame.mask.from_surface(rot_image)
     rot_rect = rot_image.get_rect()
-
     # self.hitbox = self.mask.get_rect()
     # self.hitbox.center = self.rect.center
 
@@ -85,19 +90,19 @@ class Sprite(pygame.sprite.Sprite):
     self.rect = rot_rect
     self.image = rot_image
       
-  def collisionWindow(self, screen):
+  def collisionWindow(self, SCREEN_WIDTH, SCREEN_HEIGHT):
     
-    if self.rect.x >= (screen.get_width() - self.rect.w) or self.rect.x <= 0:#self.rect.w:
+    if self.rect.x >= (SCREEN_WIDTH - self.rect.w) or self.rect.x <= 0:#self.rect.w:
       self.RESTART_NEEDED = True
       
-    elif self.rect.y >= (screen.get_height() - self.rect.h) or self.rect.y <= 0:#self.rect.h:
+    elif self.rect.y >= (SCREEN_HEIGHT - self.rect.h) or self.rect.y <= 0:#self.rect.h:
       self.RESTART_NEEDED = True
     
-    if self.rect.x >= screen.get_width()-self.rect.w:
-      self.rect.x = screen.get_width() - self.rect.w
+    if self.rect.x >= SCREEN_WIDTH-self.rect.w:
+      self.rect.x = SCREEN_WIDTH - self.rect.w
     
-    elif self.rect.y >= screen.get_height() - self.rect.h:
-      self.rect.y = screen.get_height() - self.rect.h
+    elif self.rect.y >= SCREEN_HEIGHT - self.rect.h:
+      self.rect.y = SCREEN_HEIGHT - self.rect.h
     
     elif self.rect.x <= 0:
       self.rect.x = 0
@@ -106,7 +111,7 @@ class Sprite(pygame.sprite.Sprite):
       self.rect.y = 0
     
 
-  def update(self, keys, keymap, screen, toRun):
+  def update(self, keys, keymap, SCREEN_WIDTH, SCREEN_HEIGHT, toRun):
     
     if toRun:
       self.vel += self.thrust.get_vec()
@@ -115,7 +120,6 @@ class Sprite(pygame.sprite.Sprite):
       self.y += self.vel.y
 
       self.rect.center = (self.x, self.y)
-      # self.hitbox.center = self.rect.center
 
       if keys[keymap['tiltup']]:
         # self.vel = self.vel.rotate(-self.rot_angle)
@@ -132,8 +136,10 @@ class Sprite(pygame.sprite.Sprite):
       if keys[keymap['decel']]:
         if self.vel.x >= 0:
           self.thrust.magnitude -= self.thrustc
+      
+      print('Thrust: ', self.thrust.get_vec())
 
-      self.collisionWindow(screen)
+      self.collisionWindow(SCREEN_WIDTH, SCREEN_HEIGHT)
       #self.rect.clamp_ip(surface.get_rect())
 
   def render(self, surface):
