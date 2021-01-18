@@ -6,10 +6,10 @@ SCREEN_HEIGHT = 500
 #GRAVITY=0.01
 
 pygame.init()
-screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT], pygame.RESIZABLE)
+surface = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT], pygame.RESIZABLE)
+screen = surface.copy()
 pygame.display.set_caption("Game Testing")
 clock = pygame.time.Clock()
-#bg = pygame.image.load(os.path.join('images','bg.png')).convert()
 
 keymap = {
 'tiltup': pygame.K_UP, 
@@ -41,7 +41,6 @@ player = game_sprites.Sprite(**player_args)
 player1 = game_sprites.Sprite(**cloud_args)
 g.add(player)
 g.add(player1)
-    
 
 bgx = 0
 bgx2 = bg.get_width()
@@ -50,6 +49,7 @@ RunPlanePhy = RunPlayerUpdate = RunSidescroll = True
 RunVerticalscroll = True
 
 GameMode = 'Starting'
+
 
 while True:
   
@@ -66,20 +66,29 @@ while True:
     elif GameMode == 'Starting':
       if event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN:
         GameMode = 'Running'
+    if event.type == pygame.VIDEORESIZE:
+      surface = pygame.display.set_mode(event.size, pygame.RESIZABLE)
+      SCREEN_HEIGHT, SCREEN_WIDTH = event.h, event.w
     
     
   if GameMode == 'Running':
   
     screen.fill((0,0,0)) #TODO: Move this?
-    sidescroll_exec(player, screen, bg, RunSidescroll)
-    verticalscroll_exec(player, screen, bg, RunVerticalscroll)
+    #sidescroll_exec(player, screen, bg, RunSidescroll)
+    #verticalscroll_exec(player, screen, bg, RunVerticalscroll)
     phy.PlanePhy(self=player, liftc=0.01, dragc=0.02, gravity=0.01, HEIGHT=SCREEN_HEIGHT, toRun=RunPlanePhy)
     # mainloop.mainloop(player, screen, keymap, SCREEN_WIDTH, SCREEN_HEIGHT)
     keys = pygame.key.get_pressed()
-    player.update(keys, keymap, SCREEN_WIDTH, SCREEN_HEIGHT, RunPlayerUpdate)
+    player.update(keys, keymap, screen, RunPlayerUpdate)
     player.render(screen)
     player1.render(screen)
-    
+    '''
+    camera.center = (player.x, player.y)
+    player.render(surf)
+    surf = bg.copy()
+    player.render(surf)
+    player1.render(screen)
+    screen.blit(surf, (0,0), camera)'''
 
     if player.RESTART_NEEDED:
       GameMode = 'Menu'
@@ -95,7 +104,7 @@ while True:
     
     gamemenu.newgame(screen)
     
-      
+  surface.blit(pygame.transform.scale(screen, surface.get_rect().size), (0, 0))
   pygame.display.flip()
   clock.tick(60)
 

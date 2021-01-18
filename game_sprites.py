@@ -1,5 +1,9 @@
 import pygame
 
+CollisionObjects = pygame.sprite.Group() #LINE ADDED BY YASH
+#CollisionObjects.add(self)    #LINE ADDED BY YASH
+#self.mask = pygame.mask.from_surface(self.image)    #LINE ADDED BY YASH
+
 class Cloud(pygame.sprite.Sprite):
     
   def __init__(self,imageSprite, x, y, w, h, vel):
@@ -8,6 +12,7 @@ class Cloud(pygame.sprite.Sprite):
     self.y = y
     self.image = pygame.transform.scale(cloudSprite, (w, h))
     self.rect = pygame.Rect(0, 0, w, h)
+    
 
   
 
@@ -17,6 +22,7 @@ class Cloud(pygame.sprite.Sprite):
 
   def update(self, keys, keymap, SCREEN_WIDTH, SCREEN_HEIGHT, toRun):
     vel = pygame.math.Vector2(-(get_(player.vel.x)), 0)
+    
     #if
 
   #def 
@@ -67,7 +73,7 @@ class Sprite(pygame.sprite.Sprite):
     self.rot_angle = rot_angle # angle by which to rotate per frame
     self.angle = 0 # angle wrt x axis, counterclockwise
     self.RESTART_NEEDED = False
-
+    self.MASK_NEEDED = False
     # Permanent copies of initial properties; do not modify
 
     self.IMAGE = self.image
@@ -80,8 +86,9 @@ class Sprite(pygame.sprite.Sprite):
     self.angle = (self.angle + rot) % 360
 
     rot_image = pygame.transform.rotate(self.IMAGE, self.angle)
-    self.mask = pygame.mask.from_surface(rot_image)
+    self.mask = pygame.mask.from_surface(rot_image, 0)
     rot_rect = rot_image.get_rect()
+
     # self.hitbox = self.mask.get_rect()
     # self.hitbox.center = self.rect.center
 
@@ -89,29 +96,37 @@ class Sprite(pygame.sprite.Sprite):
 
     self.rect = rot_rect
     self.image = rot_image
+    
+  def collisionMask (self, screen):
+    
+    #collided = pygame.sprite.spritecollide(self, CollisionObjects, False, pygame.sprite.collide_mask)
+    collidedmask = pygame.sprite.collide_mask(self, Cloud)
+    if collidedmask != None:
+      self.RESTART_NEEDED#(self.player, otherobjects, False)
       
-  def collisionWindow(self, SCREEN_WIDTH, SCREEN_HEIGHT):
+  def collisionWindow(self, screen):
     
-    if self.rect.x >= (SCREEN_WIDTH - self.rect.w) or self.rect.x <= 0:#self.rect.w:
-      self.RESTART_NEEDED = True
+    if self.rect.x >= (screen.get_width() - self.rect.w) or self.rect.x <= 0:#self.rect.w:
+      self.MASK_NEEDED = True
       
-    elif self.rect.y >= (SCREEN_HEIGHT - self.rect.h) or self.rect.y <= 0:#self.rect.h:
-      self.RESTART_NEEDED = True
+    elif self.rect.y >= (screen.get_height() - self.rect.h) or self.rect.y <= 0:#self.rect.h:
+      self.MASK_NEEDED = True
     
-    if self.rect.x >= SCREEN_WIDTH-self.rect.w:
-      self.rect.x = SCREEN_WIDTH - self.rect.w
+    if self.rect.x >= screen.get_width()-self.rect.w:
+      self.rect.x = screen.get_width() - self.rect.w
     
-    elif self.rect.y >= SCREEN_HEIGHT - self.rect.h:
-      self.rect.y = SCREEN_HEIGHT - self.rect.h
+    elif self.rect.y >= screen.get_height() - self.rect.h:
+      self.rect.y = screen.get_height() - self.rect.h
     
     elif self.rect.x <= 0:
       self.rect.x = 0
       
     elif self.rect.y <= 0:
       self.rect.y = 0
+      
     
 
-  def update(self, keys, keymap, SCREEN_WIDTH, SCREEN_HEIGHT, toRun):
+  def update(self, keys, keymap, screen, toRun):
     
     if toRun:
       self.vel += self.thrust.get_vec()
@@ -120,6 +135,7 @@ class Sprite(pygame.sprite.Sprite):
       self.y += self.vel.y
 
       self.rect.center = (self.x, self.y)
+      # self.hitbox.center = self.rect.center
 
       if keys[keymap['tiltup']]:
         # self.vel = self.vel.rotate(-self.rot_angle)
@@ -136,11 +152,10 @@ class Sprite(pygame.sprite.Sprite):
       if keys[keymap['decel']]:
         if self.vel.x >= 0:
           self.thrust.magnitude -= self.thrustc
-      
-      print('Thrust: ', self.thrust.get_vec())
 
-      self.collisionWindow(SCREEN_WIDTH, SCREEN_HEIGHT)
+      self.collisionWindow(screen)
       #self.rect.clamp_ip(surface.get_rect())
+      self.collisionMask(screen)
 
   def render(self, surface):
 
