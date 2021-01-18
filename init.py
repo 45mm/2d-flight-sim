@@ -32,15 +32,12 @@ player_args = {'imageSprite':imageSprite, 'x':40, 'y':300, 'w':80, 'h':40,
 
 cloud_args = {'imageSprite':cloudSprite, 'x':35, 'y':255, 'w':80, 'h':40,
                            'rot_angle':3,  'vel':pygame.math.Vector2(-2, 0)}
-g = pygame.sprite.Group()
-# player = game_sprites.Sprite(imageSprite = imageSprite, 
-#                             x=200, y=200, w=80, h=40, 
-#                             rot_angle=3, vel=pygame.math.Vector2(3,0))
+allSprites = pygame.sprite.Group()
 
 player = game_sprites.Sprite(**player_args)
-player1 = game_sprites.Sprite(**cloud_args)
-g.add(player)
-g.add(player1)
+Cloud = game_sprites.Sprite(**cloud_args)
+allSprites.add(player)
+allSprites.add(Cloud)
 
 bgx = 0
 bgx2 = bg.get_width()

@@ -1,31 +1,28 @@
 import pygame
 
 CollisionObjects = pygame.sprite.Group() #LINE ADDED BY YASH
-#CollisionObjects.add(self)    #LINE ADDED BY YASH
-#self.mask = pygame.mask.from_surface(self.image)    #LINE ADDED BY YASH
 
 class Cloud(pygame.sprite.Sprite):
     
-  def __init__(self,imageSprite, x, y, w, h, vel):
+  def __init__(self,cloudSprite, x, y, w, h, vel):
     super().__init__()
     self.x = x
     self.y = y
     self.image = pygame.transform.scale(cloudSprite, (w, h))
     self.rect = pygame.Rect(0, 0, w, h)
-    
-
-  
+    self.mask = pygame.mask.from_surface(self.image)    #LINE ADDED BY YASH  
+    self.vel = 0  
 
   def render(self, surface):
     surface.blit(self.image, (self.rect.x, self.rect.y))
     pygame.display.flip()
 
-  def update(self, keys, keymap, SCREEN_WIDTH, SCREEN_HEIGHT, toRun):
-    vel = pygame.math.Vector2(-(get_(player.vel.x)), 0)
+  def update(self, keys, keymap, screen, toRun, playerclass):
+    playervelx = playerclass.vel.x
+    self.vel = pygame.math.Vector2(-playervelx, 0)
+    CollisionObjects.add(self)    #LINE ADDED BY YASH
     
-    #if
 
-  #def 
 '''    
 class Birds(pygame.sprite.Sprite):
     
