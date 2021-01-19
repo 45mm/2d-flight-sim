@@ -27,9 +27,9 @@ def PlanePhy(self, liftc, dragc, gravity, HEIGHT, toRun):
   p = vel_angle if vel_angle >= 0 else vel_angle + math.pi*2
 
   dragarea=0.1+abs(math.sin(p-angle))
-  print('Angles: ', p, '-', angle)
+  '''print('Angles: ', p, '-', angle)
   print("sine: ", math.sin(p-angle))
-  print('Diff: ', p-angle)
+  print('Diff: ', p-angle)'''
 
   lift = liftc*(abs(self.vel.x**2))*wingarea
   if lift > gravity:
@@ -64,13 +64,13 @@ def PlanePhy(self, liftc, dragc, gravity, HEIGHT, toRun):
   #   ag[0] = 1.0
 
   # print('Dragarea:', dragarea, 'Drag:',new_normalize(drag), 'Vel:',new_normalize(self.vel), end = ' ')
-  print('Wingarea:', wingarea, 'Lift:',lift, 'Vel_mag:',self.vel.magnitude(), "angle:", self.angle)
-  print('Dragarea:', dragarea, 'Drag:',drag, 'Vel:',self.vel, "angle:", self.angle, end = ' ')
+  #print('Wingarea:', wingarea, 'Lift:',lift, 'Vel_mag:',self.vel.magnitude(), "angle:", self.angle)
+  #print('Dragarea:', dragarea, 'Drag:',drag, 'Vel:',self.vel, "angle:", self.angle, end = ' ')
   
   # if (self.vel.magnitude()-drag.magnitude()) > 0:
   if abs(self.vel.y) - abs(drag.y)>0 and abs(self.vel.x) - abs(drag.x) >0:
     self.vel = self.vel - drag
-    print('Done')
+    '''print('Done')'''
   else:
     print()
     

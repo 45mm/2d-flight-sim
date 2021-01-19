@@ -1,6 +1,6 @@
 import pygame
 
-CollisionObjects = pygame.sprite.Group() #LINE ADDED BY YASH
+CollisionObjects = pygame.sprite.Group()
 
 class Cloud(pygame.sprite.Sprite):
     
@@ -9,18 +9,19 @@ class Cloud(pygame.sprite.Sprite):
     self.x = x
     self.y = y
     self.image = pygame.transform.scale(cloudSprite, (w, h))
-    self.rect = pygame.Rect(0, 0, w, h)
-    self.mask = pygame.mask.from_surface(self.image)    #LINE ADDED BY YASH  
+    #self.rect = pygame.Rect(0, 0, w, h)
+    self.rect = self.image.get_rect()
+    self.mask = pygame.mask.from_surface(self.image)    
     self.vel = 0  
 
   def render(self, surface):
     surface.blit(self.image, (self.rect.x, self.rect.y))
     pygame.display.flip()
 
-  def update(self, keys, keymap, screen, toRun, playerclass):
+  def update(self, screen, toRun, playerclass):
     playervelx = playerclass.vel.x
     self.vel = pygame.math.Vector2(-playervelx, 0)
-    CollisionObjects.add(self)    #LINE ADDED BY YASH
+    CollisionObjects.add(self)    
     
 
 '''    
@@ -40,6 +41,16 @@ class Birds(pygame.sprite.Sprite):
     surface.blit(self.image, (self.rect.x, self.rect.y))
     pygame.display.flip()
 '''   
+
+class Terrain(pygame.sprite.Sprite):
+  #IMP: NEEDS REAL SCREEN ATTRIBUTES
+  def __init__(self, ground, surface):
+    super().__init__():
+      self.image = pygame.transform.scale (ground, (surface.get_width(), surface.get_height()))
+      self.rect = self.image.get_rect()
+      self.mask = pygame.mask.from_surface(self.image)
+      CollisionObjects.add(self)
+
 class Thrust():
 
   def __init__(self, angle, magnitude):
@@ -96,10 +107,12 @@ class Sprite(pygame.sprite.Sprite):
     
   def collisionMask (self, screen):
     
-    #collided = pygame.sprite.spritecollide(self, CollisionObjects, False, pygame.sprite.collide_mask)
-    collidedmask = pygame.sprite.collide_mask(self, Cloud)
-    if collidedmask != None:
-      self.RESTART_NEEDED#(self.player, otherobjects, False)
+    collided = pygame.sprite.spritecollide(self, CollisionObjects, False, pygame.sprite.collide_mask)
+    print(collided)
+    #collidedmask = pygame.sprite.collide_mask(self, Cloud)
+    #print(collidedmask)
+    if collided != []:
+      self.RESTART_NEEDED = True#(self.player, otherobjects, False)
       
   def collisionWindow(self, screen):
     
@@ -156,7 +169,7 @@ class Sprite(pygame.sprite.Sprite):
 
   def render(self, surface):
 
-    pygame.draw.rect(surface, (100,100,100), self.rect) #draw bounding rect for debugging
+    #pygame.draw.rect(surface, (100,100,100), self.rect) #draw bounding rect for debugging
     # pygame.draw.rect(surface, (0,255,255), self.hitbox)
     pygame.draw.circle(surface, (255,255,0),(self.x, self.y), 5)
     pygame.draw.circle(surface, (255,0,0),(self.rect.center), 5)
