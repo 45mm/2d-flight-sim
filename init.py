@@ -1,18 +1,15 @@
 import pygame, math
 import sidescroll, game_sprites, phy, gamemenu, verticalscroll
 
-#SCREEN_WIDTH = 1000
-#SCREEN_HEIGHT = 1000
-SCREEN_WIDTH = 500
-SCREEN_HEIGHT = 500
+SCREEN_WIDTH = 2500
+SCREEN_HEIGHT = 2500
 #GRAVITY=0.01
-#VIEW_WIDTH = 500
-#VIEW_HEIGHT = 500
+VIEW_WIDTH = 500
+VIEW_HEIGHT = 500
 
 pygame.init()
-surface = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT], pygame.RESIZABLE)
-screen = surface.copy()
-#screen = pygame.display.set_mode([VIEW_WIDTH, VIEW_HEIGHT], pygame.RESIZABLE)
+
+screen = pygame.display.set_mode([VIEW_WIDTH, VIEW_HEIGHT], pygame.RESIZABLE)
 pygame.display.set_caption("Game Testing")
 clock = pygame.time.Clock()
 
@@ -23,8 +20,9 @@ keymap = {
 'accel': pygame.K_d
 }
 
-bg = pygame.image.load("images/bg.png").convert_alpha()
-#bg = pygame.transform.scale(pygame.image.load("images/bg.png"), (SCREEN_HEIGHT, SCREEN_HEIGHT))
+# bg = pygame.image.load("images/bg.png").convert_alpha()
+bg = pygame.transform.scale(
+  pygame.image.load("images/bg.png"), (SCREEN_WIDTH, SCREEN_HEIGHT))
 
 sidescroll_exec = sidescroll.exec_wrapper(bg)
 verticalscroll_exec = verticalscroll.exec_wrapper(bg)
@@ -50,8 +48,8 @@ bgx2 = bg.get_width()
 
 RunPlanePhy = RunPlayerUpdate = RunSidescroll = True
 RunVerticalscroll = True
-#camera = pygame.Rect(0, 0, VIEW_WIDTH, VIEW_HEIGHT)
-#camera.center = (player.x, player.y)
+camera = pygame.Rect(0, 0, VIEW_WIDTH, VIEW_HEIGHT)
+camera.center = (player.x, player.y)
 GameMode = 'Starting'
 
 
@@ -60,40 +58,42 @@ while True:
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
           quit()
-    if GameMode == 'Running':
-      if event.type == pygame.K_d and player.vel.x <= 0:
-        player.vel.x = 0 
-    elif GameMode == 'Menu':
-      if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-        gamemenu.restart_program()
-        player.RESTART_NEEDED = False
-    elif GameMode == 'Starting':
-      if event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN:
-        GameMode = 'Running'
-    if event.type == pygame.VIDEORESIZE:
-      surface = pygame.display.set_mode(event.size, pygame.RESIZABLE)
-      SCREEN_HEIGHT, SCREEN_WIDTH = event.h, event.w
+
+  camera.center = (player.x, player.y)
+  surf = bg.copy()
+
+  if GameMode == 'Running':
+    # TODO: move this to the Sprite class
+    if event.type == pygame.K_d and player.vel.x <= 0:
+      player.vel.x = 0 
+  elif GameMode == 'Menu':
+    if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+      gamemenu.restart_program()
+      player.RESTART_NEEDED = False
+  elif GameMode == 'Starting':
+    if event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN:
+      GameMode = 'Running'
+  if event.type == pygame.VIDEORESIZE:
+    screen = pygame.display.set_mode(event.size, pygame.RESIZABLE)
+    VIEW_HEIGHT, VIEW_WIDTH = event.h, event.w
     
     
   if GameMode == 'Running':
   
     screen.fill((0,0,0)) #TODO: Move this?
-    sidescroll_exec(player, screen, bg, RunSidescroll)
+    # sidescroll_exec(player, screen, bg, RunSidescroll)
     #verticalscroll_exec(player, screen, bg, RunVerticalscroll)
     phy.PlanePhy(self=player, liftc=0.01, dragc=0.02, gravity=0.01, HEIGHT=SCREEN_HEIGHT, toRun=RunPlanePhy)
     # mainloop.mainloop(player, screen, keymap, SCREEN_WIDTH, SCREEN_HEIGHT)
     keys = pygame.key.get_pressed()
-    player.update(keys, keymap, screen, RunPlayerUpdate)
-    Cloud.update(screen = screen, toRun = True, playerclass = player)
-    player.render(screen)
-    Cloud.render(screen)
-    print(player.RESTART_NEEDED)
-    '''
-    camera.center = (player.x, player.y)
-    surf = bg.copy()
     player.render(surf)
-    player1.render(screen)
-    screen.blit(surf, (0,0), camera)'''
+    Cloud.render(surf)
+    player.update(keys, keymap, surf, RunPlayerUpdate)
+    Cloud.update(screen = surf, toRun = True, playerclass = player)
+
+    print(player.RESTART_NEEDED)
+
+    screen.blit(surf, (0,0), camera)
 
     if player.RESTART_NEEDED:
       GameMode = 'Menu'
@@ -109,6 +109,5 @@ while True:
     
     gamemenu.newgame(screen)
     
-  surface.blit(pygame.transform.scale(screen, surface.get_rect().size), (0, 0))
   pygame.display.flip()
   clock.tick(60)

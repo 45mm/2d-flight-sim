@@ -1,5 +1,11 @@
 import pygame , random
 
+#TODO: this exists in init as well; need to
+# either import it or pass it to the funcs 
+# that need it
+SCREEN_WIDTH = 2500
+SCREEN_HEIGHT = 2500
+
 CollisionObjects = pygame.sprite.Group()
 
 class Cloud(pygame.sprite.Sprite):
@@ -16,7 +22,6 @@ class Cloud(pygame.sprite.Sprite):
 
   def render(self, surface):
     surface.blit(self.image, (self.rect.x, self.rect.y))
-    pygame.display.flip()
   #def velassign(c):
   
 
@@ -120,17 +125,13 @@ class Sprite(pygame.sprite.Sprite):
       
   def collisionWindow(self, screen):
     
-    if self.rect.x >= (screen.get_width() - self.rect.w) or self.rect.x <= 0:#self.rect.w:
-      self.MASK_NEEDED = True
+    if self.rect.x >= (SCREEN_WIDTH - self.rect.w) or self.rect.x <= 0:#self.rect.w:
+      self.rect.x = SCREEN_WIDTH - self.rect.w
+      self.RESTART_NEEDED = True
       
-    elif self.rect.y >= (screen.get_height() - self.rect.h) or self.rect.y <= 0:#self.rect.h:
-      self.MASK_NEEDED = True
-    
-    if self.rect.x >= screen.get_width()-self.rect.w:
-      self.rect.x = screen.get_width() - self.rect.w
-    
-    elif self.rect.y >= screen.get_height() - self.rect.h:
-      self.rect.y = screen.get_height() - self.rect.h
+    elif self.rect.y >= (SCREEN_HEIGHT - self.rect.h) or self.rect.y <= 0:#self.rect.h:
+      self.rect.y = SCREEN_HEIGHT - self.rect.h
+      self.RESTART_NEEDED = True
     
     elif self.rect.x <= 0:
       self.rect.x = 0
@@ -179,4 +180,3 @@ class Sprite(pygame.sprite.Sprite):
     pygame.draw.circle(surface, (255,0,0),(self.rect.center), 5)
 
     surface.blit(self.image, (self.rect.x, self.rect.y))
-    pygame.display.flip()
