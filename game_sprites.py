@@ -1,4 +1,4 @@
-import pygame
+import pygame , random
 
 CollisionObjects = pygame.sprite.Group()
 
@@ -17,6 +17,10 @@ class Cloud(pygame.sprite.Sprite):
   def render(self, surface):
     surface.blit(self.image, (self.rect.x, self.rect.y))
     pygame.display.flip()
+  #def velassign(c):
+  
+
+    
 
   def update(self, screen, toRun, playerclass):
     playervelx = playerclass.vel.x
