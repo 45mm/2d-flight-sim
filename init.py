@@ -41,7 +41,7 @@ allSprites = pygame.sprite.Group()
 
 player = game_sprites.Sprite(**player_args)
 Cloud = game_sprites.Cloud(**cloud_args)
-Terrain = game.sprites.Terrain
+#Terrain = game_sprites.Terrain
 allSprites.add(player)
 allSprites.add(Cloud)
 
@@ -78,7 +78,7 @@ while True:
   if GameMode == 'Running':
   
     screen.fill((0,0,0)) #TODO: Move this?
-    #sidescroll_exec(player, screen, bg, RunSidescroll)
+    sidescroll_exec(player, screen, bg, RunSidescroll)
     #verticalscroll_exec(player, screen, bg, RunVerticalscroll)
     phy.PlanePhy(self=player, liftc=0.01, dragc=0.02, gravity=0.01, HEIGHT=SCREEN_HEIGHT, toRun=RunPlanePhy)
     # mainloop.mainloop(player, screen, keymap, SCREEN_WIDTH, SCREEN_HEIGHT)
@@ -112,4 +112,3 @@ while True:
   surface.blit(pygame.transform.scale(screen, surface.get_rect().size), (0, 0))
   pygame.display.flip()
   clock.tick(60)
-
