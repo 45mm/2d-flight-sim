@@ -42,14 +42,14 @@ class Birds(pygame.sprite.Sprite):
     pygame.display.flip()
 '''   
 
-class Terrain(pygame.sprite.Sprite):
-  #IMP: NEEDS REAL SCREEN ATTRIBUTES
-  def __init__(self, ground, surface):
-    super().__init__():
-      self.image = pygame.transform.scale (ground, (surface.get_width(), surface.get_height()))
-      self.rect = self.image.get_rect()
-      self.mask = pygame.mask.from_surface(self.image)
-      CollisionObjects.add(self)
+# class Terrain(pygame.sprite.Sprite):
+#   #IMP: NEEDS REAL SCREEN ATTRIBUTES
+#   def __init__(self, ground, surface):
+#     super().__init__()
+#     self.image = pygame.transform.scale (ground, (surface.get_width(), surface.get_height()))
+#     self.rect = self.image.get_rect()
+#     self.mask = pygame.mask.from_surface(self.image)
+#     CollisionObjects.add(self)
 
 class Thrust():
 
