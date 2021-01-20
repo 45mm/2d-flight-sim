@@ -1,14 +1,16 @@
 import pygame, math
 import sidescroll, game_sprites, phy, gamemenu, verticalscroll
 
-SCREEN_WIDTH = 5000
-SCREEN_HEIGHT = 5000
+#SCREEN_WIDTH = 1000
+#SCREEN_HEIGHT = 1000
+SCREEN_WIDTH = 500
+SCREEN_HEIGHT = 500
 #GRAVITY=0.01
-VIEW_WIDTH = 500
-VIEW_HEIGHT = 500
+#VIEW_WIDTH = 500
+#VIEW_HEIGHT = 500
 
 pygame.init()
-surface = pygame.display.set_mode([VIEW_WIDTH, VIEW_HEIGHT], pygame.RESIZABLE)
+surface = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT], pygame.RESIZABLE)
 screen = surface.copy()
 #screen = pygame.display.set_mode([VIEW_WIDTH, VIEW_HEIGHT], pygame.RESIZABLE)
 pygame.display.set_caption("Game Testing")
@@ -21,8 +23,8 @@ keymap = {
 'accel': pygame.K_d
 }
 
-#bg = pygame.image.load("images/bg.png").convert_alpha()
-bg = pygame.transform.scale(pygame.image.load("images/bg.png").convert_alpha(), (SCREEN_HEIGHT, SCREEN_WIDTH))
+bg = pygame.image.load("images/bg.png").convert_alpha()
+#bg = pygame.transform.scale(pygame.image.load("images/bg.png"), (SCREEN_HEIGHT, SCREEN_HEIGHT))
 
 sidescroll_exec = sidescroll.exec_wrapper(bg)
 verticalscroll_exec = verticalscroll.exec_wrapper(bg)
@@ -39,7 +41,7 @@ allSprites = pygame.sprite.Group()
 
 player = game_sprites.Sprite(**player_args)
 Cloud = game_sprites.Cloud(**cloud_args)
-#Terrain = game_sprites.Terrain
+Terrain = game.sprites.Terrain
 allSprites.add(player)
 allSprites.add(Cloud)
 
@@ -48,8 +50,8 @@ bgx2 = bg.get_width()
 
 RunPlanePhy = RunPlayerUpdate = RunSidescroll = True
 RunVerticalscroll = True
-camera = pygame.Rect(0, 0, VIEW_WIDTH, VIEW_HEIGHT)
-camera.center = (player.x, player.y)
+#camera = pygame.Rect(0, 0, VIEW_WIDTH, VIEW_HEIGHT)
+#camera.center = (player.x, player.y)
 GameMode = 'Starting'
 
 
@@ -86,13 +88,12 @@ while True:
     player.render(screen)
     Cloud.render(screen)
     print(player.RESTART_NEEDED)
-    
-    
+    '''
     camera.center = (player.x, player.y)
     surf = bg.copy()
     player.render(surf)
-    Cloud.render(screen)
-    screen.blit(surf, (0,0), camera)
+    player1.render(screen)
+    screen.blit(surf, (0,0), camera)'''
 
     if player.RESTART_NEEDED:
       GameMode = 'Menu'
