@@ -1,10 +1,9 @@
 import pygame, math
 import sidescroll, game_sprites, phy, gamemenu, verticalscroll
 
-#SCREEN_WIDTH = 1000
-#SCREEN_HEIGHT = 1000
 SCREEN_WIDTH = 500
 SCREEN_HEIGHT = 500
+start_time = None
 #GRAVITY=0.01
 #VIEW_WIDTH = 500
 #VIEW_HEIGHT = 500
@@ -70,24 +69,28 @@ while True:
     elif GameMode == 'Starting':
       if event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN:
         GameMode = 'Running'
+        start_time = pygame.time.get_ticks()
     if event.type == pygame.VIDEORESIZE:
       surface = pygame.display.set_mode(event.size, pygame.RESIZABLE)
       SCREEN_HEIGHT, SCREEN_WIDTH = event.h, event.w
     
-    
-  if GameMode == 'Running':
+  if start_time:
+    gametime = (pygame.time.get_ticks() - start_time)/1000
+    print(gametime)
   
+  if GameMode == 'Running':
+    
     screen.fill((0,0,0)) #TODO: Move this?
     sidescroll_exec(player, screen, bg, RunSidescroll)
     #verticalscroll_exec(player, screen, bg, RunVerticalscroll)
     phy.PlanePhy(self=player, liftc=0.01, dragc=0.02, gravity=0.01, HEIGHT=SCREEN_HEIGHT, toRun=RunPlanePhy)
     # mainloop.mainloop(player, screen, keymap, SCREEN_WIDTH, SCREEN_HEIGHT)
     keys = pygame.key.get_pressed()
-    player.update(keys, keymap, screen, RunPlayerUpdate)
-    Cloud.update(screen = screen, toRun = True, playerclass = player)
     player.render(screen)
     Cloud.render(screen)
-    print(player.RESTART_NEEDED)
+    player.update(keys, keymap, screen, RunPlayerUpdate)
+    Cloud.update(screen = screen, toRun = True, playerclass = player)
+    gamemenu.flightscore(screen, gametime)
     '''
     camera.center = (player.x, player.y)
     surf = bg.copy()

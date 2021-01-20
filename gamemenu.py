@@ -53,7 +53,14 @@ def newgame(screen):
 #     global SCREEN_WIDTH
 #     screen = pygame.display.set_mode(( w,  h),pygame.RESIZABLE)
 #     SCREEN_HEIGHT, SCREEN_WIDTH =  h,  w 
-    
-    
-    
+
+def flightscore(screen, time):
+    score = print_text('SCORE', 16, BLACK, WHITE, False)
+    time = print_text(str(time), 15, BLACK, WHITE, True)
+    wt = screen.get_width()
+    ht = screen.get_height()
+    scorebox = score.get_rect(center = (wt*8/9, ht*7/9))
+    timebox = time.get_rect(center=(wt*8/9, ht*8/9))
+    screen.blit(score, scorebox)
+    screen.blit(time, timebox)
     

@@ -4,7 +4,7 @@ CollisionObjects = pygame.sprite.Group()
 
 class Cloud(pygame.sprite.Sprite):
     
-  def __init__(self,cloudSprite, x, y, w, h, vel):
+  def __init__(self,cloudSprite, x, y, w, h, vel):#,cloudvelc):
     super().__init__()
     self.x = x
     self.y = y
@@ -12,19 +12,21 @@ class Cloud(pygame.sprite.Sprite):
     #self.rect = pygame.Rect(0, 0, w, h)
     self.rect = self.image.get_rect()
     self.mask = pygame.mask.from_surface(self.image)    
-    self.vel = 0  
-
+    self.vel = pygame.math.Vector2(0,0)
+    #self.vel.x=((random.random()-0.5)*cloudvelc)-player.vel.x
+    
   def render(self, surface):
     surface.blit(self.image, (self.rect.x, self.rect.y))
-    pygame.display.flip()
-  #def velassign(c):
   
+  #def velassign(cloudvelc):
+    
 
     
 
   def update(self, screen, toRun, playerclass):
     playervelx = playerclass.vel.x
-    self.vel = pygame.math.Vector2(-playervelx, 0)
+    #self.vel = pygame.math.Vector2(-playervelx, 0)
+    #self.x += self.vel.x
     CollisionObjects.add(self)    
     
 
@@ -121,10 +123,10 @@ class Sprite(pygame.sprite.Sprite):
   def collisionWindow(self, screen):
     
     if self.rect.x >= (screen.get_width() - self.rect.w) or self.rect.x <= 0:#self.rect.w:
-      self.MASK_NEEDED = True
+      self.RESTART_NEEDED = True
       
     elif self.rect.y >= (screen.get_height() - self.rect.h) or self.rect.y <= 0:#self.rect.h:
-      self.MASK_NEEDED = True
+      self.RESTART_NEEDED = True
     
     if self.rect.x >= screen.get_width()-self.rect.w:
       self.rect.x = screen.get_width() - self.rect.w
@@ -179,4 +181,3 @@ class Sprite(pygame.sprite.Sprite):
     pygame.draw.circle(surface, (255,0,0),(self.rect.center), 5)
 
     surface.blit(self.image, (self.rect.x, self.rect.y))
-    pygame.display.flip()
