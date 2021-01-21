@@ -11,7 +11,9 @@ VIEW_HEIGHT = 500
 
 pygame.init()
 
-screen = pygame.display.set_mode([VIEW_WIDTH, VIEW_HEIGHT], pygame.RESIZABLE)
+surface = pygame.display.set_mode([VIEW_WIDTH, VIEW_HEIGHT], pygame.RESIZABLE)
+screen = surface.copy()
+#screen = pygame.display.set_mode([VIEW_WIDTH, VIEW_HEIGHT], pygame.RESIZABLE)
 pygame.display.set_caption("Game Testing")
 clock = pygame.time.Clock()
 
@@ -36,7 +38,7 @@ cloudSprite = pygame.image.load("images/clouds.png").convert_alpha()
 player_args = {'imageSprite':imageSprite, 'x':40, 'y':300, 'w':80, 'h':40, 
                             'rot_angle':3, 'vel':pygame.math.Vector2(2,0)}
 
-cloud_args = {'cloudSprite':cloudSprite, 'x':35, 'y':255, 'w':80, 'h':40, 'vel':pygame.math.Vector2(-2, 0)}
+cloud_args = {'cloudSprite':cloudSprite, 'x':35, 'y':255, 'w':80, 'h':40, 'cloudvelc':1}
 allSprites = pygame.sprite.Group()
 
 player = game_sprites.Sprite(**player_args)
@@ -100,11 +102,11 @@ while True:
     Cloud.render(surf)
     player.update(keys, keymap, surf, RunPlayerUpdate)
     Cloud.update(screen = surf, toRun = True, playerclass = player)
-    gamemenu.flightscore(screen, gametime)
 
     print(player.RESTART_NEEDED)
 
     screen.blit(surf, (0,0), camera)
+    gamemenu.flightscore(screen, gametime)
 
     if player.RESTART_NEEDED:
       GameMode = 'Menu'
@@ -120,5 +122,6 @@ while True:
     
     gamemenu.newgame(screen)
     
+  surface.blit(pygame.transform.scale(screen, surface.get_rect().size), (0, 0))
   pygame.display.flip()
   clock.tick(60)

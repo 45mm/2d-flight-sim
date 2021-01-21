@@ -10,29 +10,23 @@ CollisionObjects = pygame.sprite.Group()
 
 class Cloud(pygame.sprite.Sprite):
     
-  def __init__(self,cloudSprite, x, y, w, h, vel):#,cloudvelc):
+  def __init__(self,cloudSprite, x, y, w, h,cloudvelc):
     super().__init__()
-    self.x = x
-    self.y = y
     self.image = pygame.transform.scale(cloudSprite, (w, h))
     #self.rect = pygame.Rect(0, 0, w, h)
     self.rect = self.image.get_rect()
+    self.rect.x = x
+    self.rect.y = y
     self.mask = pygame.mask.from_surface(self.image)    
     self.vel = pygame.math.Vector2(0,0)
-    #self.vel.x=((random.random()-0.5)*cloudvelc)-player.vel.x
-    
+    self.vel.x=(random.random()-0.5)*cloudvelc
   def render(self, surface):
     surface.blit(self.image, (self.rect.x, self.rect.y))
-  
-  #def velassign(cloudvelc):
-    
-
-    
-
   def update(self, screen, toRun, playerclass):
     playervelx = playerclass.vel.x
-    #self.vel = pygame.math.Vector2(-playervelx, 0)
-    #self.x += self.vel.x
+    
+    self.rect.x += self.vel.x
+    self.rect.y += self.vel.y
     CollisionObjects.add(self)    
     
 
