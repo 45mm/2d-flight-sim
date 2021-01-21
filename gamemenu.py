@@ -29,7 +29,7 @@ def restart_program():
     os.execl(python, python, *sys.argv)  #execl causes running process 'python' to be replaced by program passed as arguments
 
 def play_game(screen):
-    playagainbox = print_text('PLAY AGAIN?', 56, WHITE, BLACK, False)
+    playagainbox = print_text('PLAY AGAIN?', 56, BLACK, None, False)
     againrect = playagainbox.get_rect(center = (screen.get_width()/2, screen.get_height()/2))
     screen.blit(playagainbox, againrect)
 
@@ -39,8 +39,8 @@ def quit_program():
     sys.exit()
 
 def newgame(screen):
-    newgame_box = print_text('FLIGHT SIMULATOR', 46, WHITE , BLACK, True)
-    presskeymsg = print_text('PRESS ANY KEY TO START', 9, RED, BLACK, True)
+    newgame_box = print_text('FLIGHT SIMULATOR', 46, WHITE , None, True)
+    presskeymsg = print_text('PRESS ANY KEY TO START', 9, RED, None, True)
     wt = screen.get_width()
     ht = screen.get_height()
     keymsg_rect = presskeymsg.get_rect(center = (wt/2, ht*2/3))
@@ -56,7 +56,7 @@ def newgame(screen):
 
 def flightscore(screen, time):
     text1 = 'SCORE: ' + str(int(time))
-    score = print_text(text1, 16, BLACK, WHITE, False)
+    score = print_text(text1, 16, WHITE, None, False)
     wt = screen.get_width()
     ht = screen.get_height()
     scorebox = score.get_rect(center = (wt*8/9, ht*7/9))

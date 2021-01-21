@@ -1,5 +1,5 @@
 import pygame, math
-import sidescroll, game_sprites, phy, gamemenu, verticalscroll
+import sidescroll, game_sprites, phy, gamemenu, cam
 
 SCREEN_WIDTH = 2500
 SCREEN_HEIGHT = 2500
@@ -29,7 +29,6 @@ bg = pygame.transform.scale(
   pygame.image.load("images/bg.png"), (SCREEN_WIDTH, SCREEN_HEIGHT))
 
 sidescroll_exec = sidescroll.exec_wrapper(bg)
-verticalscroll_exec = verticalscroll.exec_wrapper(bg)
 
 imageSprite = pygame.image.load("images/sprite.png").convert_alpha()
 cloudSprite = pygame.image.load("images/clouds.png").convert_alpha()
@@ -38,7 +37,7 @@ cloudSprite = pygame.image.load("images/clouds.png").convert_alpha()
 player_args = {'imageSprite':imageSprite, 'x':40, 'y':300, 'w':80, 'h':40, 
                             'rot_angle':3, 'vel':pygame.math.Vector2(2,0)}
 
-cloud_args = {'cloudSprite':cloudSprite, 'x':35, 'y':255, 'w':80, 'h':40, 'cloudvelc':1}
+cloud_args = {'cloudSprite':cloudSprite, 'x':0, 'y':20, 'w':80, 'h':40, 'cloudvelc':5}
 allSprites = pygame.sprite.Group()
 
 player = game_sprites.Sprite(**player_args)
@@ -52,18 +51,19 @@ bgx2 = bg.get_width()
 
 RunPlanePhy = RunPlayerUpdate = RunSidescroll = True
 RunVerticalscroll = True
-camera = pygame.Rect(0, 0, VIEW_WIDTH, VIEW_HEIGHT)
-camera.center = (player.x, player.y)
+
 GameMode = 'Starting'
 
 
 while True:
   
+  camera = cam.Camera(VW = VIEW_WIDTH, VH = VIEW_HEIGHT, player = player)
+  
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
           quit()
-
-  camera.center = (player.x, player.y)
+          
+  
   surf = bg.copy()
 
   if GameMode == 'Running':
@@ -87,7 +87,6 @@ while True:
     
   if start_time:
     gametime = (pygame.time.get_ticks() - start_time)/1000
-    print(gametime)
   
   if GameMode == 'Running':
     
@@ -95,15 +94,14 @@ while True:
     # sidescroll_exec(player, screen, bg, RunSidescroll)
     #verticalscroll_exec(player, screen, bg, RunVerticalscroll)
     phy.PlanePhy(self=player, liftc=0.01, dragc=0.02, gravity=0.01, HEIGHT=SCREEN_HEIGHT, toRun=RunPlanePhy)
-    # mainloop.mainloop(player, screen, keymap, SCREEN_WIDTH, SCREEN_HEIGHT)
     keys = pygame.key.get_pressed()
-
+    camera.CameraClip(surf)
     player.render(surf)
     Cloud.render(surf)
     player.update(keys, keymap, surf, RunPlayerUpdate)
     Cloud.update(screen = surf, toRun = True, playerclass = player)
 
-    print(player.RESTART_NEEDED)
+    #print(player.RESTART_NEEDED)
 
     screen.blit(surf, (0,0), camera)
     gamemenu.flightscore(screen, gametime)

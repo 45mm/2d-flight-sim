@@ -64,7 +64,7 @@ def PlanePhy(self, liftc, dragc, gravity, HEIGHT, toRun):
   #   ag[0] = 1.0
 
   # print('Dragarea:', dragarea, 'Drag:',new_normalize(drag), 'Vel:',new_normalize(self.vel), end = ' ')
-  #print('Wingarea:', wingarea, 'Lift:',lift, 'Vel_mag:',self.vel.magnitude(), "angle:", self.angle)
+  print('Wingarea:', wingarea, 'Lift:',lift, 'Vel_mag:',self.vel.magnitude(), "angle:", self.angle)
   #print('Dragarea:', dragarea, 'Drag:',drag, 'Vel:',self.vel, "angle:", self.angle, end = ' ')
   
   # if (self.vel.magnitude()-drag.magnitude()) > 0:
@@ -77,3 +77,7 @@ def PlanePhy(self, liftc, dragc, gravity, HEIGHT, toRun):
 # if self.rect.y>self.rect.height:
   self.vel.y=(self.vel.y)-lift
     # self.vel = self.vel - lift
+
+   #if self.y < 70:
+    #lift = 0
+    #self.vel.y += 1
