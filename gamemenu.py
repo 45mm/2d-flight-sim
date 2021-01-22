@@ -28,8 +28,12 @@ def restart_program():
     python = sys.executable   #path for executable binary python (bytecode for specific processor)
     os.execl(python, python, *sys.argv)  #execl causes running process 'python' to be replaced by program passed as arguments
 
+#def play_game(screen, score):
 def play_game(screen):
-    playagainbox = print_text('PLAY AGAIN?', 56, BLACK, None, False)
+    #text1 = 'SCORE: ',str(int(score)),' CLICK TO TRY AGAIN'
+    text1 = 'PLAY AGAIN?'
+    screen.fill((0,0,0))
+    playagainbox = print_text(text1, 36, WHITE, None, False)
     againrect = playagainbox.get_rect(center = (screen.get_width()/2, screen.get_height()/2))
     screen.blit(playagainbox, againrect)
 
@@ -61,4 +65,5 @@ def flightscore(screen, time):
     ht = screen.get_height()
     scorebox = score.get_rect(center = (wt*8/9, ht*7/9))
     screen.blit(score, scorebox)
+    flightscore.finalscore = str(int(time))
     

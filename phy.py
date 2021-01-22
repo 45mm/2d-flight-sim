@@ -22,7 +22,7 @@ def PlanePhy(self, liftc, dragc, gravity, HEIGHT, toRun):
   wingarea = 0.1 + abs(math.cos(angle))
   # dragarea = 1.1
   vel_angle = math.atan2(-self.vel.y,self.vel.x) #Angle of velocity
-                                                 #vector
+                                                #vector
   
   p = vel_angle if vel_angle >= 0 else vel_angle + math.pi*2
 
@@ -30,8 +30,28 @@ def PlanePhy(self, liftc, dragc, gravity, HEIGHT, toRun):
   '''print('Angles: ', p, '-', angle)
   print("sine: ", math.sin(p-angle))
   print('Diff: ', p-angle)'''
+  fluidDensityV = 0.1
+  
+  if self.rect.y <= 50:
+    fluidDensityV = 0
+    self.magnitude = 0
+    self.rect.y = 51
 
-  lift = liftc*(abs(self.vel.x**2))*wingarea
+  if self.rect.y<75:
+    #liftc = 0
+    fluidDensityV = 0
+    self.vel.y = -self.vel.y/10
+
+  if self.rect.y<150:
+    #liftc = 0
+    fluidDensityV = 0
+    self.vel.y = -self.vel.y/10
+                 
+  if self.rect.y < 250:
+    #liftc = 0
+    fluidDensityV = 0
+    self.vel.y = -self.vel.y/10
+  lift = liftc*(abs(self.vel.x**2))*wingarea*fluidDensityV
   if lift > gravity:
     lift = gravity
     
@@ -44,7 +64,7 @@ def PlanePhy(self, liftc, dragc, gravity, HEIGHT, toRun):
   # d=dragc*(self.vel.magnitude_squared())*dragarea
   # drag = pygame.math.Vector2(d*self.vel.x,d*self.vel.y)
 
-  drag = self.vel.normalize()*self.vel.magnitude_squared()*dragc*dragarea
+  drag = self.vel.normalize()*self.vel.magnitude_squared()*dragc*dragarea*fluidDensityV
 
 
   # def new_normalize(vec):

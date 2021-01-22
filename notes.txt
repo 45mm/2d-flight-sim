@@ -26,5 +26,6 @@ CRITICAL GOALS:
 . terrain (drawing)
 . plane sprite (drawing)
 . air density
-. clouds
+. clouds: cloud spawns on player
 . birds
+. optimise framerates

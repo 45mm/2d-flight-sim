@@ -1,4 +1,4 @@
-import pygame , random
+import pygame, random
 
 #TODO: this exists in init as well; need to
 # either import it or pass it to the funcs 
@@ -22,7 +22,31 @@ class Cloud(pygame.sprite.Sprite):
     self.vel.x=(random.random()-0.5)*cloudvelc
   def render(self, surface):
     surface.blit(self.image, (self.rect.x, self.rect.y))
-  def update(self, screen, toRun, playerclass):
+  def update(self, screen, playerclass):
+    playervelx = playerclass.vel.x
+    
+    self.rect.x += self.vel.x
+    self.rect.y += self.vel.y
+    CollisionObjects.add(self)    
+  
+
+
+class Birds(pygame.sprite.Sprite):
+    
+  def __init__(self,cloudSprite, x, y, w, h,birdvelx,birdvely):
+    super().__init__()
+    self.image = pygame.transform.scale(cloudSprite, (w, h))
+    #self.rect = pygame.Rect(0, 0, w, h)
+    self.rect = self.image.get_rect()
+    self.rect.x = x
+    self.rect.y = y
+    self.mask = pygame.mask.from_surface(self.image)    
+    self.vel = pygame.math.Vector2(0,0)
+    self.vel.x=(random.random()-0.5)*birdvely
+    self.vel.y=(random.random()-0.5)*birdvely
+  def render(self, surface):
+    surface.blit(self.image, (self.rect.x, self.rect.y))
+  def update(self, screen, playerclass):
     playervelx = playerclass.vel.x
     
     self.rect.x += self.vel.x
@@ -48,14 +72,14 @@ class Birds(pygame.sprite.Sprite):
     pygame.display.flip()
 '''   
 
-# class Terrain(pygame.sprite.Sprite):
-#   #IMP: NEEDS REAL SCREEN ATTRIBUTES
-#   def __init__(self, ground, surface):
-#     super().__init__()
-#     self.image = pygame.transform.scale (ground, (surface.get_width(), surface.get_height()))
-#     self.rect = self.image.get_rect()
-#     self.mask = pygame.mask.from_surface(self.image)
-#     CollisionObjects.add(self)
+class Terrain(pygame.sprite.Sprite):
+#IMP: NEEDS REAL SCREEN ATTRIBUTES
+  def __init__(self, ground, surface):
+    super().__init__()
+    self.image = pygame.transform.scale (ground, (surface.get_width(), surface.get_height()))
+    self.rect = self.image.get_rect()
+    self.mask = pygame.mask.from_surface(self.image)
+    CollisionObjects.add(self)
 
 class Thrust():
 
@@ -114,7 +138,7 @@ class Sprite(pygame.sprite.Sprite):
   def collisionMask (self, screen):
     
     collided = pygame.sprite.spritecollide(self, CollisionObjects, False, pygame.sprite.collide_mask)
-    print(collided)
+    #print(collided)
     #collidedmask = pygame.sprite.collide_mask(self, Cloud)
     #print(collidedmask)
     if collided != []:
