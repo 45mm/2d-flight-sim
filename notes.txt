@@ -29,4 +29,7 @@ CRITICAL GOALS:
 . clouds sprite generation
 . birds debug
 . random sprite generation
-. blue background
+. load background image
+. load the terrain and background in their full sizes; 
+  deal with lag if this causes it
+. clean up game loop (seperate event handling)
