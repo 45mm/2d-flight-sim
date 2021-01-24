@@ -26,7 +26,7 @@ keymap = {
 
 # bg = pygame.image.load("images/bg.png").convert_alpha()
 bg = pygame.transform.scale(
-  pygame.image.load("images/bg.png"), (SCREEN_WIDTH, SCREEN_HEIGHT))
+  pygame.image.load("images/bg_final4000dpi.png"), (SCREEN_WIDTH, SCREEN_HEIGHT))
 
 sidescroll_exec = sidescroll.exec_wrapper(bg)
 
@@ -34,15 +34,16 @@ imageSprite = pygame.image.load("images/sprite.png").convert_alpha()
 cloudSprite = pygame.image.load("images/clouds.png").convert_alpha()
 #birdSprite = pygame.image.load("").convert_alpha()
 
-player_args = {'imageSprite':imageSprite, 'x':40, 'y':300, 'w':80, 'h':40, 
+player_args = {'imageSprite':imageSprite, 'x':140, 'y':300, 'w':80, 'h':40, 
                             'rot_angle':3, 'vel':pygame.math.Vector2(2,0)}
 
 cloud_args = {'cloudSprite':cloudSprite, 'x':0, 'y':20, 'w':80, 'h':40, 'cloudvelc':5}
+terrain_args = {'ground':bg , 'surface':surface}
 allSprites = pygame.sprite.Group()
 
 player = game_sprites.Sprite(**player_args)
 Cloud = game_sprites.Cloud(**cloud_args)
-#Terrain = game_sprites.Terrain
+Terrain = game_sprites.Terrain(**terrain_args)
 allSprites.add(player)
 allSprites.add(Cloud)
 
