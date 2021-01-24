@@ -1,7 +1,8 @@
 import math
 import pygame
+from constants import SCREEN_HEIGHT, LIFTC, DRAGC, GRAVITY
 
-def PlanePhy(self, liftc, dragc, gravity, HEIGHT, toRun):
+def PlanePhy(self, toRun=True):
   
   # if self.vel.x>5:
   #   self.vel.x = 5
@@ -14,15 +15,15 @@ def PlanePhy(self, liftc, dragc, gravity, HEIGHT, toRun):
 
   angle = math.radians(self.angle)
     
-  if self.rect.y < HEIGHT-self.rect.height:
-    self.vel += pygame.math.Vector2(0, gravity)
+  if self.rect.y < SCREEN_HEIGHT-self.rect.height:
+    self.vel += pygame.math.Vector2(0, GRAVITY)
       
   # wingarea = 0.1 + abs(math.cos(self.angle))
   # dragarea = 0.1 + abs(math.sin(self.angle))
   wingarea = 0.1 + abs(math.cos(angle))
   # dragarea = 1.1
   vel_angle = math.atan2(-self.vel.y,self.vel.x) #Angle of velocity
-                                                 #vector
+                                                              #vector
   
   p = vel_angle if vel_angle >= 0 else vel_angle + math.pi*2
 
@@ -31,21 +32,20 @@ def PlanePhy(self, liftc, dragc, gravity, HEIGHT, toRun):
   print("sine: ", math.sin(p-angle))
   print('Diff: ', p-angle)'''
 
-  lift = liftc*(abs(self.vel.x**2))*wingarea
-  if lift > gravity:
-    lift = gravity
+  lift = LIFTC*(abs(self.vel.x**2))*wingarea
+  if lift > GRAVITY:
+    lift = GRAVITY
     
-  # lift = (self.vel.normalize().rotate(90)) *self.vel.magnitude_squared()*liftc*wingarea
+  # lift = (self.vel.normalize().rotate(90)) *self.vel.magnitude_squared()*LIFTC*wingarea
 
-  # lift = (self.vel.normalize().rotate(90)) *self.vel.magnitude()*liftc*wingarea
+  # lift = (self.vel.normalize().rotate(90)) *self.vel.magnitude()*LIFTC*wingarea
 
   # lift = pygame.Vector2(0,0) #only for testing. I am definitely not just giving up.
 
-  # d=dragc*(self.vel.magnitude_squared())*dragarea
+  # d=DRAGC*(self.vel.magnitude_squared())*dragarea
   # drag = pygame.math.Vector2(d*self.vel.x,d*self.vel.y)
 
-  drag = self.vel.normalize()*self.vel.magnitude_squared()*dragc*dragarea
-
+  drag = self.vel.normalize()*self.vel.magnitude_squared()*DRAGC*dragarea
 
   # def new_normalize(vec):
 

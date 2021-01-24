@@ -1,10 +1,5 @@
 import pygame , random
-
-#TODO: this exists in init as well; need to
-# either import it or pass it to the funcs 
-# that need it
-SCREEN_WIDTH = 2500
-SCREEN_HEIGHT = 2500
+from constants import *
 
 CollisionObjects = pygame.sprite.Group()
 
@@ -33,19 +28,42 @@ class Cloud(pygame.sprite.Sprite):
 '''    
 class Birds(pygame.sprite.Sprite):
     
-  def __init__(self, birdSprite, x, y, w, h, vel):
+  def __init__(self, birdSprite, x, y, w, h, birdvelx, birdvely):
     super().__init__()
-    self.x = x
-    self.y = y
-    self.image = pygame.transform.scale(x, y, w, h, vel)
-    self.rect = pygame.Rect(0, 0, w, h)
+    self.image = pygame.transform.scale(birdSprite, (w, h))
+    self.rect = self.image.get_rect()
+    self.rect.x = x
+    self.rect.y = y
+    self.mask = pygame.mask.from_surface(self.image)    
+    self.vel = pygame.math.Vector2(2,2)
 
 
-  #def update(self):
+  def update(self):
+    birdvelx = 4
+    birdvely = 2
+    self.rect.x += self.vel.x
+    self.rect.y += self.vel.y
+    
+    if self.rect.y < 50:
+      self.vel = pygame.math.Vector2(birdvelx, birdvely)
 
+    if self.rect.y == 100 and self.vel.y<0:
+      self.vel = pygame.math.Vector2(birdvelx, -birdvely)
+
+    if self.rect.y == 100 and self.vel.y>0:
+      self.vel = pygame.math.Vector2(birdvelx, birdvely)
+  
+    if self.rect.y > 300:
+      self.vel = pygame.math.Vector2(birdvelx, -birdvely)
+
+    if self.rect.x >= (SCREEN_WIDTH - self.rect.w) or self.rect.x <= 0:
+      self.rect.x = 100
+      self.rect.y = 100
+      
+    CollisionObjects.add(self)
+    
   def render(self, surface):
     surface.blit(self.image, (self.rect.x, self.rect.y))
-    pygame.display.flip()
 '''   
 
 class Terrain(pygame.sprite.Sprite):
@@ -125,6 +143,7 @@ class Sprite(pygame.sprite.Sprite):
     if self.rect.x >= (SCREEN_WIDTH - self.rect.w) or self.rect.x <= 0:#self.rect.w:
       self.rect.x = SCREEN_WIDTH - self.rect.w
       self.RESTART_NEEDED = True
+      print('sxm cvgbjhfenwdcihr')
       
     elif self.rect.y >= (SCREEN_HEIGHT - self.rect.h) or self.rect.y <= 0:#self.rect.h:
       self.rect.y = SCREEN_HEIGHT - self.rect.h
@@ -138,7 +157,7 @@ class Sprite(pygame.sprite.Sprite):
       
     
 
-  def update(self, keys, keymap, screen, toRun):
+  def update(self, keys, KEYMAP, screen, toRun):
     
     if toRun:
       self.vel += self.thrust.get_vec()
@@ -149,19 +168,19 @@ class Sprite(pygame.sprite.Sprite):
       self.rect.center = (self.x, self.y)
       # self.hitbox.center = self.rect.center
 
-      if keys[keymap['tiltup']]:
+      if keys[KEYMAP['tiltup']]:
         # self.vel = self.vel.rotate(-self.rot_angle)
         self.thrust.dir = self.thrust.dir.rotate(-self.rot_angle)
         self.rot_center(1)
 
-      if keys[keymap['tiltdown']]:
+      if keys[KEYMAP['tiltdown']]:
         # self.vel = self.vel.rotate(self.rot_angle)
         self.thrust.dir = self.thrust.dir.rotate(self.rot_angle)
         self.rot_center(-1)
 
-      if keys[keymap['accel']]:
+      if keys[KEYMAP['accel']]:
         self.thrust.magnitude += self.thrustc
-      if keys[keymap['decel']]:
+      if keys[KEYMAP['decel']]:
         if self.vel.x >= 0:
           self.thrust.magnitude -= self.thrustc
 

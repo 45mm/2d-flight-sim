@@ -22,8 +22,8 @@ Mathew -terrain
 
 CRITICAL GOALS:
 
-. collisions
-. terrain (drawing)
+(done). collisions
+(done). terrain (drawing)
 . plane sprite (drawing)
 . air density
 . clouds

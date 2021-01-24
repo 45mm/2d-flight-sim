@@ -1,17 +1,10 @@
 import pygame
 import pygame.freetype
 import os, sys, psutil, logging #os, sys and logging are inbuilt
+from constants import *
 
 pygame.init()
 pygame.font.init()
-#font colors (rgb)
-BLUE = (0, 0, 255)
-WHITE = (255, 255, 255)
-RED = (255, 0, 0)
-GREEN = (0, 0, 255)
-YELLOW = (255, 255, 0)
-ORANGE = (255, 165, 0)
-BLACK = (0,0,0)
 
 def print_text(text, fontsize, textcolor, bgcolor, isbold):
     font = pygame.freetype.SysFont("Consolas", fontsize, bold=isbold)
@@ -28,11 +21,10 @@ def restart_program():
     python = sys.executable   #path for executable binary python (bytecode for specific processor)
     os.execl(python, python, *sys.argv)  #execl causes running process 'python' to be replaced by program passed as arguments
 
-#def play_game(screen, score):
 def play_game(screen):
     #text1 = 'SCORE: ',str(int(score)),' CLICK TO TRY AGAIN'
     text1 = 'PLAY AGAIN?'
-    screen.fill((0,0,0))
+    screen.fill(BLACK)
     playagainbox = print_text(text1, 36, WHITE, None, False)
     againrect = playagainbox.get_rect(center = (screen.get_width()/2, screen.get_height()/2))
     screen.blit(playagainbox, againrect)
@@ -51,12 +43,6 @@ def newgame(screen):
     newgame_rect = newgame_box.get_rect(center=(wt/2, ht/2))
     screen.blit(newgame_box, newgame_rect)
     screen.blit(presskeymsg, keymsg_rect)
-    
-# def resize_window(screen, player, w,h):
-#     global SCREEN_HEIGHT
-#     global SCREEN_WIDTH
-#     screen = pygame.display.set_mode(( w,  h),pygame.RESIZABLE)
-#     SCREEN_HEIGHT, SCREEN_WIDTH =  h,  w 
 
 def flightscore(screen, time):
     text1 = 'SCORE: ' + str(int(time))
