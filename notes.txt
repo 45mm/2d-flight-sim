@@ -15,10 +15,10 @@ Everything to work on (in near future)
 
 Work distribution:
 
-Yash - imagemasks
-Granth - resizing
-AK - scrolling
-Mathew -terrain
+Yash - air density
+Granth - clouds
+AK - birds
+Mathew - terrain, plane sprite
 
 CRITICAL GOALS:
 
@@ -26,5 +26,7 @@ CRITICAL GOALS:
 (done). terrain (drawing)
 . plane sprite (drawing)
 . air density
-. clouds
-. birds
+. clouds sprite generation
+. birds debug
+. random sprite generation
+. blue background

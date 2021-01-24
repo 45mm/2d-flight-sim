@@ -33,7 +33,7 @@ GRAVITY= 0.01
 PLAYER_ARGS = { 'x':150, 'y':250, 'w':80, 'h':40, 
                             'rot_angle':3, 'vel':pygame.math.Vector2(2,0)}
 CLOUD_ARGS = { 'x':0, 'y':20, 'w':80, 'h':40, 'cloudvelc':5}
-#bird_args = {'birdSprite':birdSprite, 'x':100, 'y':100, 'w':80, 'h':40, 'birdvelx':4, 'birdvely':2}
+BIRD_ARGS = { 'x':100, 'y':100, 'w':80, 'h':40, 'birdvelx':4, 'birdvely':2}
 
 RunPlanePhy = RunPlayerUpdate = RunSidescroll = True
 RunVerticalscroll = True

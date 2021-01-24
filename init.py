@@ -10,10 +10,9 @@ screen = resizablesurface.copy()
 pygame.display.set_caption("Game Testing")
 clock = pygame.time.Clock()
 
-
 imageSprite = pygame.image.load("images/sprite.png").convert_alpha()
 cloudSprite = pygame.image.load("images/clouds.png").convert_alpha()
-#birdSprite = pygame.image.load("").convert_alpha()
+birdSprite = pygame.image.load("images/bird.jpeg").convert_alpha()
 
 terrain = pygame.transform.scale(
   pygame.image.load("images/terrain_final4000dpi.png"), (SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -22,7 +21,7 @@ background = pygame.transform.scale(
 
 player = game_sprites.Sprite(imageSprite, **PLAYER_ARGS)
 Cloud = game_sprites.Cloud(cloudSprite, **CLOUD_ARGS)
-#Bird = game_sprites.Bird(**bird_args)
+Bird = game_sprites.Birds(birdSprite, **BIRD_ARGS)
 Terrain = game_sprites.Terrain(terrain, surface=background)
 
 while True:
@@ -62,10 +61,10 @@ while True:
     camera.CameraClip(surf)
     player.render(surf)
     Cloud.render(surf)
-    #Bird.render(surf)
+    # Bird.render(surf)
     player.update(keys, KEYMAP, surf, RunPlayerUpdate)
     Cloud.update(screen = surf, toRun = True, playerclass = player)
-    #Bird.update(screen = surf)
+    # Bird.update(screen = surf)
     for point in Terrain.mask.outline(8):
       pygame.draw.rect(surf, (255,0,255), (point, (2,2)))
 

@@ -24,8 +24,6 @@ class Cloud(pygame.sprite.Sprite):
     self.rect.y += self.vel.y
     CollisionObjects.add(self)    
     
-
-'''    
 class Birds(pygame.sprite.Sprite):
     
   def __init__(self, birdSprite, x, y, w, h, birdvelx, birdvely):
@@ -36,7 +34,6 @@ class Birds(pygame.sprite.Sprite):
     self.rect.y = y
     self.mask = pygame.mask.from_surface(self.image)    
     self.vel = pygame.math.Vector2(2,2)
-
 
   def update(self):
     birdvelx = 4
@@ -64,8 +61,8 @@ class Birds(pygame.sprite.Sprite):
     
   def render(self, surface):
     surface.blit(self.image, (self.rect.x, self.rect.y))
-'''   
-
+    
+    
 class Terrain(pygame.sprite.Sprite):
   #IMP: NEEDS REAL SCREEN ATTRIBUTES
   def __init__(self, ground, surface):
