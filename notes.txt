@@ -1,12 +1,10 @@
 Everything to work on (in near future)
 
-. Image masks
 . Finalise physics
   . finalise values for lift, drag, thrust, etc.
   . torque
   . air density
-. Clouds, birds (sprites cloud engine stalling, bird collisions)
-. Change the map
+. Clouds, birds (RNG)
 . Plane sprite
   . Sprite rotate around end, not centre
 . Window resizing
@@ -25,11 +23,12 @@ CRITICAL GOALS:
 (done). collisions
 (done). terrain (drawing)
 . plane sprite (drawing)
+  . rotate around  centre
+. background resolution
+. performance
+  . surf, screen etc.
+. bird sprite
 . air density
-. clouds sprite generation
-. birds debug
+. figure out how resizing works
 . random sprite generation
-. load background image
-. load the terrain and background in their full sizes; 
-  deal with lag if this causes it
 . clean up game loop (seperate event handling)

@@ -1,8 +1,8 @@
 import pygame, game_sprites
 pygame.init()
 
-SCREEN_WIDTH = 5000
-SCREEN_HEIGHT = 500
+SCREEN_WIDTH = 10000
+SCREEN_HEIGHT = 1000
 START_TIME = None
 
 #GRAVITY=0.01
@@ -32,8 +32,8 @@ GRAVITY= 0.01
 
 PLAYER_ARGS = { 'x':150, 'y':250, 'w':80, 'h':40, 
                             'rot_angle':3, 'vel':pygame.math.Vector2(2,0)}
-CLOUD_ARGS = { 'x':0, 'y':20, 'w':80, 'h':40, 'cloudvelc':5}
-BIRD_ARGS = { 'x':100, 'y':100, 'w':80, 'h':40, 'birdvelx':4, 'birdvely':2}
+CLOUD_ARGS = {'w':80, 'h':40, 'cloudvelc':2.5}
+BIRD_ARGS = { 'x':100, 'y':50, 'w':80, 'h':40, 'birdvelx':4, 'birdvely':2}
 
 RunPlanePhy = RunPlayerUpdate = RunSidescroll = True
 RunVerticalscroll = True

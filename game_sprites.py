@@ -14,10 +14,10 @@ class Cloud(pygame.sprite.Sprite):
     self.rect.y = y
     self.mask = pygame.mask.from_surface(self.image)    
     self.vel = pygame.math.Vector2(0,0)
-    self.vel.x=(random.random()-0.5)*cloudvelc
+    self.vel.x=(random.random())*cloudvelc
   def render(self, surface):
     surface.blit(self.image, (self.rect.x, self.rect.y))
-  def update(self, screen, toRun, playerclass):
+  def update(self, screen, playerclass):
     playervelx = playerclass.vel.x
     
     self.rect.x += self.vel.x
@@ -35,7 +35,7 @@ class Birds(pygame.sprite.Sprite):
     self.mask = pygame.mask.from_surface(self.image)    
     self.vel = pygame.math.Vector2(2,2)
 
-  def update(self):
+  def update(self, screen):
     birdvelx = 4
     birdvely = 2
     self.rect.x += self.vel.x
@@ -178,7 +178,7 @@ class Sprite(pygame.sprite.Sprite):
       if keys[KEYMAP['accel']]:
         self.thrust.magnitude += self.thrustc
       if keys[KEYMAP['decel']]:
-        if self.vel.x >= 0:
+        if self.thrust.magnitude >= 0:
           self.thrust.magnitude -= self.thrustc
 
       self.collisionWindow(screen)

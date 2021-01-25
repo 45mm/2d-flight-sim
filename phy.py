@@ -64,7 +64,7 @@ def PlanePhy(self, toRun=True):
   #   ag[0] = 1.0
 
   # print('Dragarea:', dragarea, 'Drag:',new_normalize(drag), 'Vel:',new_normalize(self.vel), end = ' ')
-  print('Wingarea:', wingarea, 'Lift:',lift, 'Vel_mag:',self.vel.magnitude(), "angle:", self.angle)
+  '''print('Wingarea:', wingarea, 'Lift:',lift, 'Vel_mag:',self.vel.magnitude(),"VEL", self.vel, "angle:", self.angle)'''
   #print('Dragarea:', dragarea, 'Drag:',drag, 'Vel:',self.vel, "angle:", self.angle, end = ' ')
   
   # if (self.vel.magnitude()-drag.magnitude()) > 0:
