@@ -78,6 +78,6 @@ def PlanePhy(self, toRun=True):
   self.vel.y=(self.vel.y)-lift
     # self.vel = self.vel - lift
 
-   #if self.y < 70:
+#if self.y < 70:
     #lift = 0
     #self.vel.y += 1

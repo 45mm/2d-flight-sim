@@ -14,7 +14,7 @@ clock = pygame.time.Clock()
 #   path = ("images/cloud{}.png".format(cloudnum))
 #   cloud%d.format(cloudnum) = pygame.image.load(path).convert_alpha()
 
-imageSprite = pygame.image.load("images/sprite.png").convert_alpha()
+imageSprite = pygame.image.load("images/drawn_plane_white_89x20.png").convert_alpha()
 cloudSprite = pygame.image.load("images/clouds.png").convert_alpha()
 birdSprite = pygame.image.load("images/bird.jpeg").convert_alpha()
 terrainImage = pygame.image.load("images/terrain_final4000dpi.png").convert_alpha()
@@ -98,8 +98,8 @@ while True:
       cloudspawn(camera, 50, Terrain)
     cloudupdate()
     Bird.update(screen = surf)
-    # for point in Terrain.mask.outline(8):
-      # pygame.draw.rect(surf, (255,0,255), (point, (2,2)))
+    for point in Terrain.mask.outline(8):
+      pygame.draw.rect(surf, (255,0,255), (point, (2,2)))
 
     screen.blit(surf, (0,0), camera)
     gamemenu.flightscore(screen, gametime)
