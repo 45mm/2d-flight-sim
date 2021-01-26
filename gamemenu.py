@@ -46,10 +46,18 @@ def newgame(screen):
 
 def flightscore(screen, time):
     text1 = 'SCORE: ' + str(int(time))
-    score = print_text(text1, 16, WHITE, None, False)
+    score = print_text(text1, 16, WHITE, None, True)
     wt = screen.get_width()
     ht = screen.get_height()
     scorebox = score.get_rect(center = (wt*8/9, ht*7/9))
     screen.blit(score, scorebox)
     flightscore.finalscore = str(int(time))
+    
+def showfps(screen, fps):
+    text1 = 'FPS: ' + str(int(fps))
+    score = print_text(text1, 16, WHITE, None, True)
+    wt = screen.get_width()
+    ht = screen.get_height()
+    scorebox = score.get_rect(center = (wt*8/9, ht*1/9))
+    screen.blit(score, scorebox)
     
