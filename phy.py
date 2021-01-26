@@ -32,7 +32,29 @@ def PlanePhy(self, toRun=True):
   print("sine: ", math.sin(p-angle))
   print('Diff: ', p-angle)'''
 
-  lift = LIFTC*(abs(self.vel.x**2))*wingarea
+  FLUID_DENSITYV = 1
+  if self.rect.y <= 50:
+    FLUID_DENSITYV = 0.04
+    self.magnitude = 0
+    #self.rect.y = 51
+
+  elif self.rect.y<75:
+    #liftc = 0
+    FLUID_DENSITYV = 0.1
+    #self.vel.y = -self.vel.y/10
+
+  elif self.rect.y<150:
+    #liftc = 0
+    FLUID_DENSITYV = 0.4
+    #self.vel.y = -self.vel.y/10
+
+  elif self.rect.y < 250:
+    #liftc = 0
+    FLUID_DENSITYV = 0.7
+    #self.vel.y = -self.vel.y/10
+    
+  lift = LIFTC*(abs(self.vel.x**2))*wingarea*FLUID_DENSITYV
+
   if lift > GRAVITY:
     lift = GRAVITY
     
@@ -78,6 +100,6 @@ def PlanePhy(self, toRun=True):
   self.vel.y=(self.vel.y)-lift
     # self.vel = self.vel - lift
 
-   #if self.y < 70:
+#if self.y < 70:
     #lift = 0
     #self.vel.y += 1

@@ -5,8 +5,8 @@ Everything to work on (in near future)
   . torque
   . air density
 . Clouds, birds (RNG)
-. Plane sprite
-  . Sprite rotate around end, not centre
+. Plane sprite (done)
+  . Sprite rotate around end, not centre (done)
 . Window resizing
   . decide on what happens (scaling, or you can see more)
   . maintain aspect ratio
@@ -20,15 +20,7 @@ Mathew - terrain, plane sprite
 
 CRITICAL GOALS:
 
-(done). collisions
-(done). terrain (drawing)
-. plane sprite (drawing)
-  . rotate around  centre
-. background resolution
-. performance
-  . surf, screen etc.
-. bird sprite
-. air density
-. figure out how resizing works
-. random sprite generation
+. rotate around  centre
+. plane sprite adding to init.py
 . clean up game loop (seperate event handling)
+. spawn frequency for birds and clouds

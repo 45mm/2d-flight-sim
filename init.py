@@ -4,7 +4,7 @@ from constants import *
 
 pygame.init()
 
-resizablesurface = pygame.display.set_mode([VIEW_WIDTH, VIEW_HEIGHT], pygame.RESIZABLE | pygame.SHOWN)
+resizablesurface = pygame.display.set_mode([VIEW_WIDTH, VIEW_HEIGHT], flags)
 screen = resizablesurface.copy()
 #screen = pygame.display.set_mode([VIEW_WIDTH, VIEW_HEIGHT], pygame.RESIZABLE)
 pygame.display.set_caption("Game Testing")
@@ -16,9 +16,9 @@ clock = pygame.time.Clock()
 
 imageSprite = pygame.image.load("images/sprite.png").convert_alpha()
 cloudSprite = pygame.image.load("images/clouds.png").convert_alpha()
-birdSprite = pygame.image.load("images/bird.jpeg").convert_alpha()
+birdSprite = pygame.image.load("images/bird.png").convert_alpha()
 terrainImage = pygame.image.load("images/terrain_final4000dpi.png").convert_alpha()
-rawbg = pygame.image.load("images/bg_final2000dpi.png").convert_alpha()
+rawbg = pygame.image.load("images/bg_final2000dpi.png").convert()
 terrain = pygame.transform.scale(terrainImage, (SCREEN_WIDTH, SCREEN_HEIGHT))
 background = pygame.transform.scale(rawbg, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
@@ -56,12 +56,40 @@ def cloudupdate():
     cloud.update(surf,player)
     cloud.render(surf)
 
-Bird = game_sprites.Birds(birdSprite, **BIRD_ARGS)
+#Bird = game_sprites.Birds(birdSprite, **BIRD_ARGS)
+birdlist=[]
+birdfrequencyc=0
+def birdspawn(camera, cameradist, Terrainclass):
+  safespawn = True
+  x=random.random()*SCREEN_WIDTH
+  y=SCREEN_HEIGHT/2 * random.random()
+  if camera.rect.left-cameradist<=x<=camera.rect.right+cameradist or camera.rect.top-cameradist<=y<=camera.rect.bottom+cameradist:
+    safespawn=False
+    
+  if safespawn==True:
+    print("spawn allowed")
+    birdvar=game_sprites.Birds(birdSprite=birdSprite, x=x, y=y, **BIRD_ARGS)
+    collidedmask = pygame.sprite.collide_mask(birdvar, Terrainclass)
+    print(collidedmask)
+    if collidedmask == None:
+      birdlist.append(birdvar)
+      
+def birdupdate():
+  for bird in birdlist:
+    bird.update(surf)
+    bird.render(surf)
+
 Terrain = game_sprites.Terrain(terrain, surface=background)
+
+image_rect = background.get_rect()
+surf = pygame.Surface((image_rect.width, image_rect.height))
+#pygame.draw.rect(surf, (0,0,0), (VIEW_WIDTH, VIEW_HEIGHT, 0, 0))
 
 while True:
   camera = cam.Camera(VW = VIEW_WIDTH, VH = VIEW_HEIGHT, player = player)
-  surf = background.copy()
+  #surf = background.copy()
+  surf.blit(background, image_rect)
+  #screen.blit(surf, image_rect)
   
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
@@ -78,7 +106,7 @@ while True:
         GAMEMODE = 'Running'
         START_TIME = pygame.time.get_ticks()
     if event.type == pygame.VIDEORESIZE:
-      screen = pygame.display.set_mode(event.size, pygame.RESIZABLE | pygame.SHOWN)
+      screen = pygame.display.set_mode(event.size, flags)
       VIEW_HEIGHT, VIEW_WIDTH = event.h, event.w
     
   if START_TIME:
@@ -91,18 +119,23 @@ while True:
     camera.CameraClip(surf)
     player.render(surf)
     #Cloud.render(surf)
-    Bird.render(surf)
+    #Bird.render(surf)
     player.update(keys, KEYMAP, surf, RunPlayerUpdate)
     #Cloud.update(screen = surf, toRun = True, playerclass = player)
     if cloudfrequencyc%10==0:
-      cloudspawn(camera, 50, Terrain)
+      cloudspawn(camera, 150, Terrain)
     cloudupdate()
-    Bird.update(screen = surf)
+    if birdfrequencyc%10 == 0:
+      birdspawn(camera, 50, Terrain)
+    birdupdate()
+    #Bird.update(screen = surf)
     # for point in Terrain.mask.outline(8):
       # pygame.draw.rect(surf, (255,0,255), (point, (2,2)))
-
+    #renderimage = pygame.transform.chop(surf, camera.rect)
     screen.blit(surf, (0,0), camera)
     gamemenu.flightscore(screen, gametime)
+    fps_rn = clock.get_fps()
+    gamemenu.showfps(screen, fps_rn)
 
     if player.RESTART_NEEDED:
       GAMEMODE = 'Menu'
@@ -115,7 +148,13 @@ while True:
   elif GAMEMODE == 'Starting':
     gamemenu.newgame(screen)
     
-  resizablesurface.blit(pygame.transform.scale(screen, resizablesurface.get_rect().size), (0, 0))
-  pygame.display.flip()
+  #try:
+  #  resizablesurface.blit(pygame.transform.scale(renderimage, resizablesurface.get_rect().size), (0, 0))
+  #except:
+  
+  resizablesurface.blit(pygame.transform.scale(screen, resizablesurface.get_rect().size), (0, 0))   
+  pygame.display.flip() 
+  pygame.event.pump()
   clock.tick(60)
-  cloudfrequencyc+=1
+  birdfrequencyc += 1
+  

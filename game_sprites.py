@@ -44,18 +44,18 @@ class Birds(pygame.sprite.Sprite):
     if self.rect.y < 50:
       self.vel = pygame.math.Vector2(birdvelx, birdvely)
 
-    if self.rect.y == 100 and self.vel.y<0:
+    if 0<=self.rect.y <= SCREEN_HEIGHT/2 and self.vel.y<0:
       self.vel = pygame.math.Vector2(birdvelx, -birdvely)
 
-    if self.rect.y == 100 and self.vel.y>0:
+    if 0<=self.rect.y <= SCREEN_HEIGHT/2 and self.vel.y>0:
       self.vel = pygame.math.Vector2(birdvelx, birdvely)
   
-    if self.rect.y > 300:
+    if self.rect.y >= SCREEN_HEIGHT/2:
       self.vel = pygame.math.Vector2(birdvelx, -birdvely)
 
-    if self.rect.x >= (SCREEN_WIDTH - self.rect.w) or self.rect.x <= 0:
-      self.rect.x = 100
-      self.rect.y = 100
+    #if self.rect.x >= (SCREEN_WIDTH - self.rect.w) or self.rect.x <= 0:
+     # self.rect.x = 100
+      #self.rect.y = 100
       
     CollisionObjects.add(self)
     
@@ -129,7 +129,7 @@ class Sprite(pygame.sprite.Sprite):
   def collisionMask (self, screen):
     
     collided = pygame.sprite.spritecollide(self, CollisionObjects, False, pygame.sprite.collide_mask)
-    print(collided)
+    #print(collided)
     #collidedmask = pygame.sprite.collide_mask(self, Cloud)
     #print(collidedmask)
     if collided != []:
@@ -161,6 +161,15 @@ class Sprite(pygame.sprite.Sprite):
 
       self.x += self.vel.x
       self.y += self.vel.y
+      
+      if self.vel.x > 3:
+        self.vel.x = 3
+      elif self.vel.y > 3:
+        self.vel.y = 3
+      elif self.vel.x < -3:
+        self.vel.x = -3
+      elif self.vel.y < -3:
+        self.vel.y = -3
 
       self.rect.center = (self.x, self.y)
       # self.hitbox.center = self.rect.center
