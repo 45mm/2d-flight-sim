@@ -26,6 +26,14 @@ CRITICAL GOALS:
 . spawning for birds and clouds
 . thrust in left limiting
 
+OTHER:
+. why are sprites loaded in game_sprites?
+. clean game loop
+. rotation prop. to vel.
+. blit only camera rect portion?
+. scale up game
+. isolate blitting issues?
+
 ideas to fix rest of the things till code doesn't have errors
 . thrust game_sprites line 235 add else:self.thrust.magnitude=0
 . max vel game_sprites line 245 add if self.vel.magnitude>maxvel: self.vel.magnitude=maxvel
