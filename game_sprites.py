@@ -3,7 +3,7 @@ from constants import *
 
 pygame.init()
 
-cloudSprite = pygame.image.load("images/clouds.png")#.convert_alpha()
+cloudSprite = pygame.image.load("images/clouds_trans.png")#.convert_alpha()
 birdSprite = pygame.image.load("images/bird.png")#.convert_alpha()
 
 CollisionObjects = pygame.sprite.Group()

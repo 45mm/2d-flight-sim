@@ -17,7 +17,7 @@ clock = pygame.time.Clock()
 imageSprite = pygame.image.load("images/drawn_plane_white_89x20.png").convert_alpha()
 
 terrainImage = pygame.image.load("images/terrain_final4000dpi.png").convert_alpha()
-rawbg = pygame.image.load("images/bg_trans_2000dpi.png").convert_alpha()
+rawbg = pygame.image.load("images/bg_trans_2000dpi.png").convert()
 
 terrain = pygame.transform.scale(terrainImage, (SCREEN_WIDTH, SCREEN_HEIGHT))
 background = pygame.transform.scale(rawbg, (SCREEN_WIDTH, SCREEN_HEIGHT))
