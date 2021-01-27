@@ -10,6 +10,7 @@ Everything to work on (in near future)
 . Window resizing
   . decide on what happens (scaling, or you can see more)
   . maintain aspect ratio
+. Clean up game loop (seperate event handling)
 
 Work distribution:
 
@@ -20,7 +21,8 @@ Mathew - terrain, plane sprite
 
 CRITICAL GOALS:
 
-. rotate around  centre
-. plane sprite adding to init.py
-. clean up game loop (seperate event handling)
-. spawn frequency for birds and clouds
+. cloud sprite
+. bird sprite
+. spawning for birds and clouds
+. thrust in left limiting
+. seperate terrain from background

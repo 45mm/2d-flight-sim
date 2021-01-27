@@ -29,6 +29,9 @@ LIFTC = 0.01
 DRAGC =0.02
 GRAVITY= 0.01
 
+birdfrequency = 0
+cloudfrequency = 0
+
 flags = pygame.RESIZABLE | pygame.DOUBLEBUF | pygame.SHOWN
 
 PLAYER_ARGS = { 'x':150, 'y':250, 'w':89, 'h':20, 

@@ -15,16 +15,44 @@ class Cloud(pygame.sprite.Sprite):
     self.mask = pygame.mask.from_surface(self.image)    
     self.vel = pygame.math.Vector2(0,0)
     self.vel.x=(random.random())*cloudvelc
+    self.cloudlist=[]
+    
   def render(self, surface):
     surface.blit(self.image, (self.rect.x, self.rect.y))
   def update(self, screen, playerclass):
     playervelx = playerclass.vel.x
-    
     self.rect.x += self.vel.x
     self.rect.y += self.vel.y
-    CollisionObjects.add(self)    
-    
-class Birds(pygame.sprite.Sprite):
+    CollisionObjects.add(self) 
+
+  def cloudspawn(self,camera, cameradist, Terrainclass):# ,safedist):
+    safespawn = True
+    x=random.random()*SCREEN_WIDTH#-((screen.get_width()/4)*random.random())
+    # y=player.y+((random.random()-0.5)*VIEW_HEIGHT)
+    y=SCREEN_HEIGHT/2 * random.random()
+    # if <=0 or abs(player.y-y)<safedist:
+    if camera.rect.left-cameradist<=x<=camera.rect.right+cameradist or camera.rect.top-cameradist<=y<=camera.rect.bottom+cameradist:
+      safespawn=False
+    # else:
+    #   for cloud in cloudlist:
+    #     if abs(cloud.rect.x-x)<=safedist  or abs(cloud.rect.y-y)<=safedist :
+    #       safespawn=False
+    #       break
+    if safespawn==True:
+      print("spawn allowed")
+      #cloud_args = {'cloudSprite':cloudSprite, 'x':SCREEN_WIDTH-((SCREEN_WIDTH/4)*random.random()), 'y':SCREEN_HEIGHT*random.random(), 'w':80, 'h':40, 'cloudvelc':5}
+      cloudvar=game_sprites.Cloud(cloudSprite=cloudSprite, x=x, y=y, **CLOUD_ARGS)
+      collidedmask = pygame.sprite.collide_mask(cloudvar, Terrainclass)
+      #print(collidedmask)
+      if collidedmask == None:
+        self.cloudlist.append(cloudvar)
+      
+  def cloudupdate(self):
+    for cloud in self.cloudlist:
+      cloud.update(self, surf,player)
+      cloud.render(self, surf) 
+
+class Bird(pygame.sprite.Sprite):
     
   def __init__(self, birdSprite, x, y, w, h, birdvelx, birdvely):
     super().__init__()
@@ -34,6 +62,7 @@ class Birds(pygame.sprite.Sprite):
     self.rect.y = y
     self.mask = pygame.mask.from_surface(self.image)    
     self.vel = pygame.math.Vector2(2,2)
+    self.birdlist=[]
 
   def update(self, screen):
     birdvelx = 4
@@ -61,7 +90,26 @@ class Birds(pygame.sprite.Sprite):
     
   def render(self, surface):
     surface.blit(self.image, (self.rect.x, self.rect.y))
-    
+
+  def birdspawn(self,camera, cameradist, Terrainclass):
+    safespawn = True
+    x=random.random()*SCREEN_WIDTH
+    y=SCREEN_HEIGHT/2 * random.random()
+    if camera.rect.left-cameradist<=x<=camera.rect.right+cameradist or camera.rect.top-cameradist<=y<=camera.rect.bottom+cameradist:
+      safespawn=False
+      
+    if safespawn==True:
+      print("spawn allowed")
+      birdvar=game_sprites.Birds(birdSprite=birdSprite, x=x, y=y, **BIRD_ARGS)
+      collidedmask = pygame.sprite.collide_mask(birdvar, Terrainclass)
+      print(collidedmask)
+      if collidedmask == None:
+        self.birdlist.append(birdvar)
+        
+  def birdupdate(self):
+    for bird in self.birdlist:
+      bird.update(self, surf)
+      bird.render(self, surf)
     
 class Terrain(pygame.sprite.Sprite):
   #IMP: NEEDS REAL SCREEN ATTRIBUTES
@@ -189,6 +237,7 @@ class Sprite(pygame.sprite.Sprite):
       if keys[KEYMAP['decel']]:
         if self.thrust.magnitude >= 0:
           self.thrust.magnitude -= self.thrustc
+      #print(self.vel.magnitude)
 
       self.collisionWindow(screen)
       #self.rect.clamp_ip(surface.get_rect())
