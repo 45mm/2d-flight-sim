@@ -25,4 +25,8 @@ CRITICAL GOALS:
 . bird sprite
 . spawning for birds and clouds
 . thrust in left limiting
-. seperate terrain from background
+
+ideas to fix rest of the things till code doesn't have errors
+. thrust game_sprites line 235 add else:self.thrust.magnitude=0
+. max vel game_sprites line 245 add if self.vel.magnitude>maxvel: self.vel.magnitude=maxvel
+. increase gravity so that thrust can hardly make plane rise but also remove condition for lift and increase liftc
