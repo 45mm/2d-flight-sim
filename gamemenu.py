@@ -61,3 +61,4 @@ def showfps(screen, fps):
     scorebox = score.get_rect(center = (wt*8/9, ht*1/9))
     screen.blit(score, scorebox)
     
+    

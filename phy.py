@@ -33,22 +33,22 @@ def PlanePhy(self, toRun=True):
   print('Diff: ', p-angle)'''
 
   FLUID_DENSITYV = 1
-  if self.rect.y <= 50:
+  if self.rect.y <= 30:
     FLUID_DENSITYV = 0.04
     self.magnitude = 0
     #self.rect.y = 51
 
-  elif self.rect.y<75:
+  elif self.rect.y<70:
     #liftc = 0
     FLUID_DENSITYV = 0.1
     #self.vel.y = -self.vel.y/10
 
-  elif self.rect.y<150:
+  elif self.rect.y<95:
     #liftc = 0
     FLUID_DENSITYV = 0.4
     #self.vel.y = -self.vel.y/10
 
-  elif self.rect.y < 250:
+  elif self.rect.y < 120:
     #liftc = 0
     FLUID_DENSITYV = 0.7
     #self.vel.y = -self.vel.y/10

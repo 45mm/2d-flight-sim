@@ -1,6 +1,11 @@
 import pygame , random
 from constants import *
 
+pygame.init()
+
+cloudSprite = pygame.image.load("images/clouds_trans.png")#.convert_alpha()
+birdSprite = pygame.image.load("images/bird.png")#.convert_alpha()
+
 CollisionObjects = pygame.sprite.Group()
 
 class Cloud(pygame.sprite.Sprite):
@@ -15,16 +20,43 @@ class Cloud(pygame.sprite.Sprite):
     self.mask = pygame.mask.from_surface(self.image)    
     self.vel = pygame.math.Vector2(0,0)
     self.vel.x=(random.random())*cloudvelc
+    
   def render(self, surface):
     surface.blit(self.image, (self.rect.x, self.rect.y))
   def update(self, screen, playerclass):
     playervelx = playerclass.vel.x
-    
     self.rect.x += self.vel.x
     self.rect.y += self.vel.y
-    CollisionObjects.add(self)    
-    
-class Birds(pygame.sprite.Sprite):
+    CollisionObjects.add(self) 
+
+  def cloudspawn(self,camera, cameradist, Terrainclass):# ,safedist):
+    safespawn = True
+    x=random.random()*SCREEN_WIDTH#-((screen.get_width()/4)*random.random())
+    # y=player.y+((random.random()-0.5)*VIEW_HEIGHT)
+    y=SCREEN_HEIGHT/2 * random.random()
+    # if <=0 or abs(player.y-y)<safedist:
+    if camera.rect.left-cameradist<=x<=camera.rect.right+cameradist or camera.rect.top-cameradist<=y<=camera.rect.bottom+cameradist:
+      safespawn=False
+    # else:
+    #   for cloud in cloudlist:
+    #     if abs(cloud.rect.x-x)<=safedist  or abs(cloud.rect.y-y)<=safedist :
+    #       safespawn=False
+    #       break
+    if safespawn==True:
+      #print("spawn allowed")
+      #cloud_args = {'cloudSprite':cloudSprite, 'x':SCREEN_WIDTH-((SCREEN_WIDTH/4)*random.random()), 'y':SCREEN_HEIGHT*random.random(), 'w':80, 'h':40, 'cloudvelc':5}
+      cloudvar=Cloud(cloudSprite=cloudSprite, x=x, y=y, **CLOUD_ARGS)
+      collidedmask = pygame.sprite.collide_mask(cloudvar, Terrainclass)
+      #print(collidedmask)
+      if collidedmask == None:
+        cloudlist.append(cloudvar)
+      
+  def cloudupdate(self, surf, player):
+    for cloudvar in cloudlist:
+      cloudvar.update(surf,player)
+      cloudvar.render(surf) 
+
+class Bird(pygame.sprite.Sprite):
     
   def __init__(self, birdSprite, x, y, w, h, birdvelx, birdvely):
     super().__init__()
@@ -61,7 +93,25 @@ class Birds(pygame.sprite.Sprite):
     
   def render(self, surface):
     surface.blit(self.image, (self.rect.x, self.rect.y))
-    
+
+  def birdspawn(self,camera, cameradist, Terrainclass):
+    safespawn = True
+    x=random.random()*SCREEN_WIDTH
+    y=SCREEN_HEIGHT/2 * random.random()
+    if camera.rect.left-cameradist<=x<=camera.rect.right+cameradist or camera.rect.top-cameradist<=y<=camera.rect.bottom+cameradist:
+      safespawn=False
+      
+    if safespawn==True:
+      #print("spawn allowed")
+      birdvar=Bird(birdSprite=birdSprite, x=x, y=y, **BIRD_ARGS)
+      collidedmask = pygame.sprite.collide_mask(birdvar, Terrainclass)
+      if collidedmask == None:
+        birdlist.append(birdvar)
+        
+  def birdupdate(self, surf):
+    for birdvar in birdlist:
+      birdvar.update(surf)
+      birdvar.render(surf)
     
 class Terrain(pygame.sprite.Sprite):
   #IMP: NEEDS REAL SCREEN ATTRIBUTES
@@ -84,7 +134,7 @@ class Thrust():
 
 class Sprite(pygame.sprite.Sprite):
 
-  def __init__(self,imageSprite, x, y, w, h, rot_angle, vel):
+  def __init__(self,imageSprite, x, y, w, h, rot_angle ):
     super().__init__()
     self.x = x
     self.y = y
@@ -94,7 +144,7 @@ class Sprite(pygame.sprite.Sprite):
     self.rect.center = (self.x,self.y)
     # self.hitbox = self.mask.get_rect()
     self.origin = (self.rect.x, self.rect.y) #point at which to draw the image
-    self.vel = vel
+    self.vel = pygame.math.Vector2(0,0)
     self.thrust = Thrust(0, 0)
     
     self.thrustc = 0.01
@@ -128,11 +178,10 @@ class Sprite(pygame.sprite.Sprite):
     
   def collisionMask (self, screen):
     
-    collided = pygame.sprite.spritecollide(self, CollisionObjects, False, pygame.sprite.collide_mask)
+    plane_collided = pygame.sprite.spritecollide(self, CollisionObjects, False, pygame.sprite.collide_mask)
     #print(collided)
     #collidedmask = pygame.sprite.collide_mask(self, Cloud)
-    #print(collidedmask)
-    if collided != []:
+    if plane_collided != []:
       self.RESTART_NEEDED = True#(self.player, otherobjects, False)
       
   def collisionWindow(self, screen):
@@ -140,7 +189,6 @@ class Sprite(pygame.sprite.Sprite):
     if self.rect.x >= (SCREEN_WIDTH - self.rect.w) or self.rect.x <= 0:#self.rect.w:
       self.rect.x = SCREEN_WIDTH - self.rect.w
       self.RESTART_NEEDED = True
-      print('sxm cvgbjhfenwdcihr')
       
     elif self.rect.y >= (SCREEN_HEIGHT - self.rect.h) or self.rect.y <= 0:#self.rect.h:
       self.rect.y = SCREEN_HEIGHT - self.rect.h
@@ -154,22 +202,13 @@ class Sprite(pygame.sprite.Sprite):
       
     
 
-  def update(self, keys, KEYMAP, screen, toRun):
+  def update(self, keys, KEYMAP, screen, toRun,maxvel):
     
     if toRun:
       self.vel += self.thrust.get_vec()
 
       self.x += self.vel.x
       self.y += self.vel.y
-      
-      if self.vel.x > 3:
-        self.vel.x = 3
-      elif self.vel.y > 3:
-        self.vel.y = 3
-      elif self.vel.x < -3:
-        self.vel.x = -3
-      elif self.vel.y < -3:
-        self.vel.y = -3
 
       self.rect.center = (self.x, self.y)
       # self.hitbox.center = self.rect.center
@@ -186,12 +225,19 @@ class Sprite(pygame.sprite.Sprite):
 
       if keys[KEYMAP['accel']]:
         self.thrust.magnitude += self.thrustc
+      #else:
+      #  self.thrust.magnitude=0
       if keys[KEYMAP['decel']]:
         if self.thrust.magnitude >= 0:
+          print('jisnfsijfinisfsfkn')
           self.thrust.magnitude -= self.thrustc
-
-      self.collisionWindow(screen)
-      #self.rect.clamp_ip(surface.get_rect())
+      #else:
+      #  self.thrust.magnitude=0
+      #print(self.vel.magnitude)
+      # if self.vel.magnitude>float(maxvel):
+      #   self.vel.magnitude=maxvel
+      # self.collisionWindow(screen)
+      # #self.rect.clamp_ip(surface.get_rect())
       self.collisionMask(screen)
 
   def render(self, surface):

@@ -29,10 +29,14 @@ LIFTC = 0.01
 DRAGC =0.02
 GRAVITY= 0.01
 
+spawn_freq = 0
+cloudlist=[]
+birdlist = []
+
 flags = pygame.RESIZABLE | pygame.DOUBLEBUF | pygame.SHOWN
 
 PLAYER_ARGS = { 'x':150, 'y':250, 'w':89, 'h':20, 
-                            'rot_angle':3, 'vel':pygame.math.Vector2(2,0)}
+                            'rot_angle':3}
 CLOUD_ARGS = {'w':80, 'h':40, 'cloudvelc':2.5}
 BIRD_ARGS = {'w':80, 'h':40, 'birdvelx':4, 'birdvely':2}
 

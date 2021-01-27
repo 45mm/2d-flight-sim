@@ -10,6 +10,7 @@ Everything to work on (in near future)
 . Window resizing
   . decide on what happens (scaling, or you can see more)
   . maintain aspect ratio
+. Clean up game loop (seperate event handling)
 
 Work distribution:
 
@@ -20,7 +21,12 @@ Mathew - terrain, plane sprite
 
 CRITICAL GOALS:
 
-. rotate around  centre
-. plane sprite adding to init.py
-. clean up game loop (seperate event handling)
-. spawn frequency for birds and clouds
+. cloud sprite
+. bird sprite
+. spawning for birds and clouds
+. thrust in left limiting
+
+ideas to fix rest of the things till code doesn't have errors
+. thrust game_sprites line 235 add else:self.thrust.magnitude=0
+. max vel game_sprites line 245 add if self.vel.magnitude>maxvel: self.vel.magnitude=maxvel
+. increase gravity so that thrust can hardly make plane rise but also remove condition for lift and increase liftc
