@@ -36,7 +36,7 @@ birdlist = []
 flags = pygame.RESIZABLE | pygame.DOUBLEBUF | pygame.SHOWN
 
 PLAYER_ARGS = { 'x':150, 'y':250, 'w':89, 'h':20, 
-                            'rot_angle':3}
+                            'rot_angle':0.5}
 CLOUD_ARGS = {'w':80, 'h':40, 'cloudvelc':2.5}
 BIRD_ARGS = {'w':80, 'h':40, 'birdvelx':4, 'birdvely':2}
 
