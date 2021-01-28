@@ -19,6 +19,9 @@ imageSprite = pygame.image.load("images/drawn_plane_white_89x20.png").convert_al
 terrainImage = pygame.image.load("images/terrain_final4000dpi.png").convert_alpha()
 rawbg = pygame.image.load("images/bg_trans_2000dpi.png").convert()
 
+cloudSprite = pygame.image.load("images/cloud_trans.png")#.convert_alpha()
+birdSprite = pygame.image.load("images/bird.png")#.convert_alpha()
+
 terrain = pygame.transform.scale(terrainImage, (SCREEN_WIDTH, SCREEN_HEIGHT))
 background = pygame.transform.scale(rawbg, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
@@ -71,10 +74,10 @@ while True:
     player.render(surf)
     player.update(keys, KEYMAP, surf, RunPlayerUpdate,3)
     if spawn_freq%30==0:
-      game_sprites.Cloud.cloudspawn(game_sprites.Cloud, camera, 150, Terrain)
-      game_sprites.Bird.birdspawn(game_sprites.Bird, camera, 50, Terrain)
-    game_sprites.Bird.birdupdate(self = game_sprites.Bird, surf = surf)
-    game_sprites.Cloud.cloudupdate(self = game_sprites.Cloud, surf = surf, player = player)
+      game_sprites.Cloud.cloudspawn(camera, 150, Terrain, birdSprite)
+      game_sprites.Bird.birdspawn(camera, 50, Terrain, cloudSprite)
+    game_sprites.Bird.birdupdate(surf = surf)
+    game_sprites.Cloud.cloudupdate(surf = surf, player = player)
     screen.blit(surf, (0,0), camera)
     gamemenu.flightscore(screen, gametime)
     fps_rn = clock.get_fps()
