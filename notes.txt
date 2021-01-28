@@ -21,15 +21,10 @@ Mathew - terrain, plane sprite
 
 CRITICAL GOALS:
 
-. cloud sprite (done)
-. bird sprite (done)
+. cloud sprite
+. bird sprite
 . spawning for birds and clouds
-  . improve RNG
-  . don't spawn close
-  . get birds moving again
-  . make birds smaller
-. game speed should stay same regardless
-  of fps
+. thrust in left limiting
 
 OTHER:
 . clean game loop

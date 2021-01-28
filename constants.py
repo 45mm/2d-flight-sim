@@ -33,15 +33,14 @@ spawn_freq = 0
 cloudlist=[]
 birdlist = []
 
-flags = pygame.RESIZABLE | pygame.DOUBLEBUF | pygame.SHOWN
+flags = pygame.RESIZABLE | pygame.DOUBLEBUF | pygame.SHOWN | pygame.NOFRAME
 
 PLAYER_ARGS = { 'x':150, 'y':250, 'w':89, 'h':20, 
-                            'rot_angle':0.5}
+                            'rot_angle':3}
 CLOUD_ARGS = {'w':80, 'h':40, 'cloudvelc':2.5}
 BIRD_ARGS = {'w':80, 'h':40, 'birdvelx':4, 'birdvely':2}
 
-RunPlanePhy = RunPlayerUpdate = RunSidescroll = True
-RunVerticalscroll = True
+RUN_PLANE_PHY = RUN_PLAYER_UPDATE = RUN_SIDESCROLL = True
 
 GAMEMODE = 'Starting'
 

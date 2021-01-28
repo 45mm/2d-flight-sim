@@ -147,8 +147,7 @@ class Sprite(pygame.sprite.Sprite):
     
     self.thrustc = 0.01
 
-    self.rot_angle = 0# angle by which to rotate per frame
-    self.rot_angle_constant=rot_angle
+    self.rot_angle = rot_angle # angle by which to rotate per frame
     self.angle = 0 # angle wrt x axis, counterclockwise
     self.RESTART_NEEDED = False
     self.MASK_NEEDED = False
@@ -227,7 +226,7 @@ class Sprite(pygame.sprite.Sprite):
       #else:
       #  self.thrust.magnitude=0
       if keys[KEYMAP['decel']]:
-        if self.thrust.magnitude-self.thrustc >= 0:
+        if self.thrust.magnitude >= 0:
           print('jisnfsijfinisfsfkn')
           self.thrust.magnitude -= self.thrustc
       #else:
@@ -238,7 +237,6 @@ class Sprite(pygame.sprite.Sprite):
       # self.collisionWindow(screen)
       # #self.rect.clamp_ip(surface.get_rect())
       self.collisionMask(screen)
-      self.rot_angle=(self.rot_angle_constant)*(((self.vel.x**2)+(self.vel.y**2))**0.5)
 
   def render(self, surface):
 

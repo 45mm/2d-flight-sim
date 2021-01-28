@@ -23,7 +23,7 @@ def restart_program():
 
 def play_game(screen):
     #text1 = 'SCORE: ',str(int(score)),' CLICK TO TRY AGAIN'
-    text1 = 'PLAY AGAIN?'
+    text1 = 'CLICK ANYWHERE TO PLAY AGAIN'
     screen.fill(BLACK)
     playagainbox = print_text(text1, 36, WHITE, None, False)
     againrect = playagainbox.get_rect(center = (screen.get_width()/2, screen.get_height()/2))
@@ -36,29 +36,31 @@ def quit_program():
 
 def newgame(screen):
     newgame_box = print_text('FLIGHT SIMULATOR', 46, WHITE , None, True)
+    helpmsg = print_text('ESC: exit| A: decelerate | D: accelerate | UP, DOWN: Rotate', 13, BLUE, None, False)
     presskeymsg = print_text('PRESS ANY KEY TO START', 9, RED, None, True)
-    wt = screen.get_width()
-    ht = screen.get_height()
+    wt, ht = screen.get_width(), screen.get_height()
     keymsg_rect = presskeymsg.get_rect(center = (wt/2, ht*2/3))
-    newgame_rect = newgame_box.get_rect(center=(wt/2, ht/2))
+    newgame_rect = newgame_box.get_rect(center=(wt/2, ht*1/3))
+    help_rect = helpmsg.get_rect(center = (wt/2, ht*3/4))
     screen.blit(newgame_box, newgame_rect)
     screen.blit(presskeymsg, keymsg_rect)
-
+    screen.blit(helpmsg, help_rect)
+    
 def flightscore(screen, time):
     text1 = 'SCORE: ' + str(int(time))
     score = print_text(text1, 16, WHITE, None, True)
     wt = screen.get_width()
     ht = screen.get_height()
-    scorebox = score.get_rect(center = (wt*8/9, ht*7/9))
+    scorebox = score.get_rect(center = (wt*34/40, ht*39/40))
     screen.blit(score, scorebox)
     flightscore.finalscore = str(int(time))
     
 def showfps(screen, fps):
     text1 = 'FPS: ' + str(int(fps))
-    score = print_text(text1, 16, WHITE, None, True)
+    fps_text = print_text(text1, 16, WHITE, None, True)
     wt = screen.get_width()
     ht = screen.get_height()
-    scorebox = score.get_rect(center = (wt*8/9, ht*1/9))
-    screen.blit(score, scorebox)
+    fps_rect = fps_text.get_rect(center = (wt*34/40, ht*1/40))
+    screen.blit(fps_text, fps_rect)
     
     
