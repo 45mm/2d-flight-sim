@@ -227,7 +227,7 @@ class Sprite(pygame.sprite.Sprite):
       #else:
       #  self.thrust.magnitude=0
       if keys[KEYMAP['decel']]:
-        if self.thrust.magnitude >= 0:
+        if self.thrust.magnitude-self.thrustc >= 0:
           print('jisnfsijfinisfsfkn')
           self.thrust.magnitude -= self.thrustc
       #else:
