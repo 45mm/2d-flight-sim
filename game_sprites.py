@@ -3,9 +3,6 @@ from constants import *
 
 pygame.init()
 
-cloudSprite = pygame.image.load("images/clouds_trans.png").convert_alpha()
-birdSprite = pygame.image.load("images/bird.png").convert_alpha()
-
 CollisionObjects = pygame.sprite.Group()
 
 class Cloud(pygame.sprite.Sprite):
@@ -29,7 +26,7 @@ class Cloud(pygame.sprite.Sprite):
     self.rect.y += self.vel.y
     CollisionObjects.add(self) 
 
-  def cloudspawn(camera, cameradist, Terrainclass):# ,safedist):
+  def cloudspawn(camera, cameradist, Terrainclass, sprite):# ,safedist):
     safespawn = True
     x=random.random()*SCREEN_WIDTH#-((screen.get_width()/4)*random.random())
     # y=player.y+((random.random()-0.5)*VIEW_HEIGHT)
@@ -45,7 +42,7 @@ class Cloud(pygame.sprite.Sprite):
     if safespawn==True:
       #print("spawn allowed")
       #cloud_args = {'cloudSprite':cloudSprite, 'x':SCREEN_WIDTH-((SCREEN_WIDTH/4)*random.random()), 'y':SCREEN_HEIGHT*random.random(), 'w':80, 'h':40, 'cloudvelc':5}
-      cloudvar=Cloud(cloudSprite=cloudSprite, x=x, y=y, **CLOUD_ARGS)
+      cloudvar=Cloud(cloudSprite=sprite, x=x, y=y, **CLOUD_ARGS)
       collidedmask = pygame.sprite.collide_mask(cloudvar, Terrainclass)
       #print(collidedmask)
       if collidedmask == None:
@@ -94,7 +91,8 @@ class Bird(pygame.sprite.Sprite):
   def render(self, surface):
     surface.blit(self.image, (self.rect.x, self.rect.y))
 
-  def birdspawn(camera, cameradist, Terrainclass):
+  def birdspawn(camera, cameradist, Terrainclass, sprite):
+
     safespawn = True
     x=random.random()*SCREEN_WIDTH
     y=SCREEN_HEIGHT/2 * random.random()
@@ -103,7 +101,7 @@ class Bird(pygame.sprite.Sprite):
       
     if safespawn==True:
       #print("spawn allowed")
-      birdvar=Bird(birdSprite=birdSprite, x=x, y=y, **BIRD_ARGS)
+      birdvar=Bird(birdSprite=sprite, x=x, y=y, **BIRD_ARGS)
       collidedmask = pygame.sprite.collide_mask(birdvar, Terrainclass)
       if collidedmask == None:
         birdlist.append(birdvar)
