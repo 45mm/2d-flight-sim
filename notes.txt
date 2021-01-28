@@ -28,7 +28,6 @@ CRITICAL GOALS:
   . don't spawn close
   . get birds moving again
   . make birds smaller
-. thrust in left limiting
 . game speed should stay same regardless
   of fps
 
