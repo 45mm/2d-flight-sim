@@ -21,18 +21,24 @@ Mathew - terrain, plane sprite
 
 CRITICAL GOALS:
 
-. cloud sprite
-. bird sprite
+. cloud sprite (done)
+. bird sprite (done)
 . spawning for birds and clouds
+  . improve RNG
+  . don't spawn close
+  . get birds moving again
+  . make birds smaller
 . thrust in left limiting
+. game speed should stay same regardless
+  of fps
 
 OTHER:
-. why are sprites loaded in game_sprites?
 . clean game loop
 . rotation prop. to vel.
 . blit only camera rect portion?
 . scale up game
 . isolate blitting issues?
+. acceleration meeting
 
 ideas to fix rest of the things till code doesn't have errors
 . thrust game_sprites line 235 add else:self.thrust.magnitude=0

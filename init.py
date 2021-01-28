@@ -67,10 +67,10 @@ while True:
   
   if GAMEMODE == 'Running':
     #screen.blit(terrain, (0,0))
-    surf.blit(terrain, terrain.get_rect())
+    camera.CameraClip(surf)
+    surf.blit(terrain, camera.rect, camera.rect)
     phy.PlanePhy(self=player)
     keys = pygame.key.get_pressed()
-    camera.CameraClip(surf)
     player.render(surf)
     player.update(keys, KEYMAP, surf, RunPlayerUpdate,3)
     if spawn_freq%30==0:
