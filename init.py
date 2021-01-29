@@ -19,10 +19,10 @@ imageSprite = pygame.image.load("images/drawn_plane_white_89x20.png").convert_al
 terrainImage = pygame.image.load("images/terrain_final4000dpi.png").convert_alpha()
 rawbg = pygame.image.load("images/bg_trans_2000dpi.png").convert()
 
-cloudSprite = pygame.image.load("images/cloud_trans.png")#.convert_alpha()
+cloudSprite = pygame.image.load("images/clouds_trans.png")#.convert_alpha()
 birdSprite = pygame.image.load("images/bird.png")#.convert_alpha()
 
-terrain = pygame.transform.scale(terrainImage, (SCREEN_WIDTH, SCREEN_HEIGHT))
+terrain = pygame.transform.scale(terrainImage, (SCREEN_WIDTH, SCREEN_HEIGHT)) 
 background = pygame.transform.scale(rawbg, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
 player = game_sprites.Sprite(imageSprite, **PLAYER_ARGS)
