@@ -41,7 +41,7 @@ def mainloop():
   
   global START_TIME, VIEW_WIDTH, VIEW_HEIGHT, RUN_PLAYER_UPDATE, RUN_PLAYER_PHY, RUN_SIDESCROLL, GAMEMODE, FLAGS
   global resizablesurface, screen, clock, imageSprite, terrainImage, rawbg, cloudSprite, birdSprite, terrain, background, player, Terrain
-  global image_rect, surf, spawn_freq
+  global image_rect, surf, spawn_freq, elapsed
   
   camera = cam.Camera(VW = VIEW_WIDTH, VH = VIEW_HEIGHT, player = player)
   surf.blit(background, image_rect)
@@ -78,7 +78,7 @@ def mainloop():
       phy.PlanePhy(self=player)
       keys = pygame.key.get_pressed()
       player.render(surf)
-      player.update(keys, KEYMAP, surf, RUN_PLAYER_UPDATE,3)
+      player.update(keys, KEYMAP, surf, RUN_PLAYER_UPDATE,3,gametime) #aloo
       if spawn_freq%30==0:
         game_sprites.Cloud.cloudspawn(camera, 150, Terrain, cloudSprite)
         game_sprites.Bird.birdspawn(camera, 50, Terrain, birdSprite)
