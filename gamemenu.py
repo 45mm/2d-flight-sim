@@ -64,10 +64,12 @@ def showfps(screen, fps):
     fps_rect = fps_text.get_rect(center = (wt*34/40, ht*1/40))
     screen.blit(fps_text, fps_rect)
     
-def showThrust(screen, thrust):
+def showThrust(screen, thrust, max_thrust):
     #net_thrust = sqrt(thrust[0]**2 + thrust[1]**2)
-    net_thrust = str(round(thrust, 3))
-    text1 = ' THRUST: ' + str(net_thrust)
+    net_thrust = round(thrust, 5) 
+    thrust_percent = int(net_thrust/max_thrust * 100)
+    text1 = ' THRUST: ' + str(thrust_percent) + '%'
+
     thrustxt = print_text(text1, 16, WHITE, None, True)
     wt, ht = screen.get_width(), screen.get_height()
     thrust_rect = thrustxt.get_rect(center = (wt*5/40, ht*39/40))

@@ -106,7 +106,7 @@ def mainloop():
     gamemenu.flightscore(screen, gametime)
     fps_rn = clock.get_fps()
     gamemenu.showfps(screen, fps_rn)
-    gamemenu.showThrust(screen, player.thrust.magnitude)
+    gamemenu.showThrust(screen, player.thrust.magnitude, player.max_thrust_mag)
 
     if player.RESTART_NEEDED:
       GAMEMODE = 'Menu'

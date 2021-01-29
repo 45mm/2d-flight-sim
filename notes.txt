@@ -31,7 +31,7 @@ SUPER ULTRA MEGA CRITICAL:
 PRIORITY SECONDARY TASKS:
 . gravity #yg: 0.1
 . spawning for birds and clouds -Granth
-. scale up game #yg: ?
+. (done) scale up game #yg: ?
 . make birds smaller
 . rotation prop. to vel.
   . make nonlinear (sqrt..?) - Granth

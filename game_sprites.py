@@ -212,16 +212,19 @@ class Sprite(pygame.sprite.Sprite):
       if keys[KEYMAP['accel']]:
         if self.thrust.magnitude+self.thrustc<self.max_thrust_mag:
           self.thrust.magnitude += self.thrustc
-      ## In case we need to make it only accel as long as key is pressed
+        else:
+          self.thrust.magnitude = self.max_thrust_mag
+      ## In case we need to make it only accel as long as key is pressed:
       #else:
       #  self.thrust.magnitude=0
+      
       if keys[KEYMAP['decel']]:
         if self.thrust.magnitude-self.thrustc >= 0:
           #print('decelerating')
           self.thrust.magnitude -= self.thrustc
         else:
           self.thrust.magnitude = 0
-      print(self.thrust.magnitude)
+      # print(self.thrust.magnitude)
       # #self.rect.clamp_ip(surface.get_rect())
       self.collisionMask(screen)
       self.rot_angle=(self.rot_angle_constant)*(((self.vel.x**2)+(self.vel.y**2))**0.5)
