@@ -35,7 +35,7 @@ birdlist = []
 
 FLAGS = pygame.RESIZABLE | pygame.DOUBLEBUF | pygame.SHOWN #| pygame.NOFRAME
 
-PLAYER_ARGS = { 'x':150, 'y':250, 'w':89, 'h':20, 
+PLAYER_ARGS = { 'x':325, 'y':250, 'w':89, 'h':20, 
                             'rot_angle_constant':0.5, 'max_thrust_mag':0.5}
 CLOUD_ARGS = {'w':80, 'h':40, 'cloudvelc':2.5}
 BIRD_ARGS = {'w':40, 'h':20, 'birdvelx':4, 'birdvely':2}
@@ -43,5 +43,3 @@ BIRD_ARGS = {'w':40, 'h':20, 'birdvelx':4, 'birdvely':2}
 RUN_PLANE_PHY = RUN_PLAYER_UPDATE = RUN_SIDESCROLL = True
 
 GAMEMODE = 'Starting'
-
-
