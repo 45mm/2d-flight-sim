@@ -33,7 +33,7 @@ spawn_freq = 0
 cloudlist=[]
 birdlist = []
 
-FLAGS = pygame.RESIZABLE | pygame.DOUBLEBUF | pygame.SHOWN #| pygame.FULLSCREEN | pygame.NOFRAME
+FLAGS = pygame.RESIZABLE | pygame.DOUBLEBUF | pygame.SHOWN #| pygame.NOFRAME
 
 PLAYER_ARGS = { 'x':150, 'y':250, 'w':89, 'h':20, 
                             'rot_angle_constant':0.5, 'max_thrust_mag':0.5}
