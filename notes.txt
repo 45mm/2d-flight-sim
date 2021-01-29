@@ -19,25 +19,39 @@ Granth - clouds
 AK - birds
 Mathew - terrain, plane sprite
 
-CRITICAL GOALS:
+SUPER ULTRA MEGA CRITICAL:
+ . Prepare for final release
+   . fix requirements.txt
+   . (minimal) code cleanup
+   . remove unnecessary prints/draws
+   . clean up images subfolder
+   . finalise constants
+   .
 
+
+TASKS RN:
 . cloud sprite (done)
 . bird sprite (done)
+. thrust, vel gui
 . spawning for birds and clouds
+  . fix current bug
+    . birds and clouds interchanged!?!?
   . improve RNG
-  . don't spawn close
-  . get birds moving again
+    . don't spawn close
   . make birds smaller
 . game speed should stay same regardless
   of fps
-
-OTHER:
 . clean game loop
 . rotation prop. to vel.
-. blit only camera rect portion?
+  . make nonlinear (sqrt..?)
 . scale up game
-. isolate blitting issues?
+. make play again background transparent, not black?
+  . run render on all just before blitting play again,
+    so you can see the collision that killed you
+. start in fullscreen
 . acceleration meeting
+. tweak air density
+
 
 ideas to fix rest of the things till code doesn't have errors
 . thrust game_sprites line 235 add else:self.thrust.magnitude=0
