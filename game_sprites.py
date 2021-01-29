@@ -132,7 +132,7 @@ class Thrust():
 
 class Sprite(pygame.sprite.Sprite):
 
-  def __init__(self,imageSprite, x, y, w, h, rot_angle ):
+  def __init__(self,imageSprite, x, y, w, h, rot_angle, max_thrust_mag ):
     super().__init__()
     self.x = x
     self.y = y
@@ -157,7 +157,7 @@ class Sprite(pygame.sprite.Sprite):
     self.IMAGE = self.image
     self.RECT = self.rect
     self.ANGLE = self.angle
-
+    self.max_thrust_mag=max_thrust_mag
   def rot_center(self, n): #n is either 1 or -1; for direction of rotation
 
     rot = n*self.rot_angle
@@ -223,13 +223,15 @@ class Sprite(pygame.sprite.Sprite):
         self.rot_center(-1)
 
       if keys[KEYMAP['accel']]:
-        self.thrust.magnitude += self.thrustc
+        if self.thrust.magnitude+self.thrustc<self.max_thrust_mag and self.thrustc-self.thrust.magnitude<self.max_thrust_mag:
+          self.thrust.magnitude += self.thrustc
       #else:
       #  self.thrust.magnitude=0
       if keys[KEYMAP['decel']]:
         if self.thrust.magnitude-self.thrustc >= 0:
-          print('jisnfsijfinisfsfkn')
+          #print('jisnfsijfinisfsfkn')
           self.thrust.magnitude -= self.thrustc
+      print(self.thrust.magnitude)
       #else:
       #  self.thrust.magnitude=0
       #print(self.vel.magnitude)
@@ -239,7 +241,7 @@ class Sprite(pygame.sprite.Sprite):
       # #self.rect.clamp_ip(surface.get_rect())
       self.collisionMask(screen)
       self.rot_angle=(self.rot_angle_constant)*(((self.vel.x**2)+(self.vel.y**2))**0.5)
-
+      
   def render(self, surface):
 
     #pygame.draw.rect(surface, (100,100,100), self.rect) #draw bounding rect for debugging
