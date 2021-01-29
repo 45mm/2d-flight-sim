@@ -1,8 +1,8 @@
 import pygame, game_sprites
 pygame.init()
 
-SCREEN_WIDTH = 10000
-SCREEN_HEIGHT = 1000
+SCREEN_WIDTH = 12500
+SCREEN_HEIGHT = 1250
 START_TIME = None
 
 #GRAVITY=0.01
@@ -27,21 +27,20 @@ SKYBLUE = (135,206,235)
 
 LIFTC = 0.01
 DRAGC =0.02
-GRAVITY= 0.01
+GRAVITY= 0.1
 
 spawn_freq = 0
 cloudlist=[]
 birdlist = []
 
-flags = pygame.RESIZABLE | pygame.DOUBLEBUF | pygame.SHOWN
+FLAGS = pygame.RESIZABLE | pygame.DOUBLEBUF | pygame.SHOWN #| pygame.FULLSCREEN | pygame.NOFRAME
 
 PLAYER_ARGS = { 'x':150, 'y':250, 'w':89, 'h':20, 
-                            'rot_angle':0.5, 'max_thrust_mag':0.5}
+                            'rot_angle_constant':0.5, 'max_thrust_mag':0.5}
 CLOUD_ARGS = {'w':80, 'h':40, 'cloudvelc':2.5}
 BIRD_ARGS = {'w':80, 'h':40, 'birdvelx':4, 'birdvely':2}
 
-RunPlanePhy = RunPlayerUpdate = RunSidescroll = True
-RunVerticalscroll = True
+RUN_PLANE_PHY = RUN_PLAYER_UPDATE = RUN_SIDESCROLL = True
 
 GAMEMODE = 'Starting'
 
