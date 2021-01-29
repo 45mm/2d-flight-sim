@@ -6,7 +6,7 @@ pygame.init()
 CollisionObjects = pygame.sprite.Group()
 
 class Cloud(pygame.sprite.Sprite):
-    
+
   def __init__(self,cloudSprite, x, y, w, h,cloudvelc):
     super().__init__()
     self.image = pygame.transform.scale(cloudSprite, (w, h))
@@ -14,17 +14,17 @@ class Cloud(pygame.sprite.Sprite):
     self.rect = self.image.get_rect()
     self.rect.x = x
     self.rect.y = y
-    self.mask = pygame.mask.from_surface(self.image)    
+    self.mask = pygame.mask.from_surface(self.image)
     self.vel = pygame.math.Vector2(0,0)
     self.vel.x=(random.random())*cloudvelc
-    
+
   def render(self, surface):
     surface.blit(self.image, (self.rect.x, self.rect.y))
   def update(self, screen, playerclass):
     playervelx = playerclass.vel.x
     self.rect.x += self.vel.x
     self.rect.y += self.vel.y
-    CollisionObjects.add(self) 
+    CollisionObjects.add(self)
 
   def cloudspawn(camera, cameradist, Terrainclass, sprite):# ,safedist):
     safespawn = True
@@ -47,21 +47,21 @@ class Cloud(pygame.sprite.Sprite):
       #print(collidedmask)
       if collidedmask == None:
         cloudlist.append(cloudvar)
-      
+
   def cloudupdate(surf, player):
     for cloudvar in cloudlist:
       cloudvar.update(surf,player)
-      cloudvar.render(surf) 
+      cloudvar.render(surf)
 
 class Bird(pygame.sprite.Sprite):
-    
+
   def __init__(self, birdSprite, x, y, w, h, birdvelx, birdvely):
     super().__init__()
     self.image = pygame.transform.scale(birdSprite, (w, h))
     self.rect = self.image.get_rect()
     self.rect.x = x
     self.rect.y = y
-    self.mask = pygame.mask.from_surface(self.image)    
+    self.mask = pygame.mask.from_surface(self.image)
     self.vel = pygame.math.Vector2(2,2)
 
   def update(self, screen):
@@ -69,7 +69,7 @@ class Bird(pygame.sprite.Sprite):
     birdvely = 2
     self.rect.x += self.vel.x
     self.rect.y += self.vel.y
-    
+
     if self.rect.y < 50:
       self.vel = pygame.math.Vector2(birdvelx, birdvely)
 
@@ -78,16 +78,16 @@ class Bird(pygame.sprite.Sprite):
 
     if 0<=self.rect.y <= SCREEN_HEIGHT/2 and self.vel.y>0:
       self.vel = pygame.math.Vector2(birdvelx, birdvely)
-  
+
     if self.rect.y >= SCREEN_HEIGHT/2:
       self.vel = pygame.math.Vector2(birdvelx, -birdvely)
 
     #if self.rect.x >= (SCREEN_WIDTH - self.rect.w) or self.rect.x <= 0:
      # self.rect.x = 100
       #self.rect.y = 100
-      
+
     CollisionObjects.add(self)
-    
+
   def render(self, surface):
     surface.blit(self.image, (self.rect.x, self.rect.y))
 
@@ -98,19 +98,19 @@ class Bird(pygame.sprite.Sprite):
     y=SCREEN_HEIGHT/2 * random.random()
     if camera.rect.left-cameradist<=x<=camera.rect.right+cameradist or camera.rect.top-cameradist<=y<=camera.rect.bottom+cameradist:
       safespawn=False
-      
+
     if safespawn==True:
       #print("spawn allowed")
       birdvar=Bird(birdSprite=sprite, x=x, y=y, **BIRD_ARGS)
       collidedmask = pygame.sprite.collide_mask(birdvar, Terrainclass)
       if collidedmask == None:
         birdlist.append(birdvar)
-        
+
   def birdupdate(surf):
     for birdvar in birdlist:
       birdvar.update(surf)
       birdvar.render(surf)
-    
+
 class Terrain(pygame.sprite.Sprite):
   #IMP: NEEDS REAL SCREEN ATTRIBUTES
   def __init__(self, ground, surface):
@@ -128,7 +128,7 @@ class Thrust():
 
   def get_vec(self):
     return self.dir*self.magnitude
-    
+
 
 class Sprite(pygame.sprite.Sprite):
 
@@ -144,7 +144,7 @@ class Sprite(pygame.sprite.Sprite):
     self.origin = (self.rect.x, self.rect.y) #point at which to draw the image
     self.vel = pygame.math.Vector2(0,0)
     self.thrust = Thrust(0, 0)
-    
+
     self.thrustc = 0.01
 
     self.rot_angle = 0# angle by which to rotate per frame
@@ -174,35 +174,35 @@ class Sprite(pygame.sprite.Sprite):
 
     self.rect = rot_rect
     self.image = rot_image
-    
+
   def collisionMask (self, screen):
-    
+
     plane_collided = pygame.sprite.spritecollide(self, CollisionObjects, False, pygame.sprite.collide_mask)
     #print(collided)
     #collidedmask = pygame.sprite.collide_mask(self, Cloud)
     if plane_collided != []:
       self.RESTART_NEEDED = True#(self.player, otherobjects, False)
-      
+
   def collisionWindow(self, screen):
-    
+
     if self.rect.x >= (SCREEN_WIDTH - self.rect.w) or self.rect.x <= 0:#self.rect.w:
       self.rect.x = SCREEN_WIDTH - self.rect.w
       self.RESTART_NEEDED = True
-      
+
     elif self.rect.y >= (SCREEN_HEIGHT - self.rect.h) or self.rect.y <= 0:#self.rect.h:
       self.rect.y = SCREEN_HEIGHT - self.rect.h
       self.RESTART_NEEDED = True
-    
+
     elif self.rect.x <= 0:
       self.rect.x = 0
-      
+
     elif self.rect.y <= 0:
       self.rect.y = 0
-      
-    
+
+
 
   def update(self, keys, KEYMAP, screen, toRun,maxvel):
-    
+
     if toRun:
       self.vel += self.thrust.get_vec()
 
@@ -223,7 +223,7 @@ class Sprite(pygame.sprite.Sprite):
         self.rot_center(-1)
 
       if keys[KEYMAP['accel']]:
-        if self.thrust.magnitude+self.thrustc<self.max_thrust_mag and self.thrustc-self.thrust.magnitude<self.max_thrust_mag:
+        if self.thrust.magnitude+self.thrustc<self.max_thrust_mag:
           self.thrust.magnitude += self.thrustc
       #else:
       #  self.thrust.magnitude=0
@@ -231,6 +231,8 @@ class Sprite(pygame.sprite.Sprite):
         if self.thrust.magnitude-self.thrustc >= 0:
           #print('jisnfsijfinisfsfkn')
           self.thrust.magnitude -= self.thrustc
+        else:
+          self.thrust.magnitude = 0
       print(self.thrust.magnitude)
       #else:
       #  self.thrust.magnitude=0
@@ -241,7 +243,7 @@ class Sprite(pygame.sprite.Sprite):
       # #self.rect.clamp_ip(surface.get_rect())
       self.collisionMask(screen)
       self.rot_angle=(self.rot_angle_constant)*(((self.vel.x**2)+(self.vel.y**2))**0.5)
-      
+
   def render(self, surface):
 
     #pygame.draw.rect(surface, (100,100,100), self.rect) #draw bounding rect for debugging
