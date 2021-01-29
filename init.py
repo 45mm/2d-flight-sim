@@ -31,6 +31,7 @@ Terrain = game_sprites.Terrain(terrain, surface=background)
 
 image_rect = background.get_rect()
 surf = pygame.Surface((image_rect.width, image_rect.height))
+surf.blit(background, image_rect)
 
 RunAgain = False
 FULLSCREEN= False
@@ -42,7 +43,7 @@ def mainloop():
   global image_rect, surf, spawn_freq, FULLSCREEN
 
   camera = cam.Camera(VW = VIEW_WIDTH, VH = VIEW_HEIGHT, player = player)
-  surf.blit(background, image_rect)
+  # surf.blit(background, image_rect)
 
   for event in pygame.event.get():
 
@@ -92,6 +93,7 @@ def mainloop():
 
   if GAMEMODE == 'Running':
     camera.CameraClip(surf)
+    surf.blit(background, camera.rect, camera.rect)
     surf.blit(terrain, camera.rect, camera.rect)
     phy.PlanePhy(self=player)
     keys = pygame.key.get_pressed()
