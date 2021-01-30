@@ -36,20 +36,28 @@ RunAgain = False
 FULLSCREEN= False
 
 def mainloop():
-  
+
   global START_TIME, VIEW_WIDTH, VIEW_HEIGHT, RUN_PLAYER_UPDATE, RUN_PLAYER_PHY, RUN_SIDESCROLL, GAMEMODE, FLAGS
   global resizablesurface, screen, clock, imageSprite, terrainImage, rawbg, cloudSprite, birdSprite, terrain, background, player, Terrain
   global image_rect, surf, spawn_freq, FULLSCREEN
-  
+
   camera = cam.Camera(VW = VIEW_WIDTH, VH = VIEW_HEIGHT, player = player)
   surf.blit(background, image_rect)
-  
+
   for event in pygame.event.get():
-    
+
+    keydown=mousedown=False
+
     if event.type == pygame.QUIT:
           quit()
-          
-    if event.type == pygame.KEYDOWN:
+
+    if event.type==pygame.KEYDOWN:
+      keydown=True
+    if event.type==pygame.MOUSEBUTTONDOWN:
+      mousedown=True
+
+    if keydown:
+
       if event.key == pygame.K_ESCAPE:
         quit()
       elif event.key == pygame.K_f:
@@ -61,24 +69,27 @@ def mainloop():
           FLAGS = pygame.RESIZABLE | pygame.DOUBLEBUF | pygame.SHOWN
           screen = pygame.display.set_mode(screen.get_size(), FLAGS)
         FULLSCREEN = not FULLSCREEN
-            
-    if GAMEMODE == 'Menu':
-      if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-        gamemenu.restart_program()
-        player.RESTART_NEEDED = False
-        
-    elif GAMEMODE == 'Starting':
-      if event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN:
+
+    if mousedown:
+
+      if GAMEMODE == 'Menu':
+        if event.button == 1:
+          gamemenu.restart_program()
+          player.RESTART_NEEDED = False
+
+    if keydown or mousedown:
+
+      if GAMEMODE == 'Starting':
         GAMEMODE = 'Running'
         START_TIME = pygame.time.get_ticks()
-        
+
     if event.type == pygame.VIDEORESIZE:
       screen = pygame.display.set_mode(event.size, FLAGS)
       VIEW_HEIGHT, VIEW_WIDTH = event.h, event.w
-    
+
   if START_TIME:
     gametime = (pygame.time.get_ticks() - START_TIME)/1000
-  
+
   if GAMEMODE == 'Running':
     camera.CameraClip(surf)
     surf.blit(terrain, camera.rect, camera.rect)
@@ -99,25 +110,24 @@ def mainloop():
 
     if player.RESTART_NEEDED:
       GAMEMODE = 'Menu'
-      
+
   elif GAMEMODE == 'Menu':
       if player.RESTART_NEEDED:
         gamemenu.play_game(screen)
         player.RESTART_NEEDED = False
-  
+
   elif GAMEMODE == 'Starting':
     screen.blit(surf, (0,0) )
-    gamemenu.newgame(screen) 
-  
+    gamemenu.newgame(screen)
+
   try:
-    resizablesurface.blit(pygame.transform.scale(screen, resizablesurface.get_rect().size), (0, 0))   
+    resizablesurface.blit(pygame.transform.scale(screen, resizablesurface.get_rect().size), (0, 0))
   except:
     print("Error in resizablescreen: init.py line 88")
-  pygame.display.update() 
+  pygame.display.update()
   pygame.event.pump()
   clock.tick(60)
   spawn_freq += 1
-  
+
 while True:
   mainloop()
-  
