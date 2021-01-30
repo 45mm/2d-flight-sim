@@ -1,5 +1,5 @@
 import pygame, math, random
-import sidescroll, game_sprites, phy, gamemenu, cam
+import game_sprites, phy, gamemenu, cam
 from constants import *
 
 pygame.init()
@@ -72,13 +72,12 @@ def mainloop():
         print('Escape key pressed, quitting game...')
         quit()
       elif event.key == pygame.K_F11:
-        #pygame.display.toggle_fullscreen()
         if FULLSCREEN == False:
           FLAGS = pygame.RESIZABLE | pygame.DOUBLEBUF | pygame.SHOWN | pygame.FULLSCREEN
-          screen = pygame.display.set_mode(screen.get_size(), FLAGS)
+          resizablesurface = pygame.display.set_mode(resizablesurface.get_size(), FLAGS)
         else:
           FLAGS = pygame.RESIZABLE | pygame.DOUBLEBUF | pygame.SHOWN
-          screen = pygame.display.set_mode(screen.get_size(), FLAGS)
+          resizablesurface = pygame.display.set_mode((VIEW_WIDTH, VIEW_HEIGHT), FLAGS)
         FULLSCREEN = not FULLSCREEN
 
     if mousedown:
@@ -135,7 +134,7 @@ def mainloop():
   try:
     resizablesurface.blit(pygame.transform.scale(screen, resizablesurface.get_rect().size), (0, 0))
   except:
-    print("Error in resizablescreen: init.py line 88")
+    resizablesurface.blit(screen, (0,0) )
   pygame.display.update()
   pygame.event.pump()
   clock.tick(60)
