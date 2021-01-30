@@ -24,7 +24,7 @@ def restart_program():
 
 def play_game(screen):
     global SCORE
-    text1 = 'SCORE: ',SCORE,' CLICK TO TRY AGAIN'
+    text1 = 'SCORE: '+SCORE+' CLICK TO TRY AGAIN'
     #text1 = 'CLICK ANYWHERE TO PLAY AGAIN'
     playagainbox = print_text(text1, 17, WHITE, None, False)
     againrect = playagainbox.get_rect(center = (screen.get_width()/2, screen.get_height()/2))
@@ -37,7 +37,7 @@ def quit_program():
 
 def newgame(screen):
     newgame_box = print_text('FLIGHT SIMULATOR', 46, BLACK, None, True)
-    helpmsg = print_text('F11: Fullscreen | ESC: exit| A: decelerate | D: accelerate | UP, DOWN: Rotate', 10, BLUE, None, False)
+    helpmsg = print_text('ESC: exit | A: decelerate | D: accelerate | UP, DOWN: Rotate | F11: Fullscreen', 10, BLUE, None, False)
     presskeymsg = print_text('PRESS ANY KEY TO START', 9, RED, None, True)
     wt, ht = screen.get_width(), screen.get_height()
     keymsg_rect = presskeymsg.get_rect(center = (wt/2, ht*2/3))
@@ -85,6 +85,11 @@ def showThrust(screen, thrust, max_thrust):
     thrust_percent = (net_thrust/max_thrust * 100)
     box_w, box_h = 10, 50
     thrust_height = (thrust_percent) * box_h /100
-    pygame.draw.rect(screen, WHITE, (wt*5/40, ht*35/40, box_w, box_h))
-    pygame.draw.rect(screen, GREEN, (wt*5/40, ht*35/40 - thrust_height+ box_h, box_w, thrust_height))
+    pygame.draw.rect(screen, WHITE, (wt*4/40, ht*34/40, box_w, box_h))
+    pygame.draw.rect(screen, GREEN, (wt*4/40, ht*34/40 - thrust_height+ box_h, box_w, thrust_height))
+    pygame.draw.rect(screen, WHITE, ((wt*4/40) -10 + box_w/2, ht*34/40 - thrust_height + box_h-4, 20, 8))
+
+    desc = print_text('THRUST', 12, WHITE, None, True)
+    desc_rect = desc.get_rect(center = (wt*4/40+ box_w/2, ht*34/40 + box_h + 9))
+    screen.blit(desc, desc_rect)
     

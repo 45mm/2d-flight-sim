@@ -31,11 +31,11 @@ class Cloud(pygame.sprite.Sprite):
     # if <=0 or abs(player.y-y)<safedist:
     if camera.rect.left-cameradist<=x<=camera.rect.right+cameradist or camera.rect.top-cameradist<=y<=camera.rect.bottom+cameradist or len(cloudlist)>(maxcloudlimit-1):
       safespawn=False
-    else:
-      for cloud in cloudlist:
-        if abs(cloud.rect.x-x)<=safedist  or abs(cloud.rect.y-y)<=safedist :
-          safespawn=False
-          break
+    
+    for cloud in cloudlist:
+      if abs(cloud.rect.x-x)<=safedist and abs(cloud.rect.y-y)<=safedist :
+        safespawn=False
+        break
     if safespawn==True:
       #print("cloud:",x,y,)
       cloudvar=Cloud(cloudSprite=sprite, x=x, y=y, **CLOUD_ARGS)
@@ -43,16 +43,16 @@ class Cloud(pygame.sprite.Sprite):
       if collidedmask == None:
         cloudlist.append(cloudvar)
     # else:
-    #   print("cloud not allowed")
+      # print("cloud not allowed")
   def cloudupdate(surf, player):
     for cloudvar in cloudlist:
       cloudvar.update(surf,player)
       cloudvar.render(surf)
       if cloudvar.rect.x > SCREEN_WIDTH or cloudvar.rect.y > SCREEN_HEIGHT or cloudvar.rect.y < 0 or cloudvar.rect.x < 0:
         #kill()
-        # cloudlist.remove(cloudvar)
-        print('Removed cloud')
-    print(len(cloudlist),"clouds")
+        cloudlist.remove(cloudvar)
+        # print('Removed cloud')
+    # print(len(cloudlist),"clouds")
 class Bird(pygame.sprite.Sprite):
 
   def __init__(self, birdSprite, x, y, w, h, birdvelx, birdvely):
@@ -98,13 +98,12 @@ class Bird(pygame.sprite.Sprite):
     y=SCREEN_HEIGHT/2 * random.random()
     if camera.rect.left-cameradist<=x<=camera.rect.right+cameradist or camera.rect.top-cameradist<=y<=camera.rect.bottom+cameradist or len(birdlist)>(maxbirdlimit-1):
       safespawn=False
-    else:
-      for bird in birdlist:
-        if abs(bird.rect.x-x)<=safedist  or abs(bird.rect.y-y)<=safedist :
-          safespawn=False
-          break
+    for bird in birdlist:
+      if abs(bird.rect.x-x)<=safedist  and abs(bird.rect.y-y)<=safedist :
+        safespawn=False
+        break
     if safespawn==True:
-      print("bird:",x,y)
+      # print("bird:",x,y)
       birdvar=Bird(birdSprite=sprite, x=x, y=y, **BIRD_ARGS)
       collidedmask = pygame.sprite.collide_mask(birdvar, Terrainclass)
       if collidedmask == None:
@@ -114,10 +113,10 @@ class Bird(pygame.sprite.Sprite):
     for birdvar in birdlist:
       birdvar.update(surf)
       birdvar.render(surf)
-      #if birdvar.rect.x > SCREEN_WIDTH or birdvar.rect.y > SCREEN_HEIGHT or birdvar.rect.y < 0 or birdvar.rect.x < 0:
+      if birdvar.rect.x > SCREEN_WIDTH or birdvar.rect.y > SCREEN_HEIGHT or birdvar.rect.y < 0 or birdvar.rect.x < 0:
         #kill()
-        #birdlist.remove(birdvar)
-    print(len(birdlist),"birds")
+        birdlist.remove(birdvar)
+    # print(len(birdlist),"birds")
 
 class Terrain(pygame.sprite.Sprite):
   #IMP: NEEDS REAL SCREEN ATTRIBUTES
@@ -212,6 +211,8 @@ class Sprite(pygame.sprite.Sprite):
       self.x += self.vel.x
       self.y += self.vel.y
 
+      # print(self.vel.magnitude())
+
       self.rect.center = (self.x, self.y)
 
       if keys[KEYMAP['tiltup']]:
@@ -226,8 +227,9 @@ class Sprite(pygame.sprite.Sprite):
         if self.thrust.magnitude+self.thrustc<self.max_thrust_mag:
           self.thrust.magnitude += self.thrustc
       ## In case we need to make it only accel as long as key is pressed
-      #else:
-      #  self.thrust.magnitude=0
+        else:
+          self.thrust.magnitude=self.max_thrust_mag
+
       if keys[KEYMAP['decel']]:
         if self.thrust.magnitude-self.thrustc >= 0:
           #print('decelerating')
@@ -237,7 +239,7 @@ class Sprite(pygame.sprite.Sprite):
       # print(self.thrust.magnitude)
       # #self.rect.clamp_ip(surface.get_rect())
       self.collisionMask(screen)
-      self.rot_angle=(self.rot_angle_constant)*(((self.vel.x**2)+(self.vel.y**2))**0.25)
+      self.rot_angle=(self.rot_angle_constant)*(self.vel.magnitude()**0.90)
   def render(self, surface):
     
     ## For debugging:

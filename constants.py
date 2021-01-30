@@ -7,7 +7,7 @@ START_TIME = None
 
 #GRAVITY=0.01
 VIEW_WIDTH = 700
-VIEW_HEIGHT = 400
+VIEW_HEIGHT = 500
 
 KEYMAP = {
 'tiltup': pygame.K_UP,
@@ -27,44 +27,20 @@ SKYBLUE = (135,206,235)
 
 LIFTC = 0.01
 DRAGC =0.02
-GRAVITY= 0.1
+GRAVITY= 0.12
 SCORE = 0
 
 spawn_freq = 0
-cloudlist=[]
+cloudlist= []
 birdlist = []
 
 FLAGS = pygame.RESIZABLE | pygame.DOUBLEBUF | pygame.SHOWN #| pygame.NOFRAME
 
-PLAYER_ARGS = { 'x':150, 'y':250, 'w':89, 'h':20, 
+PLAYER_ARGS = { 'x':325, 'y':250, 'w':89, 'h':20,
                             'rot_angle_constant':0.5, 'max_thrust_mag':0.5}
 CLOUD_ARGS = {'w':80, 'h':40, 'cloudvelc':2.5}
-BIRD_ARGS = {'w':80, 'h':40, 'birdvelx':4, 'birdvely':2}
+BIRD_ARGS = {'w':40, 'h':20, 'birdvelx':4, 'birdvely':2}
 
 RUN_PLANE_PHY = RUN_PLAYER_UPDATE = RUN_SIDESCROLL = True
 
 GAMEMODE = 'Starting'
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
