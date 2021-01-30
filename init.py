@@ -1,6 +1,10 @@
-import pygame, math, random
-import game_sprites, phy, gamemenu, cam
-from constants import *
+try:
+  import pygame, math, random
+  import game_sprites, phy, gamemenu, cam
+  from constants import *
+  import psutil
+except:
+  print("Missing required modules. Check requirements ")
 
 pygame.init()
 
