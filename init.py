@@ -50,6 +50,7 @@ def mainloop():
     keydown=mousedown=False
 
     if event.type == pygame.QUIT:
+          print('Window closed, quitting game...')
           quit()
 
     if event.type==pygame.KEYDOWN:
@@ -60,6 +61,7 @@ def mainloop():
     if keydown:
 
       if event.key == pygame.K_ESCAPE:
+        print('Escape key pressed, quitting game...')
         quit()
       elif event.key == pygame.K_f:
         #pygame.display.toggle_fullscreen()
