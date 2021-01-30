@@ -24,34 +24,33 @@ SUPER ULTRA MEGA CRITICAL:
    . (done) fix requirements.txt
    . (done) (minimal) code cleanup
    . (done) (later) remove unnecessary prints/draws
-   . (done) clean up images subfolder
+   . clean up images subfolder
    . finalise constants
-   .
+   . 
 
 PRIORITY SECONDARY TASKS:
-. (done) gravity #yg: 0.1
+. gravity #yg: 0.1
 . spawning for birds and clouds -Granth
-. (done) scale up game #yg: ?
-. (done) make birds smaller
+. scale up game #yg: ?
+. make birds smaller
 . rotation prop. to vel.
   . make nonlinear (sqrt..?) - Granth
-. (done) thrust, vel gui (numbers on screen) #yg: done
+. thrust, vel gui (numbers on screen) #yg: done
 . thrust, vel meter #check
-. Increase FPS
 
 . tweak air density #change lift works
 . (done) window icon #WIP
 . (done) window header #noframe or frame?
 . toggle fullscreen - Yash
 . fps
-. (done) player spawn position
+. player spawn position
 
 TASKS RN:
 . thrust, vel gui
 . spawning for birds and clouds
   . improve RNG
     . don't spawn close
-    . delete when offscreen N
+    .(done) delete when offscreen N
   . make birds smaller
 . game speed should stay same regardless
   of fps
@@ -80,3 +79,4 @@ bird.png
 clouds_trans.png
 drawn_plane_white_89x20.png
 terrain_final4000dpi.png
+

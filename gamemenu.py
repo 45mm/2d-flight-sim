@@ -23,10 +23,10 @@ def restart_program():
     os.execl(python, python, *sys.argv)  #execl causes running process 'python' to be replaced by program passed as arguments
 
 def play_game(screen):
-    #text1 = 'SCORE: ',str(int(score)),' CLICK TO TRY AGAIN'
-    text1 = 'CLICK ANYWHERE TO PLAY AGAIN'
-    #screen.fill(BLACK)
-    playagainbox = print_text(text1, 23, WHITE, None, False)
+    global SCORE
+    text1 = 'SCORE: ',SCORE,' CLICK TO TRY AGAIN'
+    #text1 = 'CLICK ANYWHERE TO PLAY AGAIN'
+    playagainbox = print_text(text1, 17, WHITE, None, False)
     againrect = playagainbox.get_rect(center = (screen.get_width()/2, screen.get_height()/2))
     screen.blit(playagainbox, againrect)
 
@@ -37,7 +37,7 @@ def quit_program():
 
 def newgame(screen):
     newgame_box = print_text('FLIGHT SIMULATOR', 46, BLACK, None, True)
-    helpmsg = print_text('ESC: exit| A: decelerate | D: accelerate | UP, DOWN: Rotate', 13, BLUE, None, False)
+    helpmsg = print_text('F11: Fullscreen | ESC: exit| A: decelerate | D: accelerate | UP, DOWN: Rotate', 10, BLUE, None, False)
     presskeymsg = print_text('PRESS ANY KEY TO START', 9, RED, None, True)
     wt, ht = screen.get_width(), screen.get_height()
     keymsg_rect = presskeymsg.get_rect(center = (wt/2, ht*2/3))
@@ -48,7 +48,9 @@ def newgame(screen):
     screen.blit(helpmsg, help_rect)
     
 def flightscore(screen, time):
-    text1 = 'SCORE: ' + str(int(time))
+    global SCORE
+    SCORE = str(int(time))
+    text1 = 'SCORE: ' + SCORE
     score = print_text(text1, 16, WHITE, None, True)
     wt = screen.get_width()
     ht = screen.get_height()
@@ -64,6 +66,7 @@ def showfps(screen, fps):
     fps_rect = fps_text.get_rect(center = (wt*34/40, ht*1/40))
     screen.blit(fps_text, fps_rect)
     
+'''
 def showThrust(screen, thrust, max_thrust):
     #net_thrust = sqrt(thrust[0]**2 + thrust[1]**2)
     net_thrust = round(thrust, 5) 
@@ -74,5 +77,14 @@ def showThrust(screen, thrust, max_thrust):
     wt, ht = screen.get_width(), screen.get_height()
     thrust_rect = thrustxt.get_rect(center = (wt*5/40, ht*39/40))
     screen.blit(thrustxt, thrust_rect)
-    
+'''
+
+def showThrust(screen, thrust, max_thrust):
+    wt, ht = screen.get_width(), screen.get_height()
+    net_thrust = round(thrust, 5) 
+    thrust_percent = (net_thrust/max_thrust * 100)
+    box_w, box_h = 10, 50
+    thrust_height = (thrust_percent) * box_h /100
+    pygame.draw.rect(screen, WHITE, (wt*5/40, ht*35/40, box_w, box_h))
+    pygame.draw.rect(screen, GREEN, (wt*5/40, ht*35/40 - thrust_height+ box_h, box_w, thrust_height))
     
